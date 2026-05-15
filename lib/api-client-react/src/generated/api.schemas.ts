@@ -134,6 +134,45 @@ export interface Inquiry {
   createdAt: string;
 }
 
+export interface Project {
+  id: number;
+  title: string;
+  slug: string;
+  county: string;
+  town: string;
+  region: string;
+  clientType: string;
+  serviceType: string;
+  /** @nullable */
+  depth?: number | null;
+  /** @nullable */
+  yield?: string | null;
+  /** @nullable */
+  duration?: string | null;
+  completionYear: number;
+  description: string;
+  /** @nullable */
+  challenge?: string | null;
+  /** @nullable */
+  solution?: string | null;
+  /** @nullable */
+  outcome?: string | null;
+  /** @nullable */
+  imageUrl?: string | null;
+  featured: boolean;
+  /** @nullable */
+  latitude?: number | null;
+  /** @nullable */
+  longitude?: number | null;
+}
+
+export interface ProjectPage {
+  items: Project[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 export interface CatalogSummary {
   totalServices: number;
   totalProducts: number;
@@ -161,5 +200,14 @@ limit?: number;
 
 export type GetCartParams = {
 sessionId: string;
+};
+
+export type ListProjectsParams = {
+county?: string;
+serviceType?: string;
+clientType?: string;
+featured?: boolean;
+page?: number;
+limit?: number;
 };
 

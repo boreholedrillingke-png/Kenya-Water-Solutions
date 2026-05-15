@@ -280,6 +280,81 @@ export const CreateInquiryBody = zod.object({
 
 
 /**
+ * @summary List completed projects
+ */
+export const listProjectsQueryPageDefault = 1;
+export const listProjectsQueryLimitDefault = 12;
+
+export const ListProjectsQueryParams = zod.object({
+  "county": zod.coerce.string().optional(),
+  "serviceType": zod.coerce.string().optional(),
+  "clientType": zod.coerce.string().optional(),
+  "featured": zod.coerce.boolean().optional(),
+  "page": zod.coerce.number().default(listProjectsQueryPageDefault),
+  "limit": zod.coerce.number().default(listProjectsQueryLimitDefault)
+})
+
+export const ListProjectsResponse = zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "slug": zod.string(),
+  "county": zod.string(),
+  "town": zod.string(),
+  "region": zod.string(),
+  "clientType": zod.string(),
+  "serviceType": zod.string(),
+  "depth": zod.number().nullish(),
+  "yield": zod.string().nullish(),
+  "duration": zod.string().nullish(),
+  "completionYear": zod.number(),
+  "description": zod.string(),
+  "challenge": zod.string().nullish(),
+  "solution": zod.string().nullish(),
+  "outcome": zod.string().nullish(),
+  "imageUrl": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "latitude": zod.number().nullish(),
+  "longitude": zod.number().nullish()
+})),
+  "total": zod.number(),
+  "page": zod.number(),
+  "limit": zod.number()
+})
+
+
+/**
+ * @summary Get project details
+ */
+export const GetProjectParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetProjectResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "slug": zod.string(),
+  "county": zod.string(),
+  "town": zod.string(),
+  "region": zod.string(),
+  "clientType": zod.string(),
+  "serviceType": zod.string(),
+  "depth": zod.number().nullish(),
+  "yield": zod.string().nullish(),
+  "duration": zod.string().nullish(),
+  "completionYear": zod.number(),
+  "description": zod.string(),
+  "challenge": zod.string().nullish(),
+  "solution": zod.string().nullish(),
+  "outcome": zod.string().nullish(),
+  "imageUrl": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "latitude": zod.number().nullish(),
+  "longitude": zod.number().nullish()
+})
+
+
+/**
  * @summary Get catalog summary stats for homepage
  */
 export const GetCatalogSummaryResponse = zod.object({

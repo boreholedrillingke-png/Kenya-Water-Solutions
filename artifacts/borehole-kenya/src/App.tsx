@@ -12,6 +12,8 @@ import Products from "@/pages/Products";
 import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import Contact from "@/pages/Contact";
+import Projects from "@/pages/Projects";
+import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -32,6 +34,8 @@ function Router() {
           <Route path="/products" component={Products} />
           <Route path="/products/:id" component={ProductDetail} />
           <Route path="/cart" component={Cart} />
+          <Route path="/projects" component={Projects} />
+          <Route path="/projects/:id" component={ProjectDetail} />
           <Route path="/contact" component={Contact} />
           <Route component={NotFound} />
         </Switch>

@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/products", label: "Products" },
+  { href: "/projects", label: "Projects" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -41,9 +42,9 @@ export default function Navbar() {
       <div className="bg-primary text-primary-foreground text-xs py-1.5 px-4 flex items-center justify-between">
         <span className="hidden sm:block font-medium">Kenya's Leading Borehole Drilling Company — Serving All 47 Counties</span>
         <span className="sm:hidden font-medium">Serving All 47 Counties</span>
-        <a href="tel:+254700000000" className="flex items-center gap-1 hover:text-white/80 transition-colors">
+        <a href="tel:+254103400209" className="flex items-center gap-1 hover:text-white/80 transition-colors">
           <Phone className="h-3 w-3" />
-          <span>+254 700 000 000</span>
+          <span>+254 103 400 209</span>
         </a>
       </div>
 

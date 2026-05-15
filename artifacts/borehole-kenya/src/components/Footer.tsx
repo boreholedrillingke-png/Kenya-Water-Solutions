@@ -31,9 +31,9 @@ export default function Footer() {
               Kenya's leading borehole drilling and water solutions company. Serving all 47 counties with over 15 years of experience and 2,400+ successful projects.
             </p>
             <div className="flex flex-col gap-2.5 text-sm text-white/70">
-              <a href="tel:+254700000000" className="flex items-center gap-2 hover:text-white transition-colors">
+              <a href="tel:+254103400209" className="flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="h-3.5 w-3.5 flex-shrink-0" />
-                +254 700 000 000
+                +254 103 400 209
               </a>
               <a href="mailto:info@boreholedrilling.co.ke" className="flex items-center gap-2 hover:text-white transition-colors">
                 <Mail className="h-3.5 w-3.5 flex-shrink-0" />
