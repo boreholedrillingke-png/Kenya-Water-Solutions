@@ -1,0 +1,251 @@
+import { Link, useParams } from "wouter";
+import { ArrowLeft, CheckCircle, Clock, MapPin, Phone, MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetService, useCreateInquiry } from "@workspace/api-client-react";
+import { formatKES, whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+
+interface QuoteForm {
+  name: string;
+  phone: string;
+  email: string;
+  county: string;
+  message: string;
+}
+
+export default function ServiceDetail() {
+  const { id } = useParams<{ id: string }>();
+  const { toast } = useToast();
+  const { data: service, isLoading } = useGetService(Number(id), {
+    query: { queryKey: ["service", id] },
+  });
+
+  const createInquiry = useCreateInquiry();
+
+  const form = useForm<QuoteForm>({
+    defaultValues: { name: "", phone: "", email: "", county: "", message: "" },
+  });
+
+  function onSubmit(values: QuoteForm) {
+    createInquiry.mutate(
+      {
+        data: {
+          name: values.name,
+          phone: values.phone,
+          email: values.email || null,
+          county: values.county || null,
+          inquiryType: "service_quote",
+          serviceId: service?.id ?? null,
+          message: values.message,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast({ title: "Inquiry sent!", description: "We will contact you within 24 hours." });
+          form.reset();
+        },
+        onError: () => {
+          toast({ title: "Error", description: "Could not send inquiry. Please call us directly.", variant: "destructive" });
+        },
+      }
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background pt-28 pb-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Skeleton className="h-8 w-48 mb-8" />
+          <Skeleton className="h-12 w-2/3 mb-4" />
+          <Skeleton className="h-5 w-full mb-2" />
+          <Skeleton className="h-5 w-4/5 mb-8" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              <Skeleton className="h-48 w-full" />
+            </div>
+            <Skeleton className="h-64 w-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!service) {
+    return (
+      <div className="min-h-screen bg-background pt-28 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-4">Service Not Found</h1>
+          <Button asChild><Link href="/services">Back to Services</Link></Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="bg-foreground text-white pt-32 pb-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Link href="/services" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm mb-6 transition-colors">
+            <ArrowLeft className="h-4 w-4" /> All Services
+          </Link>
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/20 px-3 py-1 rounded-full mb-3 inline-block">
+                {service.category}
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">{service.name}</h1>
+              <p className="text-white/70 text-lg max-w-2xl">{service.shortDescription}</p>
+            </div>
+            {service.priceFrom && (
+              <div className="bg-white/10 rounded-xl px-6 py-4 flex-shrink-0 text-right">
+                <div className="text-xs text-white/50 mb-1">Starting from</div>
+                <div className="text-2xl font-bold text-white">{formatKES(service.priceFrom)}</div>
+                {service.priceUnit && <div className="text-xs text-white/50">per {service.priceUnit}</div>}
+              </div>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-4 mt-6">
+            {service.duration && (
+              <div className="flex items-center gap-1.5 text-sm text-white/60">
+                <Clock className="h-4 w-4" /> {service.duration}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          {/* Main content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Description */}
+            <div>
+              <h2 className="text-xl font-semibold text-foreground mb-4">About This Service</h2>
+              <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+            </div>
+
+            {/* Highlights */}
+            {service.highlights.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold text-foreground mb-4">What's Included</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {service.highlights.map((h) => (
+                    <div key={h} className="flex items-start gap-2.5 p-3 rounded-lg bg-muted/60">
+                      <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-foreground">{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Coverage areas */}
+            {service.coverageAreas.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold text-foreground mb-4">Coverage Areas</h2>
+                <div className="flex flex-wrap gap-2">
+                  {service.coverageAreas.map((area) => (
+                    <span key={area} className="flex items-center gap-1 text-sm bg-muted px-3 py-1.5 rounded-full text-muted-foreground">
+                      <MapPin className="h-3 w-3" /> {area}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* WhatsApp CTA */}
+            <div className="rounded-xl border border-green-200 bg-green-50 p-6">
+              <h3 className="font-semibold text-foreground mb-2">Need Immediate Assistance?</h3>
+              <p className="text-sm text-muted-foreground mb-4">Chat directly with our team on WhatsApp for fast response.</p>
+              <a
+                href={whatsappLink(`Hi, I am interested in your ${service.name} service. Please provide more details.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="bg-[#25D366] hover:bg-[#20bd5a] text-white">
+                  <MessageSquare className="mr-2 h-4 w-4" /> WhatsApp Us
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          {/* Sidebar - Quote Form */}
+          <div>
+            <Card className="sticky top-24 border-border">
+              <CardContent className="p-6">
+                <h2 className="text-lg font-semibold text-foreground mb-1">Request a Quote</h2>
+                <p className="text-xs text-muted-foreground mb-5">We respond within 24 hours</p>
+
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField control={form.control} name="name" rules={{ required: "Name is required" }} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl><Input placeholder="John Kamau" {...field} data-testid="input-name" /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control} name="phone" rules={{ required: "Phone is required" }} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl><Input placeholder="+254 7xx xxx xxx" {...field} data-testid="input-phone" /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control} name="county" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>County</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger data-testid="select-county"><SelectValue placeholder="Select county" /></SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {KENYA_COUNTIES.map((c) => (
+                              <SelectItem key={c} value={c}>{c}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control} name="message" rules={{ required: "Message is required" }} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder={`Tell us about your ${service.name} requirements...`}
+                            rows={3}
+                            {...field}
+                            data-testid="input-message"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <Button type="submit" className="w-full" disabled={createInquiry.isPending} data-testid="button-submit-quote">
+                      {createInquiry.isPending ? "Sending..." : "Send Inquiry"}
+                    </Button>
+                  </form>
+                </Form>
+
+                <div className="mt-5 pt-4 border-t border-border text-center">
+                  <p className="text-xs text-muted-foreground mb-2">Or call us directly</p>
+                  <a href="tel:+254700000000" className="flex items-center justify-center gap-2 text-sm font-medium text-primary hover:text-primary/80">
+                    <Phone className="h-3.5 w-3.5" /> +254 700 000 000
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
