@@ -108,7 +108,7 @@ export default function ServiceDetail() {
               <div className="bg-white/10 rounded-xl px-6 py-4 flex-shrink-0 text-right">
                 <div className="text-xs text-white/50 mb-1">Starting from</div>
                 <div className="text-2xl font-bold text-white">{formatKES(service.priceFrom)}</div>
-                {service.priceUnit && <div className="text-xs text-white/50">per {service.priceUnit}</div>}
+                {service.priceUnit && <div className="text-xs text-white/50">{service.priceUnit}</div>}
               </div>
             )}
           </div>
