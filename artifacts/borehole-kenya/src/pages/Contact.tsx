@@ -21,9 +21,9 @@ interface ContactForm {
 }
 
 const contactInfo = [
-  { icon: Phone, label: "Phone / WhatsApp", value: "+254 103 400 209", href: "tel:+254103400209" },
-  { icon: Mail, label: "Email", value: "info@boreholedrilling.co.ke", href: "mailto:info@boreholedrilling.co.ke" },
-  { icon: MapPin, label: "Head Office", value: "Westlands Business Park, Nairobi, Kenya", href: null },
+  { icon: Phone, label: "Phone / WhatsApp", value: "+254 762 211 512", href: "tel:+254762211512" },
+  { icon: Mail, label: "Email", value: "sabwaterdrillingcompany@gmail.com", href: "mailto:sabwaterdrillingcompany@gmail.com" },
+  { icon: MapPin, label: "Head Office", value: "Nairobi, Kenya", href: null },
   { icon: Clock, label: "Working Hours", value: "Mon–Sat 7:00am – 6:00pm (Emergency 24/7)", href: null },
 ];
 
@@ -112,9 +112,9 @@ export default function Contact() {
               <CardContent className="p-4">
                 <div className="text-sm font-semibold text-red-700 mb-1">24/7 Emergency Line</div>
                 <p className="text-xs text-red-600 mb-3">For borehole pump failures and urgent water supply emergencies.</p>
-                <a href="tel:+254103400209">
+                <a href="tel:+254762211512">
                   <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white w-full">
-                    <Phone className="mr-2 h-3.5 w-3.5" /> +254 103 400 209
+                    <Phone className="mr-2 h-3.5 w-3.5" /> +254 762 211 512
                   </Button>
                 </a>
               </CardContent>

@@ -19,7 +19,7 @@ export function getCartSessionId(): string {
   return id;
 }
 
-export const WHATSAPP_NUMBER = "254103400209";
+export const WHATSAPP_NUMBER = "254762211512";
 
 export function whatsappLink(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

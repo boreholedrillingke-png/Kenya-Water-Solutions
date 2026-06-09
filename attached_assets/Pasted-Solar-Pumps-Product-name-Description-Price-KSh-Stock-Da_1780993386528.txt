@@ -1,0 +1,427 @@
+Solar Pumps
+Product name	Description	Price (KSh)	Stock
+Dayliff SUNFLO-S 300 S/S Solar Pump	Stainless steel solar-powered pump. 300W DC motor, suitable for borehole and surface water lifting.	23,100	In stock
+Dayliff Sunflo-B2 400C3 Solar Pump	DC solar submersible pump, 400W, 3-wire brushless motor. For shallow wells and boreholes.	26,460	Sold out
+Dayliff Sunflo-B2 800C3 Solar Pump	DC solar submersible pump, 800W, 3-wire brushless motor. Mid-range lifting capacity.	30,600	In stock
+Dayliff Sunflo-B2 1500C3 Solar Pump	DC solar submersible pump, 1500W, 3-wire brushless motor. High-flow borehole pump.	37,980	In stock
+SHURFLO 24V DC Submersible Pump	24V DC solar-compatible submersible pump. Compact design for low-flow applications.	41,000	Sold out
+Futurepump SE1 – Solar pump for one acre	Solar-powered surface irrigation pump. Designed for irrigating up to 1 acre. No electricity needed.	72,000	In stock
+Futurepump SF2 – Solar pump for two acres	Solar-powered surface irrigation pump. Higher capacity; covers up to 2 acres of irrigation.	95,000	In stock
+SolarPlex SPX-800-5 800W DC Pump	800W brushless DC solar pump. 5-stage centrifugal, suitable for borehole depths up to 80m.	99,000	In stock
+SUNFLO-A 270H Solar Pumping System	Complete solar pumping system (pump + controller + panels), 270W, horizontal discharge.	106,200	Sold out
+Dayliff Sunflo-B2 400C3 Solar Pumping System	Complete solar pumping system, 400W, 3-stage brushless. Pump + solar controller included.	63,000	Sold out
+Dayliff Sunflo-B2 800C3 Solar Pumping System	Complete solar pumping system, 800W, brushless DC. Pump + controller + mounting hardware.	78,300	In stock
+Dayliff Sunflo-B2 1100C3 Solar Pumping System	Complete solar pumping system, 1100W, 3-wire brushless DC motor. High-volume domestic/commercial.	112,500	In stock
+DAYLIFF SUNFLO-B2 1300C3 Solar Pumping System	Complete solar pumping system, 1300W, brushless DC. Large farm or community water supply.	130,500	Sold out
+DAYLIFF SUNFLO-B 1000C8 Solar Pump (Clearance)	1000W DC solar borehole pump, 8-stage centrifugal. Clearance pricing — limited stock.	135,900	In stock
+DAYLIFF DPSOLAR 1000 Solar Pool Pump	DC solar-powered pool circulation pump, 1000W. Designed for swimming pool filtration without grid power.	99,450	Sold out
+Dayliff DDPS50 DC Solar Pump	Small DC solar surface pump, 50W. Ideal for domestic water boosting or drip irrigation.	13,590	Sold out
+Dayliff DDPS60 DC Solar Pump	Small DC solar surface pump, 60W. Slightly higher flow than DDPS50. Domestic or garden use.	14,580	Sold out
+SUNFLO-A 600H Solar Pumping System	Complete solar pumping system, 600W, horizontal discharge. Suitable for surface water abstraction.	150,300	Sold out
+
+Water Pumps
+Domestic & Booster Pumps
+Product name	Description	Price (KSh)	Stock
+Dayliff DDP 60	0.37kW domestic peripheral pump. Household water supply and pressure boosting.	6,900	In stock
+Dayliff DDP 60E Booster Pump (Econo)	Economy-grade 0.37kW peripheral pump. Budget domestic boosting.	5,900	In stock
+Dayliff DDP 65 Domestic Pump	0.5kW single-phase peripheral pump for household pressure boosting.	16,182	In stock
+Dayliff DDP 50A Domestic Pump	0.5kW domestic surface pump with automatic pressure switch.	14,600	In stock
+Dayliff DQ15F Shower Booster	Compact inline shower booster pump, 150W. Increases shower pressure from gravity-fed tanks.	10,336	In stock
+Dayliff DDPA 65A 0.3kW Peripheral Pump	0.3kW automatic peripheral pump with built-in pressure controller.	25,474	In stock
+Dayliff DDG 1000 Auto Press Pump	1kW automatic pressure pump with integrated electronic controller.	29,754	In stock
+Dayliff DDG 1000	1kW centrifugal surface pump. General-purpose household or light commercial supply.	12,100	In stock
+Dayliff DQA Hot Water Circulator Pump	Inline circulator pump for domestic hot water recirculation systems.	23,177	In stock
+Dayliff DDC 158 Booster Pump	1.1kW centrifugal booster pump, single-phase. Domestic to light commercial.	14,200	In stock
+Dayliff DDC 158E Booster Pump	Economy version of DDC 158. 1.1kW single-phase centrifugal pump.	11,500	In stock
+Dayliff DDC 170 Centrifugal Pump	1.7kW single-phase centrifugal pump. Higher flow rates for buildings and farms.	33,722	In stock
+Dayliff DDS 750 Centrifugal Booster Pump	0.75kW centrifugal surface pump. Reliable general-purpose water boosting.	36,300	In stock
+Dayliff DDT10 0.75kW Pump	0.75kW single-phase turbine pump. Suitable for domestic and light commercial use.	20,150	In stock
+Pedrollo CPm130	0.37kW single-stage centrifugal pump. Italian-made. Household water pressure boosting.	23,900	In stock
+Pedrollo CPm150	0.5kW single-stage centrifugal pump. Italian-made. Reliable domestic supply.	30,700	In stock
+Pedrollo CPm158	0.75kW single-phase centrifugal pump with pressure switch. Domestic to commercial.	28,000	In stock
+Pedrollo CPm158 Hydrofresh	0.75kW CPm158 with built-in pressure vessel (Hydrofresh kit). Reduces pump cycling.	65,772	Sold out
+Pedrollo CPm170	1.0kW single-phase centrifugal pump. Italian-made. Higher flow than CPm158.	91,872	In stock
+Pedrollo CPm190	1.5kW centrifugal pump. Heavy-duty domestic or light commercial supply.	107,532	In stock
+Pedrollo PKm60 Hydrofresh	0.37kW peripheral pump with integrated pressure tank. Compact, for small households.	41,760	Sold out
+Pedrollo PKm65	0.5kW peripheral impeller booster pump. Italian-made household pressure boosting.	20,996	Sold out
+Pedrollo PKm80	0.75kW peripheral impeller booster pump. Stronger flow than PKm65.	33,930	In stock
+Pedrollo PKm60 Peripheral Impeller Booster	0.37kW peripheral pump (without pressure tank). Compact domestic boosting.	9,500	In stock
+Pedrollo Easy Press	Small automatic pressure booster kit (pump + vessel + switch). Plug-and-play setup.	16,612	Sold out
+Pedrollo Easysmall-2	Compact 0.25kW peripheral pump. Very small households or garden watering.	10,500	Sold out
+DG PED Mini Booster pump	Compact inline pressure booster. For apartments and buildings with low mains pressure.	93,960	Sold out
+
+Jet & Pressure Pumps
+Product name	Description	Price (KSh)	Stock
+Dayliff DDJ 750 0.75kW Jet Pump	0.75kW shallow-well jet pump. Draws water from depths up to ~9m.	20,567	Sold out
+Dayliff DDJ 1100 Jet Pump	1.1kW shallow-well jet pump. Higher capacity version. Good for domestic wells.	34,557	In stock
+Varem KS Kit	Pressure vessel kit with connections. Used with surface pumps to reduce short-cycling.	19,001	In stock
+Global Max 24L 16bar Pressure Kit	24-litre diaphragm pressure vessel rated at 16 bar. Works with most surface pumps.	21,924	In stock
+
+Smart Boosting Systems
+Product name	Description	Price (KSh)	Stock
+DAYLIFF DSmart300 0.3kW Booster Pump	Smart variable-speed pressure boosting system, 0.3kW. Constant pressure, energy-saving.	43,848	In stock
+DSmart 500 Smart Water Boosting System 0.5kW	Variable-speed smart booster, 0.5kW. Maintains constant water pressure automatically.	51,156	In stock
+DSmart 750 Smart Water Boosting System 0.75kW	0.75kW variable-speed smart booster. For multi-floor buildings or larger households.	72,036	In stock
+DSmart 1500 Smart Water Boosting System 1.5kW	1.5kW variable-speed smart booster. Commercial buildings or high-demand installations.	159,732	In stock
+Aquastrong Smart45 Water Boosting System	Integrated multi-pump smart boosting system. Variable speed with dry-run protection.	95,004	Sold out
+Pedrollo Top Multi 4 0.75kW 1ph Pump	Multi-stage vertical booster pump, 0.75kW single-phase. Italian-made. High head applications.	83,520	In stock
+PEDROLLO TOP MULTI 2 0.55kW Pump	Multi-stage vertical booster pump, 0.55kW single-phase. Compact high-head boosting.	57,420	In stock
+Pedrollo UPm 2/3	Multistage inline circulation pump, 2-stage. For heating, cooling, and pressure systems.	112,752	In stock
+Pedrollo UPm 2/4	Multistage inline pump, 2-pole 4-stage. Higher head than UPm 2/3.	115,884	In stock
+Pedrollo UPm 2/6	Multistage inline pump, 2-pole 6-stage. For high-rise buildings and pressure boosting.	163,908	Sold out
+Pedrollo UPm 4/6	Multistage inline pump, 4-pole 6-stage. Higher flow multi-stage booster.	174,348	In stock
+Pedrollo UPm 8/4	Multistage inline pump, 8-pole 4-stage. Commercial pressure boosting.	146,160	In stock
+PEDROLLO Dm10	Multistage centrifugal pump, 10-stage. High pressure commercial/industrial water supply.	107,532	In stock
+Dayliff DB 2-30 Super Silent Booster Pump	2-stage silent booster, 0.75kW. Low-noise design for apartments and offices.	43,848	In stock
+Dayliff DB 4-30	4-stage booster pump, 0.75kW. Suitable for multi-storey buildings.	44,892	In stock
+Dayliff DB4-40	4-stage booster pump, 1.1kW. Higher head and flow than DB 4-30.	50,321	In stock
+Dayliff DB4-60	4-stage booster pump, 1.5kW. Heavy-duty multi-floor pressure supply.	66,816	In stock
+Dayliff DB2-50	2-stage booster pump, 1.1kW. Commercial boosting for buildings and water systems.	54,288	Sold out
+Mascontrol 2.2kW 1¼"	Electronic pressure controller-integrated pump. Auto start/stop, dry-run protection.	25,578	Sold out
+
+Borehole & Submersible Pumps
+Product name	Description	Price (KSh)	Stock
+Dayliff D3SP1-14 0.37kW 3" Pump	3-inch submersible borehole pump, 0.37kW. Suits narrow boreholes, 14-stage.	29,604	In stock
+Dayliff D3SP1-27 0.37kW 3" Pump	3-inch submersible borehole pump, 0.37kW, 27-stage. Higher head version.	40,925	In stock
+Dayliff 3E/7 0.37kW 1HP Pump C/W 30M Cable	3-inch submersible pump, 0.37kW, with 30m cable included. Ready to install.	17,632	In stock
+DAYLIFF DSD 3/13 0.75kW C/W 30M Cable & Float Switch	3-inch borehole pump, 0.75kW, 13-stage. Comes with 30m cable and float switch.	29,500	In stock
+Dayliff DSD 3/10 Well Pump (without Float Switch)	3-inch submersible well pump, 10-stage. Cable not included; no float switch.	24,600	In stock
+Dayliff DSD 3/18 Well Pump (without Float Switch)	3-inch submersible well pump, 18-stage. Higher head. No float switch included.	31,300	Sold out
+Dayliff DSD 3/18 Well Pump (with Float Switch)	3-inch submersible well pump, 18-stage. Float switch included for automatic cut-off.	35,000	In stock
+DAYLIFF DSD 5/18 1.5kW 1PH C/W 30M Cable	5-inch borehole pump, 1.5kW, 18-stage. High-capacity with 30m cable. Single-phase.	44,452	In stock
+DSD 5/10 Borehole Pump	5-inch borehole submersible pump, 10-stage. Good mid-range capacity for farms and buildings.	34,429	In stock
+Pedrollo DAVIS (with 20m cable, no Float Switch)	4-inch Italian submersible borehole pump with 20m cable. No float switch.	57,304	Sold out
+Pedrollo DAVIS (with 40m cable)	4-inch Italian submersible borehole pump with 40m cable. Deeper borehole applications.	68,440	In stock
+Dayliff DDA 600C Submersible Pump	600W submersible multistage centrifugal pump. For wells and water tanks.	24,400	Sold out
+Dayliff DDA 1000P Submersible Multistage	1000W submersible multistage centrifugal pump. Higher output for deeper wells.	17,800	In stock
+Dayliff DDA 1200C Submersible Well Pump	1200W submersible multistage pump. High flow rate for farms and commercial use.	28,400	Sold out
+DAYLIFF DS 95-2 Submersible Pump	Large 4-inch submersible, 2-stage, for high-volume water supply. 3-phase.	158,688	Sold out
+DAYLIFF DS 95-4 Submersible Pump	4-inch submersible, 4-stage. Commercial/industrial borehole pump.	219,936	Sold out
+DAYLIFF DS 95-6 Submersible Pump	4-inch submersible, 6-stage. For large farms and industrial water supply.	283,040	Sold out
+DAYLIFF DS 95-8 Submersible Pump	4-inch submersible, 8-stage. Heavy-duty industrial water extraction.	344,288	Sold out
+DAYLIFF DS 95-10 Submersible Pump	4-inch submersible, 10-stage. Very high head/flow industrial pump.	412,960	Sold out
+DAYLIFF DS 95-12 Submersible Pump	4-inch submersible, 12-stage. Maximum output in the DS 95 series.	477,920	Sold out
+DAYLIFF DDV60 Vibration Pump	Small vibration-type submersible pump, 60W. For shallow wells and water tanks.	6,728	Sold out
+
+Engine Pumps (Petrol & Diesel)
+Product name	Description	Price (KSh)	Stock
+Dayliff DC50S 2" 7.0HP Petrol Pump	2-inch petrol engine pump, 7.0HP. Self-priming, for surface water and irrigation.	15,034	In stock
+Dayliff DC50LPG 2" 7.0HP Petrol/LPG Pump	2-inch dual-fuel pump (petrol or LPG), 7.0HP. Flexible fuel option for remote areas.	13,500	In stock
+Dayliff DC 50P (Petrol Engine Pump)	2-inch petrol self-priming centrifugal pump. Irrigation and general water transfer.	21,460	Sold out
+Dayliff DC80S 3" 7.0HP Petrol Pump	3-inch petrol pump, 7.0HP. Higher flow rate than 2-inch models. Irrigation and dewatering.	16,913	In stock
+Dayliff DCX1 50P (Petrol Engine Pump)	2-inch petrol engine pump, heavy-duty commercial grade. Strong self-priming capability.	36,958	In stock
+Dayliff DCX2 50P (Petrol Engine Pump)	Upgrade of DCX1 50P. Higher performance petrol pump for commercial irrigation.	37,584	In stock
+Dayliff DCX2 50D (Diesel Engine Pump)	2-inch diesel engine pump. Commercial-grade, lower fuel costs than petrol equivalent.	83,520	Sold out
+DAYLIFF DC80D 6HP Diesel Pump	3-inch diesel pump, 6HP. Robust for large-scale irrigation and dewatering.	73,080	In stock
+Dayliff DCX1 80D (Diesel Engine Pump)	3-inch heavy-duty diesel engine pump. Commercial and agricultural water transfer.	121,104	In stock
+
+Drainage Pumps 
+Product name	Description	Price (KSh)	Stock
+Dayliff DDW 400S Drainage Pump	0.4kW submersible drainage pump. Removing water from flooded areas and construction sites.	7,500	In stock
+Dayliff DDW 750S Drainage Pump	0.75kW submersible drainage pump. Handles light solids. Site dewatering.	10,200	In stock
+Dayliff DDW 750V Drainage Pump	0.75kW vortex drainage pump. Better solids-handling than standard DDW 750S.	10,600	In stock
+Dayliff DDW 1000V Drainage Pump	1.0kW vortex submersible drainage pump. High-flow dewatering with solids passage.	12,600	In stock
+Dayliff DWY 370 Drainage Pump	0.37kW submersible drainage pump. Compact, for domestic flooding and sump pits.	14,512	Sold out
+Dayliff DWY 550 Drainage Pump	0.55kW submersible drainage pump. Mid-range domestic and light commercial drainage.	18,062	Sold out
+DAYLIFF DWY750L 0.75kW Pump	0.75kW submersible drainage pump with float switch. Auto start/stop at set water levels.	19,210	Sold out
+Dayliff DWY 1500 Drainage Pump	1.5kW heavy-duty submersible drainage pump. For high-volume site dewatering.	26,622	Sold out
+Dayliff DWW05A Drainage Pump	0.5kW grinder/drainage pump for waste water with suspended solids.	63,684	Sold out
+Pedrollo Top 2 Drainage Pump	0.55kW submersible drainage pump. Italian-made, for clean or lightly contaminated water.	29,000	In stock
+Pedrollo Top Multi 1 Drainage Pump	0.37kW multi-channel drainage pump. Handles solids up to 10mm. Italian-made.	37,898	Sold out
+Pedrollo Top MultiTech Drainage Pump	1.1kW multi-stage drainage pump. Handles dirty water and solids. Italian-made.	107,532	In stock
+Pedrollo Top Multi Tech 2 – 0.55kW	0.55kW multi-channel drainage pump with vortex impeller. Italian-made.	112,752	Sold out
+Pedrollo SALI Pump	Submersible dirty water pump. Passes solids up to 50mm. For construction site use.	64,960	Sold out
+
+Fountain & Specialty Pumps
+Product name	Description	Price (KSh)	Stock
+Dayliff DDF50 Fountain Pump	Small submersible fountain and pond pump, 50W. For garden water features.	9,605	In stock
+Dayliff DDF110 Fountain Pump	110W submersible fountain pump. Higher flow for larger garden features and ponds.	14,616	In stock
+Pedrollo Top 2 Drainage Pump	Also used for pond and feature water recirculation. 0.55kW, handles light solids.	29,000	In stock
+
+Pump Controllers
+Product name	Description	Price (KSh)	Stock
+Dayliff Superpress S 2.2kW Pump Controller	Pressure controller for single-phase 2.2kW pumps. Auto start/stop, dry-run protection.	4,700	In stock
+Dayliff Superpress P 2.2kW Pump Controller	Pressure controller variant for 2.2kW pumps. Protective features against no-load running.	5,626	In stock
+
+Clearance & Bareshaft Pumps
+Product name	Description	Price (KSh)	Status
+DAYLIFF DE100-26 Bareshaft Pump (Clearance)	Bareshaft centrifugal pump (no motor). For pairing with existing engines or motors.	105,000	Bid
+DAYLIFF Multistage DMS25/4 Pump (Clearance)	25mm outlet, 4-stage multistage pump (bareshaft). Clearance pricing, place a bid.	185,000	Bid
+DAYLIFF Multistage DMS85/5 Pump (Clearance)	85mm outlet, 5-stage multistage pump. Commercial/industrial water supply. Clearance pricing.	213,000	Bid
+GRUNDFOS CRE 15-3 4kW 3PH Pump (Clearance)	Grundfos inline multistage pump, 4kW 3-phase. Variable speed. Clearance pricing.	330,600	Bid
+GRUNDFOS CRN 20-12 A-FGJ-G-E-HQQE (Clearance)	Grundfos vertical multistage in-line pump, 20m³/h, 12-stage. Industrial. Clearance pricing.	580,000	Bid
+
+Solar Equipment
+Solar Panels
+Product name	Description	Price (KSh)	Stock
+Dayliff 85W 12V Monocrystalline Solar Module	85W, 12V monocrystalline panel. For small off-grid lighting and charging systems.	2,890	In stock
+Dayliff 125W 12V Monocrystalline Solar Module	125W, 12V mono panel. Suitable for domestic lighting and small pump systems.	4,250	In stock
+Dayliff 150W 12V Monocrystalline Solar Module	150W, 12V monocrystalline. Mid-size 12V system panel.	4,500	Sold out
+Dayliff 200W 43.5V VOC Monocrystalline Solar Module	200W, 43.5V open-circuit mono panel. For 24V or 48V system arrays.	5,000	In stock
+Dayliff 280W Multicrystalline Solar Module 24VDC	280W, 24V poly panel. Slightly lower efficiency than mono; good value for large arrays.	7,840	Sold out
+Dayliff 325W 45.35V VOC Monocrystalline Solar Module	325W, 45.35V mono panel. Good all-round panel for home solar systems.	7,475	In stock
+Dayliff 350W 48VOC Monocrystalline Solar Module	350W, 48V monocrystalline panel. For 48V battery bank systems.	8,225	In stock
+Dayliff 550W 50V VOC Monocrystalline Solar Module	550W, 50V large-format mono panel. High efficiency for commercial rooftop systems.	11,000	In stock
+Trina 620W 49.6V VOC Monocrystalline Solar Module	620W, 49.6V premium Trina mono panel. Top-tier performance for large solar installations.		
+\
+Solar Batteries
+Product name	Description	Price (KSh)	Stock
+Dayliff 35AH 12V Sealed Solar Battery	35Ah 12V sealed lead-acid battery. Entry-level solar storage for lighting systems.	9,000	Sold out
+DAYLIFF DLIP 1.3KWH 100AH 12V Lithium Ion Battery	1.3kWh, 100Ah, 12V LiFePO4 lithium battery. Free-standing unit with BMS.	31,500	In stock
+DAYLIFF DLIP 2.6KWH 100AH 24V Lithium Ion Battery (Free Standing)	2.6kWh, 100Ah, 24V LiFePO4 lithium battery. Free-standing with BMS.	50,250	In stock
+DAYLIFF DLIP 2.6KWH 100AH 24V Wall Mount (Clearance)	2.6kWh, 100Ah, 24V LiFePO4 wall-mount version. Clearance pricing.	57,000	Bid
+Dayliff 75AH LiFePO4 Lithium Ion Battery C/W BMS	75Ah LiFePO4 battery with built-in battery management system. Durable deep-cycle storage.	124,000	In stock
+Dayliff 100AH LiFePO4 Lithium Ion Battery C/W BMS	100Ah LiFePO4 battery with BMS. Higher capacity for off-grid homes.	154,000	In stock
+Dayliff DLID 50AH 24V PAYGO Lithium Ion Battery	50Ah, 24V PAYGO-enabled LiFePO4 battery. Payment-plan compatible for rural electrification.	104,055	In stock
+Dayliff DLID 50AH 48V Lithium Ion Battery	50Ah, 48V LiFePO4 battery. For 48V inverter systems.	126,492	In stock
+Dayliff DLID 50AH 48V PAYGO Lithium Ion Battery	50Ah, 48V PAYGO-enabled. Pay-as-you-go version of DLID 48V battery.	149,800	Sold out
+DAYLIFF DLIP 7.7KWH 150AH 48V Rack Mount Lithium Ion Battery	7.7kWh, 150Ah, 48V rack-mount LiFePO4. Commercial or large home storage.	150,000	Bid
+DAYLIFF CPLI 7.7KWH 150AH 48V Rack Mount (Clearance)	7.7kWh 48V rack-mount battery. Clearance pricing — place a bid.	224,000	Bid
+
+
+Inverters
+Product name	Description	Price (KSh)	Status
+Dayliff DCVERTER 300W 12V Offgrid Inverter	300W 12V DC-to-AC inverter. Basic off-grid power for small loads.	7,830	In stock
+Dayliff DCVERTER 600W 12V Offgrid Inverter	600W 12V pure sine wave inverter. For small home appliances off-grid.	9,300	In stock
+IZZY 600W 12VDC Inverter (Clearance)	600W 12V inverter on clearance. Modified sine wave output.	10,000	Bid
+Izzy 600 12VDC Inverter (Clearance)	600W 12V inverter, clearance pricing. Available to purchase directly.	10,000	In stock
+Dayliff DCVERTER 1000W 12V Offgrid Inverter	1000W 12V off-grid inverter. Suitable for TVs, lights, and small appliances.	16,380	In stock
+Izzy 1000 12VDC Inverter (Clearance)	1000W 12V inverter, clearance sale. Two listings available.	16,000	Bid
+Izzy 1500 12VDC Inverter (Clearance)	1500W 12V inverter, clearance pricing.	33,000	Bid
+Vispra 1000W 12VDC Inverter	1000W 12V pure sine wave inverter. Off-grid home backup power.	17,500	Sold out
+Ultraverter 1KW 12V	1kW 12V pure sine wave off-grid inverter. For domestic backup power.	29,340	In stock
+Ultraverter 2KW 24V	2kW 24V pure sine wave inverter. For larger homes and small businesses.	30,780	In stock
+Ultraverter 3KW 24V	3kW 24V pure sine wave inverter. Commercial off-grid use.	36,180	In stock
+Dayliff Optiverter D01200 Multifunction Inverter	1200W multifunction inverter (solar + grid + battery). All-in-one hybrid unit.	42,000	Sold out
+DAYLIFF OPTIVERTER DO2500W Multifunction Inverter	2500W hybrid solar inverter with built-in charge controller. Clearance price.	45,000	Bid
+Dayliff Growatt 3000VA 24VDC Multifunction Inverter	3kVA 24V Growatt hybrid inverter. Solar + grid + battery management.	50,000	In stock
+DAYLIFF GROWATT 3KVA 24VDC Multifunction Inverter (Clearance)	Same 3kVA Growatt 24V unit, clearance pricing. Place a bid.	45,000	Bid
+Dayliff Growatt 3000VA 48VDC Multifunction Inverter	3kVA 48V Growatt hybrid inverter. For larger battery bank systems.	53,000	Sold out
+DAYLIFF OPTIVERTER DO4000W Multifunction Inverter	4000W hybrid solar inverter. High-capacity home or small commercial system.	75,000	Bid
+DAYLIFF GROWATT 5000VA Multifunction Inverter (Clearance)	5kVA Growatt hybrid inverter, clearance pricing. No parallel capability.	86,000	Bid
+VISPRA 5000VA 48VDC Inverter (Clearance)	5kVA 48V Vispra inverter on clearance. Heavy-duty off-grid backup.	122,000	Bid
+SUNNY ISLAND MASTER SI6H-12 6kW Battery Inverter	SMA Sunny Island 6kW battery inverter. Premium grid-forming inverter, regular price.	50,000	In stock
+SUNNY ISLAND MASTER SI6H-12 6kW Battery Inverter (Clearance)	Same SMA Sunny Island 6kW unit, clearance pricing.	100,000	Bid
+DAYLIFF GROWATT 10KW 3PH Grid Tie Inverter	10kW 3-phase grid-tie inverter. For commercial solar PV grid-injection systems.	190,000	Bid
+DAYLIFF GROWATT 20KW 3PH Grid-Tie Inverter (Clearance)	20kW 3-phase grid-tie inverter. Large commercial solar system. Clearance pricing.	240,000	Bid
+Hybrid Portable Power Supply ECO 1024	Portable hybrid power station, 1024Wh. Solar + AC + DC inputs. For off-grid and travel use.	81,000	In stock
+HUAWEI SUN2000 3KTL-L1 3.3kW 1PH Inverter	Huawei 3.3kW single-phase on-grid solar inverter. For residential rooftop PV.	109,000	In stock
+HUAWEI SUN2000 3KTL-M1 3kW 3PH Inverter	Huawei 3kW 3-phase on-grid inverter. For small commercial solar systems.	177,000	In stock
+HUAWEI SUN2000 5KTL-M1 5.5kW 3PH Inverter	Huawei 5.5kW 3-phase on-grid solar inverter. Mid-range commercial PV.	157,000	In stock
+HUAWEI SUN2000 10KTL-M1 10kW 3PH Inverter	Huawei 10kW 3-phase on-grid solar inverter. Large commercial rooftop PV system.	215,000	In stock
+
+
+Solar Hot Water Heaters
+Product name	Description	Price (KSh)	Status
+Dayliff Ultrasun UVT 200 SWH	200L evacuated tube solar water heater. Efficient passive heating for homes.	95,120	In stock
+UltraSun UFS150D Flat Plate	150L direct flat plate solar water heater. Good for 2–3 person households.	154,280	In stock
+UltraSun Standard 200L Direct Solar Hot Water System	200L direct flat plate solar system. Standard range for average family use.	165,880	In stock
+UltraSun Premium 150L Direct Solar Hot Water System	150L premium flat plate solar system. Higher collector efficiency than standard.	212,976	In stock
+UltraSun UVR VacRod-150	150L heat pipe vacuum tube solar water heater. Excellent cold-climate performance.	200,680	In stock
+UltraSun UVR VacRod-200	200L heat pipe vacuum tube solar water heater. Family-size hot water supply.	284,200	In stock
+UltraSun UVR VacRod-300	300L heat pipe vacuum tube solar water heater. For large families or guesthouses.	319,000	In stock
+UltraSun Premium 200L Direct Solar Hot Water System	200L premium flat plate solar system. Higher quality components than standard range.	294,408	In stock
+UltraSun Premium 300L Direct Solar Hot Water System	300L premium flat plate solar system. For large households and lodges.	336,168	In stock
+UltraSun Premium 300L Indirect Solar Hot Water System	300L indirect flat plate system (heat exchanger loop). Suitable for hard/scaling water.	290,000	Sold out
+ULTRASUN UFS300D Flat Plate	300L direct flat plate solar water heater. Commercial-grade system.	225,040	In stock
+ULTRASUN 3.0M² Flat Plate Solar Collector (Clearance)	3.0m² collector panel only (no tank). For custom solar thermal installations.	30,000	Bid
+Dayliff HPW 80L All-in-One Vertical Wall Heat Pump	80L heat pump water heater, wall-mounted. Uses ambient air; 3–4× more efficient than electric.	129,000	In stock
+Dayliff HPW 120L All-In-One Heat Pump	120L all-in-one heat pump water heater. For medium households.	192,000	In stock
+Dayliff HPW 150L 2.5kW 1PH All-in-One Heat Pump	150L heat pump, 2.5kW single-phase. Suitable for families of 3–4.	254,562	In stock
+Dayliff HPW 200L 2.5kW 1PH All-in-One Heat Pump	200L heat pump, 2.5kW single-phase. For larger families.	276,602	In stock
+Dayliff HPW 300L 2.5kW 1PH All-in-One Heat Pump	300L heat pump, 2.5kW single-phase. Guesthouses, lodges, and large homes.	315,172	In stock
+
+
+Solar Fridges & Street Lights
+Product name	Description	Price (KSh)	Stock
+Dayliff 55L SunFridge	55-litre DC solar refrigerator. Runs directly off solar panel or battery. Off-grid food storage.	43,000	In stock
+Dayliff 128L SunFridge	128-litre DC solar refrigerator. Medium-capacity off-grid fridge for rural homes and clinics.	68,000	In stock
+Dayliff SunFridge 233L Solar Fridge	233-litre DC solar refrigerator. Large capacity for families, shops, and vaccine storage.	108,000	In stock
+Dayliff 10W Pathway Streetlight	10W integrated solar LED streetlight. For footpaths and driveways. All-in-one design.	15,400	In stock
+Dayliff 20W Pathway Streetlight	20W integrated solar LED streetlight. Brighter version for larger pathways.	22,400	In stock
+Dayliff 30W 3.2V Integrated Solar Street Light	30W solar streetlight, 3.2V LiFePO4 battery. For roads and car parks.	30,900	In stock
+DAYLIFF 40W 3.2V Integrated Solar Street Light	40W solar streetlight, 3.2V LiFePO4 battery. Higher output for main roads.	33,000	In stock
+DAYLIFF 60W 3.2V Integrated Solar Street Light	60W solar streetlight. Highest lumen output in the street light range.	36,100	Sold out
+Nande 60W Solar Street Light	60W solar streetlight, Nande brand. Alternative to Dayliff 60W.	20,000	Sold out
+SunTower 2.4m with 3000L Tank	2.4m elevated tank tower with 3000-litre water tank. For gravity-fed water systems.	193,140	Sold out
+
+
+Irrigation & Accessories
+Product name	Description	Price (KSh)	Stock
+Garden hoses & connectors
+Dayliff Garden Hose 30M 1/2"	30-metre flexible garden hose, ½-inch bore.	3,237	In stock
+Dayliff Garden Hose 50M 1/2"	50-metre garden hose, ½-inch bore. For larger gardens.	4,400	In stock
+Dayliff Garden Hose 30M 3/4"	30-metre garden hose, ¾-inch bore. Higher flow rate.	4,700	In stock
+Dayliff Garden Hose Connector 1/2"	Standard ½-inch push-fit hose connector.	105	In stock
+Dayliff Garden Hose Connector 3/4"	Standard ¾-inch push-fit hose connector.	136	In stock
+Sprinklers & spray heads
+Dayliff GSM Multifunction (8) Garden Sprinkler 1/2" Set	8-function spray nozzle + ½-inch connector set. Adjustable spray patterns.	960	In stock
+Dayliff GSM Multifunction (8) Garden Sprinkler 3/4" Set	8-function spray nozzle + ¾-inch connector set.	1,000	In stock
+Dayliff GSS Single Jet Garden Sprinkler 3/4" Set	Single jet garden hose sprinkler with ¾-inch connector.	960	In stock
+3-Way Garden Sprinkler with Stake	3-arm rotating garden sprinkler on a ground stake. For lawn watering.	557	In stock
+Dirrijet A 1/2" PVC Impact Sprinkler	½-inch PVC impact rotary sprinkler. Wide throw radius for field irrigation.	223	In stock
+Dirrijet A 3/4" PVC Impact Sprinkler	¾-inch PVC impact rotary sprinkler. Higher flow for larger fields.	585	Sold out
+Dirrijet A 1/2" Brass Sprinkler	½-inch brass impact sprinkler. More durable than PVC version.	2,135	In stock
+Dirrijet 1½" Plastic Raingun C/W Adaptor	1½-inch raingun sprinkler with 1.5"–2" adaptor. Long-throw coverage for large farms.	2,692	In stock
+PVC Screen Filter 3/4"	¾-inch inline screen filter. Protects drip and sprinkler systems from sediment.	1,392	In stock
+Hunter professional irrigation
+Hunter PGJ-04 1/2" Rotor Sprinkler Head	Pop-up gear-driven rotor head. ½-inch, 4" pop-up. For small turf areas.	2,958	In stock
+Hunter PGP-04 3/4" Rotor Sprinkler Head	Professional gear-driven rotor, ¾-inch, 4" pop-up. For residential lawns.	3,219	In stock
+Hunter I-25-04 1" Rotor Sprinkler Head	Heavy-duty 1-inch rotor, 4" pop-up. Commercial turf and golf fairways.	13,050	In stock
+Hunter I-90 ADV 1½" Rotor	Large-area 1½-inch rotor. Golf courses, sports fields, and large commercial landscapes.	48,256	In stock
+Hunter 885SSU Golf Rotor	Professional golf course fairway rotor. High-volume long-range coverage.	80,040	In stock
+Hunter PS Ultra Spray Body (without nozzle)	Pop-up spray body, 4" rise, no nozzle included. For custom nozzle selection.	618	In stock
+Hunter PS Ultra Spray C/W 5.2M Nozzle	Pop-up spray with 5.2-metre throw nozzle included.	696	In stock
+Hunter ICV 1½" Valve	1½-inch electric solenoid control valve. For automated irrigation zone control.	17,922	In stock
+Hunter ICV 2" Valve	2-inch electric solenoid valve. Higher flow zone control for large systems.	21,141	In stock
+Hunter Swing Joint 3/4"	Flexible swing joint, ¾-inch. Connects sprinkler head to lateral pipe with flexibility.	870	In stock
+Hunter 8 Station X-Core Controller	8-zone programmable irrigation controller. Timer for up to 8 valve zones.	37,323	In stock
+Hunter Wireless Solar Sync Controller	Wireless weather-sensing controller. Adjusts irrigation schedule based on rainfall/ET.	28,884	In stock
+Drip kits & sprayers
+16mm Drip Line 30cm Emitter 1000M Roll	1000-metre roll of 16mm drip line, emitters spaced every 30cm. For row crops.	12,644	Sold out
+Dayliff Drip Kit Wide Spacing 1/4 Acre 32×32m	Complete drip irrigation kit for ¼ acre with wide emitter spacing. Includes all fittings.	31,518	Sold out
+Dayliff GN20 Knapsack Sprayer 20L	20-litre manual knapsack sprayer. For pesticide and fertiliser application.	2,700	Sold out
+Soil & plant additives
+Okoamaji Water Retainer Small Granules 100g	Hydrogel water-retaining granules. Mixed into soil to reduce irrigation frequency.	396	In stock
+Absorber Water Retainer Small Granules 100g	100g water-retaining granules. Similar to Okoamaji, different brand.	496	In stock
+Absorber Water Retainer Small Granules 1kg	1kg pack of water retainer granules. Value pack for larger planting areas.	4,524	In stock
+Earthlee Organic Humate Powder 200g	200g humic acid powder. Soil conditioner; improves nutrient uptake and water retention.	198	In stock
+Earthlee Organic Humate Powder 1kg	1kg humic acid powder. For larger plots and commercial farms.	745	In stock
+Achook Neem Based Insecticide 100ml	100ml neem-based organic insecticide/nematicide. Controls soil pests without chemicals.	495	In stock
+Achook Neem Based Insecticide 1L	1-litre neem-based organic insecticide. For larger field application.	3,950	In stock
+Nhance Foliar 100ml	100ml foliar feed micronutrient spray. Enhances plant health and yield.	464	Sold out
+
+Water Treatment
+Product name	Description	Price (KSh)	Stock
+Domestic filter systems
+Dayliff Mineral Water Pot	Ceramic filter water pot with mineral stones. Gravity-fed purification for households.	2,700	In stock
+Dayliff Dispenser Mineral Water Pot	Mineral water pot with tap dispenser. Easy access version of the standard pot.	2,100	In stock
+Water Pot Tap	Replacement tap for Dayliff mineral water pots.	641	In stock
+Dayliff Mineral Water Pot (Service Kit)	Replacement cartridge and components for the mineral water pot.	1,671	In stock
+Dayliff Triple Filter UV Purifier	3-stage filter (sediment + carbon + UV) for mains-connected water purification.	9,918	In stock
+Tapure Water Filter	Compact tap-mount or countertop water filter. Quick-fit household filtration.	4,930	In stock
+Dayliff 6-Stage Mini RO 100GPD	6-stage reverse osmosis unit, 100 gallons/day. Under-sink domestic purification.	19,900	In stock
+Mini RO 400L/Day (Service Kit)	Replacement membranes and filters for the 400L/day mini RO system.	3,132	In stock
+Klorman Inline Unit	Inline chlorine dosing unit. Automatically disinfects water in mains and borehole lines.	22,922	In stock
+HYDRA Self Cleaning Filter 3/4" (Without Cartridge)	¾-inch self-cleaning screen filter housing. For protecting downstream equipment.	9,466	In stock
+HYDRA Self Cleaning Filter 1" (Without Cartridge)	1-inch self-cleaning screen filter housing. Higher flow version of HYDRA ¾".	10,672	In stock
+ATLAS JUPITER AVL30 Softener (Clearance)	30-litre automatic water softener. Removes hardness from mains water supply.	148,480	Bid
+Dayliff Smart Water Dispenser 3-Tap C/W 10 Tags	Prepaid smart water dispenser, 3-tap. Comes with 10 NFC tags for access control.	127,832	Sold out
+Dayliff Treated Water Dispenser	Stand-alone treated water vending dispenser. For community water kiosks.	24,940	Sold out
+Replacement cartridges & membranes
+DAYLIFF Ceramic Cartridge	Ceramic filter cartridge. Replacement for Dayliff gravity filter and pot systems.	557	In stock
+DAYLIFF Mineral Stone Filter	Mineral stone replacement for Dayliff water pots.	372	In stock
+DAYLIFF Cartridge 5 Stage	5-stage replacement filter cartridge set for Dayliff multi-stage filter systems.	1,021	In stock
+DAYLIFF 10" 5MIC Wound Sediment Cartridge	10-inch, 5-micron wound sediment cartridge. Standard pre-filter replacement.	372	In stock
+DAYLIFF 10" 10MIC Wound Sediment Cartridge	10-inch, 10-micron wound sediment cartridge. Coarser pre-filter for turbid water.	372	In stock
+DAYLIFF 20" 5MIC Wound Sediment Cartridge	20-inch, 5-micron wound sediment cartridge. For longer filter housings.	743	In stock
+DAYLIFF 20" 5MIC Spun Sediment Cartridge	20-inch, 5-micron spun polypropylene cartridge. Better particle retention than wound.	464	In stock
+Reverse Osmosis Membrane 50GPD	50 GPD RO replacement membrane. For domestic reverse osmosis systems.	3,805	In stock
+UV Lamp 6W	6W UV lamp replacement for UV water purification units.	3,341	In stock
+ATLAS 10" 5MIC Wound Sediment Cartridge	Atlas brand 10-inch 5-micron sediment cartridge. For Atlas filter housings.	928	In stock
+Atlas 90MIC Hydra Plastic Cartridge	90-micron coarse plastic cartridge for Hydra filter housings.	2,784	In stock
+Atlas 50MIC Hydra Pleated Cartridge	50-micron pleated cartridge for Hydra housings. Better flow than wound equivalent.	8,352	In stock
+SO-SAFE 20" 0.5MIC Wound Sediment Cartridge	20-inch, 0.5-micron ultra-fine wound cartridge. For polishing very clean water.	1,984	In stock
+SO-SAFE 20" 1MIC Wound Sediment Cartridge	20-inch, 1-micron wound cartridge. Fine sediment removal.	1,984	Sold out
+Klorman Cartridges 16"S	16-inch replacement cartridge for Klorman inline chlorine units.	3,434	In stock
+Chemicals & disinfection
+Dayliff Chlorine-90 5kg	5kg tub of 90% calcium hypochlorite granules. For tank and borehole water disinfection.	2,000	In stock
+Klorman Water Tank Disinfectant	Liquid chlorine-based tank disinfectant. For periodic cleaning of water storage tanks.	3,156	Sold out
+Dayliff H20 Guard	Water purification tablets/drops. For point-of-use drinking water treatment.	441	Sold out
+
+Model	Flow rate	Max head	Depth range	Ideal power	Stock	Price
+DC pumps — ordinary impeller (solar DC)
+3SDS4-400W (0.5HP)	4,000 L/h	55M	0–42M	2×300W	In stock	Quote
+3SDS4-600W (0.75HP)	4,000 L/h	75M	0–58M	2×410W	Out	Quote
+4SDS5-600W (0.75HP)	5,000 L/h	55M	0–45M	2×410W	In stock	Quote
+4SDS5-800W (1.0HP)	5,000 L/h	80M	0–66M	2×550W	In stock	Quote
+4SDS5-1100W (1.5HP)	5,000 L/h	120M	0–99M	3×550W	In stock	Quote
+4SDS5-1500W (2.0HP)	5,000 L/h	168M	0–139M	4×550W	In stock	Quote
+4SDS5-2200W (3.0HP)	5,000 L/h	235M	0–194M	6×550W	In stock	Quote
+4SDS5-3000W (4.0HP)	5,000 L/h	285M	0–235M	8×550W	In stock	Quote
+DC pumps — stainless steel impeller (solar DC)
+4SPS4.5-600W (0.75HP)	4,500 L/h	70M	0–55M	2×450W	In stock	Quote
+4SPS4.5-800W (1.0HP)	4,500 L/h	98M	0–76M	2×550W	In stock	Quote
+4SPS4.5-1100W (1.5HP)	4,500 L/h	140M	0–109M	3×550W	In stock	Quote
+4SPS4.5-1500W (2.0HP)	4,500 L/h	210M	0–164M	4×550W	In stock	Quote
+4SPS4.5-2200W (3.0HP)	4,500 L/h	280M	0–218M	6×550W	Out	Quote
+AC/DC hybrid pumps — 4SDS5 series (ordinary impeller)
+4SDS5-800W (1.0HP) AD	5,000 L/h	80M	0–66M	2×550W	In stock	Quote
+4SDS5-1500W (2.0HP) AD	5,000 L/h	168M	0–139M	4×550W	In stock	Quote
+4SDS5-2200W (3.0HP) AD	5,000 L/h	235M	0–194M	6×550W	In stock	Quote
+4SDS5-3000W (4.0HP) AD	5,000 L/h	285M	0–235M	8×550W	In stock	Quote
+AC/DC hybrid pumps — 4SDS7 series
+4SDS7-800W (1.0HP) AD	7,000 L/h	60M	0–52M	3×450W	Out	Quote
+4SDS7-1100W (1.5HP) AD	7,000 L/h	95M	0–83M	3×550W	Out	Quote
+AC/DC hybrid pumps — 4SDS10 series (high flow)
+4SDS10-1500W (2.0HP) AD	10,000 L/h	105M	0–82M	4×550W	In stock	Quote
+4SDS10-2200W (3.0HP) AD	10,000 L/h	155M	0–122M	6×550W	In stock	Quote
+4SDS10-3000W (4.0HP) AD	10,000 L/h	190M	0–149M	8×550W	In stock	Quote
+AC/DC hybrid pumps — 4SF5 series (very high head)
+4SF5-230-4000W (5.5HP) AD	8,400 L/h	345M	0–330M	10×550W	In stock	Quote
+4SF5-300-5500W (7.5HP) AD	8,400 L/h	412M	0–406M	14×550W	In stock	Quote
+AC/DC hybrid pumps — 4SF10 series (high flow + high head)
+4SF10-120-4000W (5.5HP) AD	14,400 L/h	210M	0–210M	10×550W	Out	Quote
+4SF10-158-5500W (7.5HP) AD	14,400 L/h	272M	0–265M	14×550W	In stock	Quote
+4SF10-196-7500W (10.0HP) AD	14,400 L/h	336M	0–328M	2×(9×550W)	In stock	Quote
+4SF10-234-9200W (12HP) AD	14,400 L/h	400M	0–386M	2×(11×550W)	In stock	Quote
+AC pumps — ordinary impeller (3-phase)
+4SD3/30 (3.0HP) 3-phase	4,800 L/h	215M	0–203M	—	In stock	Quote
+4SD3/40 (4.0HP) 3-phase	4,800 L/h	287M	0–271M	—	In stock	Quote
+4SD3/50 (5.5HP) 3-phase	4,800 L/h	358M	0–338M	—	In stock	Quote
+AC pumps — ordinary impeller (single-phase SDM series)
+4SDM3/7 (0.5HP)	4,800 L/h	50M	0–45M	—	In stock	Quote
+4SDM3/7 (0.5HP) + 30M Cable	4,800 L/h	50M	0–47M	—	In stock	Quote
+4SDM3/10 (0.75HP)	4,800 L/h	72M	0–64M	—	In stock	Quote
+4SDM3/10 (0.75HP) + 30M Cable	4,800 L/h	72M	0–68M	—	In stock	Quote
+4SDM3/13 (1.0HP)	4,800 L/h	93M	0–88M	—	In stock	Quote
+4SDM3/18 (1.5HP)	4,800 L/h	122M	0–115M	—	In stock	Quote
+4SDM3/22 (2.0HP)	4,800 L/h	158M	0–149M	—	In stock	Quote
+4SDM3/30 (3.0HP)	4,800 L/h	215M	0–203M	—	In stock	Quote
+4SDM3/40 (4.0HP)	4,800 L/h	287M	0–271M	—	In stock	Quote
+AC pumps — stainless steel impeller (3-phase SP series)
+4SP5-25 (3.0HP) 3-phase	6,600 L/h	154M	0–138M	—	In stock	Quote
+4SP5-33 (4.0HP) 3-phase	6,600 L/h	203M	0–182M	—	In stock	Quote
+4SP5-44 (5.5HP) 3-phase	6,600 L/h	271M	0–243M	—	In stock	Quote
+4SP10-20 (5.5HP) 3-phase	14,400 L/h	120M	0–109M	—	In stock	Quote
+4SP10-26 (7.5HP) 3-phase	14,400 L/h	156M	0–142M	—	In stock	Quote
+4SP10-33 (10HP) 3-phase	14,400 L/h	198M	0–180M	—	In stock	Quote
+AC booster pumps (surface)
+CPM 158/1 (1HP)	5,400 L/h	36M	0–34M	—	In stock	Quote
+CPM 190/1 (2HP)	8,400 L/h	40M	0–39M	—	In stock	Quote
+QBM60 (0.5HP)	2,200 L/h	35M	0–21M	—	Out	Quote
+AC well pumps (shallow well)
+SCM3 (0.75HP)	6,600 L/h	38M	0–36M	—	In stock	Quote
+SCM5 (1.25HP)	6,600 L/h	64M	0–61M	—	Out	Quote
+SCM8 (2.0HP)	6,600 L/h	102M	0–97M	—	In stock	Quote
+Sewage pump
+WSD15-13-1.5C-2HP	15,000 L/h	13M	0–13M	—	Out	Quote
+AC pump motors (4-inch)
+Motor 4" 1.1kW (1.5HP)	—	—	—	—	In stock	Quote
+Motor 4" 1.5kW (2.0HP)	—	—	—	—	In stock	Quote
+Motor 4" 2.2kW (3.0HP)	—	—	—	—	In stock	Quote
+Motor 4" 2.2kW (3.0HP) 3-phase	—	—	—	—	In stock	Quote
+Motor 4" 3kW (4.0HP) 3-phase	—	—	—	—	In stock	Quote
+Motor 4" 4kW (5.5HP) 3-phase	—	—	—	—	In stock	Quote
+Motor 4" 5.5kW (7.5HP) 3-phase	—	—	—	—	Out	Quote
+Motor 4" 7.5kW (10HP) 3-phase	—	—	—	—	In stock	Quote
+Controllers & accessories
+AC Controller — 4SDM3/7 DYM-S03 (0.5HP)	Single-phase AC pump controller for SDM3/7	Out	Quote
+AC Controller — 4SDM3/10 DYM-S03 (0.75HP)	Single-phase AC pump controller for SDM3/10	In stock	Quote
+AC Controller — 4SDM3/13 DYM-S03 (1.0HP)	Single-phase AC pump controller for SDM3/13	Out	Quote
+AC Controller — 4SDM3/18 DYM-S03 (1.5HP)	Single-phase AC pump controller for SDM3/18	In stock	Quote
+AC Controller — 4SDM3/22 DYM-S03 (2.0HP)	Single-phase AC pump controller for SDM3/22	In stock	Quote
+AC Controller — 4SDM3/30 DYM-S03 (3.0HP)	Single-phase AC pump controller for SDM3/30	In stock	Quote
+AC Controller — 4SDM3/40 DYM-S03 (4.0HP)	Single-phase AC pump controller for SDM3/40	In stock	Quote
+DC Controller — DC 110W DYS-120	DC solar pump controller, 110W	In stock	Quote
+DC Controller — DC 600W DYS-60	DC solar pump controller, 600W	In stock	Quote
+DC Controller — DC 800W DYS-90	DC solar pump controller, 800W	In stock	Quote
+DC Controller — DC 1500W DYS-170	DC solar pump controller, 1500W	In stock	Quote
+DC Controller — DC 2200W DYS-240	DC solar pump controller, 2200W	In stock	Quote
+DC Controller — DC 3000W DYS-280	DC solar pump controller, 3000W	In stock	Quote
+Hybrid Controller — AD 800W DYS-90AD	AC/DC hybrid pump controller, 800W	In stock	Quote
+Hybrid Controller — AD 2200W DYS-240AD	AC/DC hybrid pump controller, 2200W	In stock	Quote
+Hybrid Controller — AD 3000W DYS-280AD	AC/DC hybrid pump controller, 3000W	In stock	Quote
+Automatic Pump Control	Pressure switch / auto pump control accessory	In stock	Quote
+SS Water Level Sensor	Stainless steel water level sensor for borehole automation	In stock	Quote
+
