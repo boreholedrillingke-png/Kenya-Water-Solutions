@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Clock, Droplets } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,16 +31,6 @@ export default function Services() {
             : (services ?? []).map((service) => (
                 <Card key={service.id} className="h-full group hover:shadow-md transition-all border-border" data-testid={`card-service-${service.id}`}>
                   <CardContent className="p-3.5 flex flex-col h-full">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                        {service.category}
-                      </span>
-                      {service.duration && (
-                        <span className="flex items-center gap-1 text-[11px] text-muted-foreground text-right">
-                          <Clock className="h-3 w-3 shrink-0" /> {service.duration}
-                        </span>
-                      )}
-                    </div>
                     <h2 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                       {service.name}
                     </h2>
@@ -82,12 +72,6 @@ export default function Services() {
           {!isLoading && (
             <Card className="lg:col-span-2 lg:col-start-1 sm:col-span-2 border-border" data-testid="card-service-purification">
               <CardContent className="p-3.5 flex flex-col h-full">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                    Purification
-                  </span>
-                  <Droplets className="h-3.5 w-3.5 text-primary" />
-                </div>
                 <h2 className="text-sm font-semibold text-foreground mb-1">Water Purification</h2>
                 <p className="text-xs text-muted-foreground leading-snug mb-2">
                   Filtration and treatment systems that make your water safe and clean, matched to your water test results.
