@@ -3,7 +3,9 @@ services:
     name: kenya-water-solutions-web
     env: static
     buildCommand: npm install -g pnpm && pnpm install --recursive && cd artifacts/borehole-kenya && pnpm run build
-    staticPublishPath: artifacts/borehole-kenya/dist
+    staticPublishPath: artifacts/borehole-kenya/dist/public
     envVars:
+      - key: BASE_PATH
+        value: /
       - key: VITE_API_URL
-        value: https://kenya-water-solutions.onrender.com/api
+        value: https://kenya-water-solutions-1.onrender.com

@@ -200,7 +200,7 @@ export default function ProductDetail() {
             <h3 className="font-semibold text-foreground mb-1">Need Help Choosing?</h3>
             <p className="text-sm text-muted-foreground">Our technical team can recommend the right equipment for your borehole specifications.</p>
           </div>
-          <a href="tel:+254700000000" className="flex-shrink-0">
+          <a href="tel:+254762211512" className="flex-shrink-0">
             <Button variant="outline">
               <Phone className="mr-2 h-4 w-4" /> Call Us
             </Button>

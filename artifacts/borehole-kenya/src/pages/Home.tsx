@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Phone, Star, Zap, Shield, Users, Award } from "lucide-react";
+import { ArrowRight, CheckCircle, Phone, Star, Zap, Shield, Users, Award, MessageCircle, MapPin, ClipboardCheck, Drill, Droplets, Wrench } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,7 +11,7 @@ import {
   useListFeaturedProducts,
   useListServiceCategories,
 } from "@workspace/api-client-react";
-import { formatKES } from "@/lib/utils";
+import { formatKES, whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 
 const testimonials = [
   { name: "James Mwangi", location: "Nakuru County", text: "Excellent work! They drilled a 120m borehole on our farm and hit water on the first attempt. Highly professional team.", rating: 5 },
@@ -24,6 +26,58 @@ const whyUs = [
   { icon: Zap, title: "24/7 Emergency Service", desc: "Round-the-clock emergency response for critical water supply failures." },
 ];
 
+const process = [
+  { icon: MapPin, title: "Site Visit & Survey", desc: "We visit your land, assess the terrain and carry out a hydrogeological survey to pinpoint the best drilling spot." },
+  { icon: ClipboardCheck, title: "Clear Written Quote", desc: "You receive an itemised quote covering drilling depth, casing, pump and installation, with no hidden costs." },
+  { icon: Drill, title: "Drilling & Casing", desc: "Our crew drills to the agreed depth, installs casing and gravel pack, and flushes the borehole until water runs clear." },
+  { icon: Droplets, title: "Pump & Handover", desc: "We install the pump and water system, test flow and quality, and walk you through running and maintaining it." },
+];
+
+const faqs = [
+  { q: "How much does it cost to drill a borehole in Kenya?", a: "Cost depends on your location, the depth needed, the geology and the pump system you choose. Request a free site assessment and we will give you an itemised written quote." },
+  { q: "How long does drilling take?", a: "Most boreholes are drilled within 1 to 3 days once the crew is on site. Surveying beforehand and pump installation afterwards add a few more days." },
+  { q: "Do you do a survey before drilling?", a: "Yes. A hydrogeological survey helps locate the most promising water-bearing zone before any drilling begins, which reduces the risk of a dry hole." },
+  { q: "Can you install solar pumps?", a: "Yes. We design and install solar-powered pumping systems that cut your electricity costs, and we also supply and fit electric and submersible pumps." },
+  { q: "Do you serve my county?", a: "We work across Kenya. Send us your location on WhatsApp or the quote form and we will confirm availability and timelines for your area." },
+];
+
+function QuickQuote() {
+  const [name, setName] = useState("");
+  const [county, setCounty] = useState("");
+  const [service, setService] = useState("Borehole Drilling");
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const msg = `Hello, my name is ${name || "a customer"}${county ? ` from ${county} County` : ""}. I would like a free quote for: ${service}.`;
+    window.open(whatsappLink(msg), "_blank", "noopener,noreferrer");
+  };
+
+  const field = "w-full rounded-lg border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-300/70";
+
+  return (
+    <form onSubmit={submit} className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-6 shadow-2xl text-left" data-testid="form-quick-quote">
+      <div className="text-lg font-bold mb-1">Get a free quote in minutes</div>
+      <p className="text-sm text-white/70 mb-5">Tell us where you are and what you need. We reply on WhatsApp.</p>
+      <div className="space-y-3">
+        <input className={field} placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} aria-label="Your name" />
+        <select className={`${field} [&>option]:text-foreground`} value={county} onChange={(e) => setCounty(e.target.value)} aria-label="County">
+          <option value="">Select your county</option>
+          {KENYA_COUNTIES.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <select className={`${field} [&>option]:text-foreground`} value={service} onChange={(e) => setService(e.target.value)} aria-label="Service needed">
+          {["Borehole Drilling", "Hydrogeological Survey", "Pump Installation", "Solar Water System", "Borehole Repair & Rehabilitation"].map((o) => <option key={o}>{o}</option>)}
+        </select>
+      </div>
+      <button type="submit" className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-900 font-semibold py-3 transition-colors" data-testid="button-quick-quote">
+        <MessageCircle className="h-4 w-4" /> Request Quote on WhatsApp
+      </button>
+      <a href="tel:+254762211512" className="mt-3 flex items-center justify-center gap-2 text-sm text-white/80 hover:text-white">
+        <Phone className="h-3.5 w-3.5" /> or call +254 762 211 512
+      </a>
+    </form>
+  );
+}
+
 export default function Home() {
   const { data: summary, isLoading: summaryLoading } = useGetCatalogSummary();
   const { data: services, isLoading: servicesLoading } = useListServices(
@@ -36,60 +90,72 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero */}
       <section
-        className="relative min-h-[85vh] flex items-center justify-center overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, hsl(210 60% 18%) 0%, hsl(210 80% 28%) 50%, hsl(200 70% 35%) 100%)",
-        }}
+        className="relative overflow-hidden text-white"
+        style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}
       >
-        {/* Pattern overlay */}
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: "radial-gradient(circle at 25% 35%, hsl(40 80% 60%) 0%, transparent 50%), radial-gradient(circle at 75% 65%, hsl(200 100% 70%) 0%, transparent 50%)",
+        <div className="absolute inset-0 opacity-[0.12]" style={{
+          backgroundImage: "linear-gradient(hsl(0 0% 100% / .5) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / .5) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse at 30% 40%, black 0%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(ellipse at 30% 40%, black 0%, transparent 70%)",
         }} />
+        <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-amber-300/20 blur-3xl" />
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white pt-24 pb-16">
-          <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-4 py-1.5 text-sm font-medium mb-8">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            Kenya's Leading Borehole Specialists — All 47 Counties
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 pb-28 grid lg:grid-cols-5 gap-12 items-center">
+          <div className="lg:col-span-3">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm font-medium mb-7">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              Borehole specialists serving all 47 counties
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-6">
+              Reliable water,
+              <span className="block text-amber-300">drilled right the first time.</span>
+            </h1>
+
+            <p className="text-lg text-white/80 max-w-xl mb-9 leading-relaxed">
+              Hydrogeological surveys, borehole drilling, pump installation and solar water systems for homes, farms, schools and businesses across Kenya.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <Button asChild size="lg" className="bg-amber-400 text-slate-900 hover:bg-amber-300 font-semibold px-8 text-base" data-testid="button-hero-quote">
+                <Link href="/contact">Get Free Quote <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white font-medium px-8 text-base">
+                <Link href="/services">Our Services</Link>
+              </Button>
+            </div>
+
+            <ul className="flex flex-wrap gap-x-7 gap-y-3 text-sm text-white/80">
+              {["Free site assessment", "Itemised written quotes", "Workmanship guarantee", "24/7 emergency repairs"].map((t) => (
+                <li key={t} className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-400" />{t}</li>
+              ))}
+            </ul>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            Clean Water For Every
-            <span className="block text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(90deg, hsl(40 90% 65%), hsl(55 100% 70%))" }}>
-              Kenyan Home and Farm
-            </span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Professional borehole drilling, pump installation, solar water systems, and equipment supply. Trusted by thousands of households, farms, hotels, and county governments across Kenya.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-semibold px-8 text-base" data-testid="button-hero-quote">
-              <Link href="/contact">Get Free Quote <ArrowRight className="ml-2 h-4 w-4" /></Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/10 font-medium px-8 text-base">
-              <Link href="/services">Our Services</Link>
-            </Button>
+          <div className="lg:col-span-2">
+            <QuickQuote />
           </div>
+        </div>
+      </section>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
+      {/* Stats strip */}
+      <section className="relative -mt-12 z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 rounded-2xl bg-card border border-border shadow-xl divide-x divide-y md:divide-y-0 divide-border overflow-hidden">
             {summaryLoading ? (
               Array(4).fill(0).map((_, i) => (
-                <div key={i} className="bg-white/10 rounded-xl p-4">
-                  <Skeleton className="h-8 w-16 mx-auto mb-1 bg-white/20" />
-                  <Skeleton className="h-3 w-20 mx-auto bg-white/20" />
-                </div>
+                <div key={i} className="p-6 text-center"><Skeleton className="h-8 w-16 mx-auto mb-2" /><Skeleton className="h-3 w-20 mx-auto" /></div>
               ))
             ) : [
               { value: `${summary?.countiesServed ?? 47}`, label: "Counties Served" },
-              { value: `${(summary?.projectsCompleted ?? 2400).toLocaleString()}+`, label: "Projects Done" },
+              { value: `${(summary?.projectsCompleted ?? 2400).toLocaleString()}+`, label: "Projects Completed" },
               { value: `${summary?.totalServices ?? 12}+`, label: "Services Offered" },
               { value: `${summary?.yearsExperience ?? 15}+`, label: "Years Experience" },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-4">
-                <div className="text-2xl sm:text-3xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-xs text-white/65 font-medium">{stat.label}</div>
+              <div key={stat.label} className="p-6 text-center">
+                <div className="text-3xl font-extrabold text-primary" style={{ fontFamily: "var(--font-display)" }}>{stat.value}</div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-medium mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -97,7 +163,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-18 bg-background">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-3">Why Kenyans Trust Us</h2>
@@ -117,8 +183,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* How it works */}
+      <section className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <div className="text-xs font-semibold uppercase tracking-widest text-primary mb-3">How it works</div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">From first call to flowing water</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">A simple, transparent process so you always know what happens next.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {process.map((step, i) => (
+              <div key={step.title} className="relative rounded-2xl border border-border bg-card p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                <div className="absolute top-5 right-6 text-5xl font-extrabold text-primary/10" style={{ fontFamily: "var(--font-display)" }}>0{i + 1}</div>
+                <div className="w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mb-5">
+                  <step.icon className="h-6 w-6" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Services */}
-      <section className="py-18 bg-muted/40">
+      <section className="py-20 bg-muted/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -184,7 +273,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-18 bg-background">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -247,7 +336,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-18 bg-muted/40">
+      <section className="py-20 bg-muted/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-3">What Our Clients Say</h2>
@@ -274,16 +363,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="py-20 bg-background">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <div className="text-xs font-semibold uppercase tracking-widest text-primary mb-3">FAQ</div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Questions we hear most</h2>
+          </div>
+          <Accordion type="single" collapsible className="rounded-2xl border border-border bg-card px-6">
+            {faqs.map((f, i) => (
+              <AccordionItem key={f.q} value={`faq-${i}`}>
+                <AccordionTrigger className="text-left font-semibold">{f.q}</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">{f.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-18 bg-primary text-white">
+      <section className="py-20 text-white" style={{ background: "linear-gradient(135deg, hsl(215 70% 12%), hsl(212 75% 24%))" }}>
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-white/80 mb-8 text-lg">Contact us today for a free site assessment and quote. We operate across all 47 counties of Kenya.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-semibold" data-testid="button-cta-quote">
+            <Button asChild size="lg" className="bg-amber-400 text-slate-900 hover:bg-amber-300 font-semibold" data-testid="button-cta-quote">
               <Link href="/contact">Get a Free Quote</Link>
             </Button>
-            <a href="tel:+254700000000">
+            <a href="tel:+254762211512">
               <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/10 w-full sm:w-auto">
                 <Phone className="mr-2 h-4 w-4" /> Call Now
               </Button>

@@ -124,8 +124,8 @@ export default function Services() {
             <Button asChild size="lg">
               <Link href="/contact">Request a Quote</Link>
             </Button>
-            <a href="tel:+254700000000">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">Call +254 700 000 000</Button>
+            <a href="tel:+254762211512">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto">Call +254 762 211 512</Button>
             </a>
           </div>
         </div>
