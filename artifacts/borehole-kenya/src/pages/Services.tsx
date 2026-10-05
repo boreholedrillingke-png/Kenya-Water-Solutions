@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Clock, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle, Clock, MapPin, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -104,19 +104,50 @@ export default function Services() {
           </div>
         )}
 
-        {/* CTA */}
-        <div className="mt-10 rounded-2xl bg-primary/8 border border-primary/20 p-6 sm:p-8 text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-3">Need a Custom Solution?</h2>
-          <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            Every water project is unique. Contact our team for a free site assessment and tailored quote.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg">
-              <Link href="/contact">Request a Quote</Link>
-            </Button>
-            <a href="tel:+254762211512">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">Call +254 762 211 512</Button>
-            </a>
+        {/* Purification + Custom solution */}
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+          <Card className="border-border" data-testid="card-service-purification">
+            <CardContent className="p-5 flex flex-col h-full">
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                  Purification
+                </span>
+                <Droplets className="h-4 w-4 text-primary" />
+              </div>
+              <h2 className="text-base font-semibold text-foreground mb-1.5">Water Purification</h2>
+              <p className="text-sm text-muted-foreground leading-snug mb-3">
+                Filtration and treatment systems that make your water safe and clean, matched to your water test results.
+              </p>
+              <ul className="space-y-1 mb-4">
+                {["Water testing", "Filtration and treatment", "Installation and servicing"].map((h) => (
+                  <li key={h} className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <CheckCircle className="h-3.5 w-3.5 text-green-500 flex-shrink-0" />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex items-center justify-between gap-3 pt-3 border-t border-border mt-auto">
+                <span className="text-sm text-muted-foreground">Quote on request</span>
+                <Button asChild size="sm">
+                  <Link href="/contact">Request a Quote <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="rounded-xl bg-primary/8 border border-primary/20 p-5 flex flex-col justify-center text-center">
+            <h2 className="text-lg font-bold text-foreground mb-2">Need a Custom Solution?</h2>
+            <p className="text-sm text-muted-foreground mb-5 max-w-sm mx-auto">
+              Every water project is unique. Contact our team for a free site assessment and tailored quote.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button asChild>
+                <Link href="/contact">Request a Quote</Link>
+              </Button>
+              <a href="tel:+254762211512">
+                <Button variant="outline" className="w-full sm:w-auto">Call +254 762 211 512</Button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
