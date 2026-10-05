@@ -54,7 +54,7 @@ export default function Projects() {
   const hasFilters = serviceType !== "All" || clientType !== "All" || region !== "All";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       {/* Header */}
       <div
         className="text-white pt-32 pb-16"

@@ -13,12 +13,12 @@ export default function Services() {
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[104px] pb-6">
         <h1 className="sr-only">Our Services</h1>
 
-        {/* One grid, all rows the same height */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-3">
+        {/* Cards in a row share one height */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {isLoading
             ? Array(4).fill(0).map((_, i) => (
                 <Card key={i}><CardContent className="p-3.5">
@@ -92,7 +92,7 @@ export default function Services() {
                 <p className="text-xs text-muted-foreground leading-snug mb-2">
                   Filtration and treatment systems that make your water safe and clean, matched to your water test results.
                 </p>
-                <ul className="space-y-0.5 mb-2">
+                <ul className="flex flex-wrap gap-x-4 gap-y-0.5 mb-3">
                   {["Water testing", "Filtration and treatment", "Installation and servicing"].map((h) => (
                     <li key={h} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
                       <CheckCircle className="h-3 w-3 text-green-500 shrink-0" />

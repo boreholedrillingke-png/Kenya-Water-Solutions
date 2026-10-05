@@ -52,7 +52,7 @@ export default function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       {/* Hero */}
       <div
         className="text-white pt-32 pb-14"

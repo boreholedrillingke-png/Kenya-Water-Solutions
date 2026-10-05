@@ -62,7 +62,7 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       {/* Header */}
       <div className="bg-foreground text-white pt-32 pb-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
