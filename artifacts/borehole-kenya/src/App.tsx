@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,10 +23,12 @@ const queryClient = new QueryClient({
 });
 
 function Router() {
+  const [location] = useLocation();
+  const isHome = location === "/";
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={isHome ? "flex flex-col h-[100dvh] overflow-hidden" : "flex flex-col min-h-screen"}>
       <Navbar />
-      <main className="flex-1">
+      <main className={isHome ? "flex-1 min-h-0 pt-[92px]" : "flex-1"}>
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/services" component={Services} />
@@ -40,8 +42,8 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </main>
-      <Footer />
-      <WhatsAppButton />
+      {!isHome && <Footer />}
+      {!isHome && <WhatsAppButton />}
     </div>
   );
 }
