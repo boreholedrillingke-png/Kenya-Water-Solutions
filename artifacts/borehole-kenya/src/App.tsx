@@ -42,7 +42,7 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </main>
-      {!isHome && <Footer />}
+      <Footer />
       {!isHome && <WhatsAppButton />}
     </div>
   );
