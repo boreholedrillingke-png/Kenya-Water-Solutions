@@ -20,20 +20,10 @@ export default function Services() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-foreground text-white pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">What We Do</div>
-          <h1 className="text-4xl font-bold mb-4">Our Services</h1>
-          <p className="text-white/70 max-w-2xl text-lg">
-            Comprehensive borehole and water solutions from initial survey to final commissioning — and everything in between.
-          </p>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[116px] pb-10">
+        <h1 className="sr-only">Our Services</h1>
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap gap-2 mb-6">
           {allCategories.map((cat) => (
             <button
               key={cat}
@@ -52,7 +42,7 @@ export default function Services() {
 
         {/* Services grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {Array(6).fill(0).map((_, i) => (
               <Card key={i}><CardContent className="p-6">
                 <Skeleton className="h-6 w-2/3 mb-3" />
@@ -63,12 +53,12 @@ export default function Services() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {(services ?? []).map((service) => (
               <Card key={service.id} className="h-full group hover:shadow-lg transition-all border-border" data-testid={`card-service-${service.id}`}>
-                <CardContent className="p-6 flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                <CardContent className="p-4 flex flex-col h-full">
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                       {service.category}
                     </span>
                     {service.duration && (
@@ -77,15 +67,15 @@ export default function Services() {
                       </span>
                     )}
                   </div>
-                  <h2 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  <h2 className="text-base font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">
                     {service.name}
                   </h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
+                  <p className="text-sm text-muted-foreground leading-snug mb-3 flex-1 line-clamp-3">
                     {service.shortDescription}
                   </p>
                   {service.highlights.length > 0 && (
-                    <ul className="space-y-1 mb-4">
-                      {service.highlights.slice(0, 4).map((h) => (
+                    <ul className="space-y-1 mb-3">
+                      {service.highlights.slice(0, 3).map((h) => (
                         <li key={h} className="flex items-center gap-2 text-xs text-muted-foreground">
                           <CheckCircle className="h-3.5 w-3.5 text-green-500 flex-shrink-0" />
                           {h}
@@ -93,7 +83,7 @@ export default function Services() {
                       ))}
                     </ul>
                   )}
-                  <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+                  <div className="flex flex-col gap-2 pt-3 border-t border-border mt-auto">
                     {service.priceFrom ? (
                       <span className="text-sm font-medium text-foreground">
                         From <span className="text-primary font-bold">{formatKES(service.priceFrom)}</span>
@@ -102,7 +92,7 @@ export default function Services() {
                     ) : (
                       <span className="text-sm text-muted-foreground">Price on enquiry</span>
                     )}
-                    <Button asChild size="sm" variant="outline">
+                    <Button asChild size="sm" variant="outline" className="w-full">
                       <Link href={`/services/${service.id}`}>
                         Details <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                       </Link>
@@ -115,7 +105,7 @@ export default function Services() {
         )}
 
         {/* CTA */}
-        <div className="mt-16 rounded-2xl bg-primary/8 border border-primary/20 p-8 sm:p-12 text-center">
+        <div className="mt-10 rounded-2xl bg-primary/8 border border-primary/20 p-6 sm:p-8 text-center">
           <h2 className="text-2xl font-bold text-foreground mb-3">Need a Custom Solution?</h2>
           <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
             Every water project is unique. Contact our team for a free site assessment and tailored quote.
