@@ -1,45 +1,21 @@
-import { useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, CheckCircle, Clock, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useListServices, useListServiceCategories } from "@workspace/api-client-react";
+import { useListServices } from "@workspace/api-client-react";
 import { formatKES } from "@/lib/utils";
 
 export default function Services() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-
-  const { data: categories } = useListServiceCategories();
   const { data: services, isLoading } = useListServices(
-    activeCategory !== "All" ? { category: activeCategory } : {},
-    { query: { queryKey: ["services", activeCategory] } }
+    {},
+    { query: { queryKey: ["services", "all"] } }
   );
-
-  const allCategories = ["All", ...(categories ?? []).map((c) => c.name)];
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[108px] pb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[104px] pb-6">
         <h1 className="sr-only">Our Services</h1>
-
-        {/* Category Filter */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {allCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              data-testid={`button-category-${cat}`}
-              className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
-                activeCategory === cat
-                  ? "bg-primary text-white border-primary"
-                  : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
 
         {/* One grid, all rows the same height */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-3">
