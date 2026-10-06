@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin, Clock, MessageSquare, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import PageBanner from "@/components/PageBanner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -61,125 +61,100 @@ export default function Contact() {
     );
   }
 
+  const label = "text-xs";
+
   return (
     <div className="bg-background">
-      {/* Header */}
-      <div className="bg-foreground text-white pt-32 pb-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">Get in Touch</div>
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-          <p className="text-white/70 text-lg max-w-xl">
-            Get a free quote, ask a technical question, or report an emergency. Our team responds within 24 hours.
-          </p>
+      <PageBanner
+        eyebrow="Get in Touch"
+        title="Contact Us"
+        description="Get a free quote, ask a question, or report an emergency. We respond within 24 hours."
+      >
+        <div className="flex flex-col sm:flex-row gap-2">
+          <a
+            href={whatsappLink("Hello, I would like to inquire about your borehole services.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1"
+          >
+            <Button className="w-full h-10 bg-[#25D366] hover:bg-[#20bd5a] text-white text-sm">
+              <MessageSquare className="mr-2 h-4 w-4" /> Chat on WhatsApp
+            </Button>
+          </a>
+          <a href="tel:+254762211512" className="flex-1">
+            <Button variant="outline" className="w-full h-10 border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white text-sm">
+              <Phone className="mr-2 h-4 w-4" /> +254 762 211 512
+            </Button>
+          </a>
         </div>
-      </div>
+      </PageBanner>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* Contact info sidebar */}
-          <div className="space-y-6">
-            {contactInfo.map((item) => (
-              <div key={item.label} className="flex gap-4">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="h-5 w-5 text-primary" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="rounded-2xl border border-border bg-card shadow-sm p-3">
+          {/* Info row */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+            {contactInfo.map((item) => {
+              const inner = (
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-background p-3 h-full hover:border-primary/40 transition-colors">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <item.icon className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{item.label}</div>
+                    <div className="text-xs font-medium text-foreground break-words leading-snug">{item.value}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">{item.label}</div>
-                  {item.href ? (
-                    <a href={item.href} className="text-foreground font-medium hover:text-primary transition-colors text-sm">{item.value}</a>
-                  ) : (
-                    <p className="text-foreground text-sm">{item.value}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {/* WhatsApp */}
-            <div className="mt-6">
-              <a
-                href={whatsappLink("Hello, I would like to inquire about your borehole services.")}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white">
-                  <MessageSquare className="mr-2 h-4 w-4" /> Chat on WhatsApp
-                </Button>
-              </a>
-            </div>
-
-            {/* Emergency */}
-            <Card className="border-red-200 bg-red-50 mt-6">
-              <CardContent className="p-4">
-                <div className="text-sm font-semibold text-red-700 mb-1">24/7 Emergency Line</div>
-                <p className="text-xs text-red-600 mb-3">For borehole pump failures and urgent water supply emergencies.</p>
-                <a href="tel:+254762211512">
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white w-full">
-                    <Phone className="mr-2 h-3.5 w-3.5" /> +254 762 211 512
-                  </Button>
-                </a>
-              </CardContent>
-            </Card>
-
-            {/* Coverage */}
-            <div>
-              <h3 className="text-sm font-semibold text-foreground mb-3">Counties We Serve</h3>
-              <div className="flex flex-wrap gap-1.5">
-                {["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Kisii", "Kakamega", "Nyeri", "Meru", "Machakos", "Kitui"].map((c) => (
-                  <span key={c} className="text-xs bg-muted px-2 py-0.5 rounded-full text-muted-foreground">{c}</span>
-                ))}
-                <span className="text-xs text-primary font-medium px-2 py-0.5">+35 more</span>
-              </div>
-            </div>
+              );
+              return item.href ? <a key={item.label} href={item.href}>{inner}</a> : <div key={item.label}>{inner}</div>;
+            })}
           </div>
 
-          {/* Form */}
-          <div className="lg:col-span-2">
-            {submitted ? (
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-10 text-center">
-                <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                <h2 className="text-xl font-semibold text-foreground mb-2">Inquiry Sent Successfully</h2>
-                <p className="text-muted-foreground mb-6">Our team will contact you within 24 hours. For urgent matters, please call or WhatsApp us directly.</p>
-                <Button onClick={() => setSubmitted(false)} variant="outline">Send Another Inquiry</Button>
-              </div>
-            ) : (
-              <Card className="border-border">
-                <CardContent className="p-8">
-                  <h2 className="text-xl font-semibold text-foreground mb-1">Send Us a Message</h2>
-                  <p className="text-sm text-muted-foreground mb-6">Fill in the form and we'll get back to you with a detailed response or quote.</p>
-
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+            {/* Form */}
+            <div className="lg:col-span-2">
+              {submitted ? (
+                <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center h-full flex flex-col items-center justify-center">
+                  <CheckCircle className="h-10 w-10 text-green-500 mb-3" />
+                  <h2 className="text-base font-semibold text-foreground mb-1">Inquiry Sent Successfully</h2>
+                  <p className="text-sm text-muted-foreground mb-4">Our team will contact you within 24 hours. For urgent matters, please call or WhatsApp us.</p>
+                  <Button onClick={() => setSubmitted(false)} variant="outline" size="sm">Send Another Inquiry</Button>
+                </div>
+              ) : (
+                <div className="rounded-xl border border-border p-4">
+                  <h2 className="text-sm font-semibold text-foreground mb-3">Send us a message</h2>
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <FormField control={form.control} name="name" rules={{ required: "Name is required" }} render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Full Name *</FormLabel>
-                            <FormControl><Input placeholder="John Kamau" {...field} data-testid="input-name" /></FormControl>
+                            <FormLabel className={label}>Full Name *</FormLabel>
+                            <FormControl><Input className="h-9 text-sm" placeholder="John Kamau" {...field} data-testid="input-name" /></FormControl>
                             <FormMessage />
                           </FormItem>
                         )} />
                         <FormField control={form.control} name="phone" rules={{ required: "Phone is required" }} render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number *</FormLabel>
-                            <FormControl><Input placeholder="+254 7xx xxx xxx" {...field} data-testid="input-phone" /></FormControl>
+                            <FormLabel className={label}>Phone *</FormLabel>
+                            <FormControl><Input className="h-9 text-sm" placeholder="+254 7xx xxx xxx" {...field} data-testid="input-phone" /></FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="email" render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className={label}>Email (optional)</FormLabel>
+                            <FormControl><Input className="h-9 text-sm" type="email" placeholder="john@example.com" {...field} data-testid="input-email" /></FormControl>
                             <FormMessage />
                           </FormItem>
                         )} />
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <FormField control={form.control} name="email" render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email (optional)</FormLabel>
-                            <FormControl><Input type="email" placeholder="john@example.com" {...field} data-testid="input-email" /></FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )} />
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <FormField control={form.control} name="county" render={({ field }) => (
                           <FormItem>
-                            <FormLabel>County</FormLabel>
+                            <FormLabel className={label}>County</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger data-testid="select-county"><SelectValue placeholder="Select your county" /></SelectTrigger>
+                                <SelectTrigger className="h-9 text-sm" data-testid="select-county"><SelectValue placeholder="Select your county" /></SelectTrigger>
                               </FormControl>
                               <SelectContent>
                                 {KENYA_COUNTIES.map((c) => (
@@ -189,33 +164,33 @@ export default function Contact() {
                             </Select>
                           </FormItem>
                         )} />
+                        <FormField control={form.control} name="inquiryType" rules={{ required: "Please select an inquiry type" }} render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className={label}>Inquiry Type *</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="h-9 text-sm" data-testid="select-inquiry-type"><SelectValue placeholder="What can we help with?" /></SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="service_quote">Service Quote</SelectItem>
+                                <SelectItem value="product_order">Product Order</SelectItem>
+                                <SelectItem value="general">General Inquiry</SelectItem>
+                                <SelectItem value="emergency">Emergency Repair</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
                       </div>
-
-                      <FormField control={form.control} name="inquiryType" rules={{ required: "Please select an inquiry type" }} render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Inquiry Type *</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger data-testid="select-inquiry-type"><SelectValue placeholder="What can we help you with?" /></SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="service_quote">Service Quote</SelectItem>
-                              <SelectItem value="product_order">Product Order</SelectItem>
-                              <SelectItem value="general">General Inquiry</SelectItem>
-                              <SelectItem value="emergency">Emergency Repair</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )} />
 
                       <FormField control={form.control} name="message" rules={{ required: "Message is required" }} render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Message *</FormLabel>
+                          <FormLabel className={label}>Message *</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Describe your water needs, location, project size, or any specific requirements..."
-                              rows={5}
+                              className="text-sm"
+                              placeholder="Describe your water needs, location or project size..."
+                              rows={3}
                               {...field}
                               data-testid="input-message"
                             />
@@ -224,14 +199,36 @@ export default function Contact() {
                         </FormItem>
                       )} />
 
-                      <Button type="submit" size="lg" className="w-full" disabled={createInquiry.isPending} data-testid="button-submit">
+                      <Button type="submit" className="w-full h-9" disabled={createInquiry.isPending} data-testid="button-submit">
                         {createInquiry.isPending ? "Sending..." : "Send Inquiry"}
                       </Button>
                     </form>
                   </Form>
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              )}
+            </div>
+
+            {/* Side: emergency + coverage */}
+            <div className="flex flex-col gap-3">
+              <div className="rounded-xl border border-red-200 bg-red-50 p-4">
+                <div className="text-sm font-semibold text-red-700 mb-1">24/7 Emergency Line</div>
+                <p className="text-xs text-red-600 mb-3">For pump failures and urgent water supply emergencies.</p>
+                <a href="tel:+254762211512">
+                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white w-full h-8 text-xs">
+                    <Phone className="mr-2 h-3.5 w-3.5" /> +254 762 211 512
+                  </Button>
+                </a>
+              </div>
+              <div className="rounded-xl border border-border p-4 flex-1">
+                <h3 className="text-sm font-semibold text-foreground mb-2">Counties we serve</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Kisii", "Kakamega", "Nyeri", "Meru", "Machakos", "Kitui"].map((c) => (
+                    <span key={c} className="text-[11px] bg-muted px-2 py-0.5 rounded-full text-muted-foreground">{c}</span>
+                  ))}
+                  <span className="text-[11px] text-primary font-medium px-1 py-0.5">+35 more</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

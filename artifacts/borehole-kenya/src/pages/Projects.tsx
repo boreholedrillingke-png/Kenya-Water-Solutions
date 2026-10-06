@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { MapPin, Droplets, ArrowRight, Calendar, Layers, Users } from "lucide-react";
+import { MapPin, Droplets, Calendar, Layers } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import PageBanner from "@/components/PageBanner";
 import { useListProjects } from "@workspace/api-client-react";
 
+const PAGE_SIZE = 8;
 const SERVICE_TYPES = ["All", "Borehole Drilling", "Solar Pump Systems", "Pump Installation", "Water Treatment"];
 const CLIENT_TYPES = ["All", "Community", "Agricultural", "Commercial", "Government", "Healthcare", "Education", "Hospitality", "Humanitarian", "Conservation", "Research"];
-const REGIONS = ["All", "Nairobi Metropolitan", "Coast", "Rift Valley", "Nyanza", "Western", "Eastern", "Central", "North Eastern", "North Western"];
 
 const CLIENT_COLORS: Record<string, string> = {
   Community: "bg-green-100 text-green-700",
@@ -23,237 +24,163 @@ const CLIENT_COLORS: Record<string, string> = {
   Research: "bg-gray-100 text-gray-700",
 };
 
+const select =
+  "h-8 rounded-md border border-border bg-background px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40";
+
 export default function Projects() {
   const [serviceType, setServiceType] = useState("All");
   const [clientType, setClientType] = useState("All");
-  const [region, setRegion] = useState("All");
   const [page, setPage] = useState(1);
 
   const { data, isLoading } = useListProjects(
     {
       serviceType: serviceType !== "All" ? serviceType : undefined,
       clientType: clientType !== "All" ? clientType : undefined,
-      county: region !== "All" ? undefined : undefined,
       page,
-      limit: 12,
+      limit: PAGE_SIZE,
     },
-    { query: { queryKey: ["projects", serviceType, clientType, region, page] } }
+    { query: { queryKey: ["projects", serviceType, clientType, page] } }
   );
 
   const projects = data?.items ?? [];
   const total = data?.total ?? 0;
-  const totalPages = Math.ceil(total / 12);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const hasFilters = serviceType !== "All" || clientType !== "All";
 
   function resetFilters() {
     setServiceType("All");
     setClientType("All");
-    setRegion("All");
     setPage(1);
   }
 
-  const hasFilters = serviceType !== "All" || clientType !== "All" || region !== "All";
-
   return (
     <div className="bg-background">
-      {/* Header */}
-      <div
-        className="text-white pt-32 pb-16"
-        style={{ background: "linear-gradient(135deg, hsl(210 60% 18%) 0%, hsl(210 80% 28%) 100%)" }}
+      <PageBanner
+        eyebrow="Our Track Record"
+        title="Completed Projects"
+        description="Boreholes and water systems delivered for homes, farms and institutions across Kenya."
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">Our Track Record</div>
-          <h1 className="text-4xl font-bold mb-4">Completed Projects</h1>
-          <p className="text-white/70 text-lg max-w-2xl leading-relaxed">
-            Over 2,400 boreholes drilled and water systems installed across all 47 counties of Kenya. Browse our portfolio of real completed projects.
-          </p>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 max-w-2xl">
-            {[
-              { label: "Projects Completed", value: "2,400+" },
-              { label: "Counties Covered", value: "47" },
-              { label: "Years Experience", value: "15+" },
-              { label: "Success Rate", value: "98%" },
-            ].map((s) => (
-              <div key={s.label} className="bg-white/10 rounded-xl p-4 text-center">
-                <div className="text-2xl font-bold text-white mb-1">{s.value}</div>
-                <div className="text-xs text-white/60">{s.label}</div>
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-4 gap-2">
+          {[
+            { label: "Projects", value: "2,400+" },
+            { label: "Counties", value: "47" },
+            { label: "Years", value: "15+" },
+            { label: "Success", value: "98%" },
+          ].map((s) => (
+            <div key={s.label} className="rounded-lg bg-white/10 border border-white/15 px-2 py-2.5 text-center">
+              <div className="text-lg font-extrabold text-amber-300 leading-none mb-1">{s.value}</div>
+              <div className="text-[10px] uppercase tracking-wider text-white/65">{s.label}</div>
+            </div>
+          ))}
         </div>
-      </div>
+      </PageBanner>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Filters */}
-        <div className="bg-card border border-border rounded-xl p-5 mb-8 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-foreground">Filter Projects</h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="rounded-2xl border border-border bg-card shadow-sm p-3">
+          {/* Filters + count */}
+          <div className="flex flex-wrap items-center gap-2 mb-3 px-1">
+            <select className={select} value={serviceType} onChange={(e) => { setServiceType(e.target.value); setPage(1); }} aria-label="Service type">
+              {SERVICE_TYPES.map((t) => <option key={t} value={t}>{t === "All" ? "All services" : t}</option>)}
+            </select>
+            <select className={select} value={clientType} onChange={(e) => { setClientType(e.target.value); setPage(1); }} aria-label="Client type">
+              {CLIENT_TYPES.map((t) => <option key={t} value={t}>{t === "All" ? "All clients" : t}</option>)}
+            </select>
             {hasFilters && (
-              <button onClick={resetFilters} className="text-xs text-primary hover:text-primary/70 transition-colors">
-                Clear all filters
-              </button>
+              <button onClick={resetFilters} className="text-xs text-primary hover:text-primary/70 transition-colors">Clear</button>
             )}
+            <span className="ml-auto text-xs text-muted-foreground">
+              {isLoading ? "Loading..." : `Showing ${projects.length} of ${total} projects`}
+            </span>
           </div>
 
-          <div className="space-y-3">
-            <div>
-              <p className="text-xs text-muted-foreground mb-2 font-medium">Service Type</p>
-              <div className="flex flex-wrap gap-2">
-                {SERVICE_TYPES.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => { setServiceType(t); setPage(1); }}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
-                      serviceType === t
-                        ? "bg-primary text-white border-primary"
-                        : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {Array(PAGE_SIZE).fill(0).map((_, i) => (
+                <Card key={i}><CardContent className="p-0">
+                  <Skeleton className="h-24 w-full rounded-t-xl" />
+                  <div className="p-3 space-y-2">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-full" />
+                  </div>
+                </CardContent></Card>
+              ))}
             </div>
-
-            <div>
-              <p className="text-xs text-muted-foreground mb-2 font-medium">Client Type</p>
-              <div className="flex flex-wrap gap-2">
-                {CLIENT_TYPES.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => { setClientType(t); setPage(1); }}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
-                      clientType === t
-                        ? "bg-primary text-white border-primary"
-                        : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
+          ) : projects.length === 0 ? (
+            <div className="text-center py-12">
+              <Droplets className="h-8 w-8 text-muted-foreground/25 mx-auto mb-2" />
+              <h3 className="text-sm font-medium text-foreground mb-1">No projects found</h3>
+              <p className="text-muted-foreground text-xs mb-3">Try adjusting your filters</p>
+              <Button variant="outline" size="sm" onClick={resetFilters}>Clear Filters</Button>
             </div>
-          </div>
-        </div>
-
-        {/* Count */}
-        <p className="text-sm text-muted-foreground mb-6">
-          {isLoading ? "Loading..." : `Showing ${projects.length} of ${total} projects`}
-          {hasFilters && " (filtered)"}
-        </p>
-
-        {/* Projects grid */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array(9).fill(0).map((_, i) => (
-              <Card key={i}><CardContent className="p-0">
-                <Skeleton className="h-48 w-full rounded-t-xl" />
-                <div className="p-5 space-y-2">
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                  <Skeleton className="h-3 w-full" />
-                </div>
-              </CardContent></Card>
-            ))}
-          </div>
-        ) : projects.length === 0 ? (
-          <div className="text-center py-20">
-            <Droplets className="h-12 w-12 text-muted-foreground/25 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-foreground mb-2">No projects found</h3>
-            <p className="text-muted-foreground text-sm mb-4">Try adjusting your filters</p>
-            <Button variant="outline" onClick={resetFilters}>Clear Filters</Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <Link key={project.id} href={`/projects/${project.id}`}>
-                <Card className="h-full group hover:shadow-lg transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
-                  <CardContent className="p-0 flex flex-col h-full">
-                    {/* Image / colour block */}
-                    <div
-                      className="h-44 flex flex-col items-start justify-end p-4 relative overflow-hidden"
-                      style={{ background: "linear-gradient(135deg, hsl(210 60% 22%) 0%, hsl(200 70% 32%) 100%)" }}
-                    >
-                      <div className="absolute inset-0 opacity-20" style={{
-                        backgroundImage: "radial-gradient(circle at 70% 30%, hsl(40 80% 60%) 0%, transparent 60%)",
-                      }} />
-                      {project.featured && (
-                        <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-amber-900 px-2 py-0.5 rounded-full">
-                          Featured
-                        </span>
-                      )}
-                      <div className="relative">
-                        <div className="text-2xl font-bold text-white leading-tight line-clamp-2 group-hover:text-amber-200 transition-colors">
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {projects.map((project) => (
+                <Link key={project.id} href={`/projects/${project.id}`}>
+                  <Card className="h-full group hover:shadow-md transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
+                    <CardContent className="p-0 flex flex-col h-full">
+                      <div
+                        className="h-24 flex items-end p-3 relative overflow-hidden"
+                        style={{ background: "linear-gradient(135deg, hsl(212 70% 20%) 0%, hsl(200 70% 30%) 100%)" }}
+                      >
+                        {project.featured && (
+                          <span className="absolute top-2 right-2 text-[9px] font-bold uppercase tracking-wider bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full">
+                            Featured
+                          </span>
+                        )}
+                        <div className="text-sm font-bold text-white leading-tight line-clamp-2 group-hover:text-amber-200 transition-colors">
                           {project.title}
                         </div>
                       </div>
-                    </div>
 
-                    {/* Details */}
-                    <div className="p-5 flex flex-col flex-1">
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${CLIENT_COLORS[project.clientType] ?? "bg-gray-100 text-gray-700"}`}>
-                          {project.clientType}
-                        </span>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                          {project.serviceType}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-2">
-                        <MapPin className="h-3 w-3 flex-shrink-0" />
-                        <span>{project.town}, {project.county} County</span>
-                      </div>
-
-                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3 flex-1 mb-4">
-                        {project.description}
-                      </p>
-
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground border-t border-border pt-3">
-                        {project.depth && (
-                          <span className="flex items-center gap-1">
-                            <Layers className="h-3 w-3" /> {project.depth}m deep
+                      <div className="p-3 flex flex-col flex-1">
+                        <div className="flex flex-wrap gap-1.5 mb-2">
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${CLIENT_COLORS[project.clientType] ?? "bg-gray-100 text-gray-700"}`}>
+                            {project.clientType}
                           </span>
-                        )}
-                        {project.yield && (
-                          <span className="flex items-center gap-1">
-                            <Droplets className="h-3 w-3" /> {project.yield}
+                          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                            {project.serviceType}
                           </span>
-                        )}
-                        <span className="flex items-center gap-1 ml-auto">
-                          <Calendar className="h-3 w-3" /> {project.completionYear}
-                        </span>
+                        </div>
+                        <div className="flex items-center gap-1 text-[11px] text-muted-foreground mb-1.5">
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{project.town}, {project.county} County</span>
+                        </div>
+                        <p className="text-[11px] text-muted-foreground leading-snug line-clamp-2 flex-1 mb-2">
+                          {project.description}
+                        </p>
+                        <div className="flex items-center gap-3 text-[11px] text-muted-foreground border-t border-border pt-2">
+                          {project.depth && (
+                            <span className="flex items-center gap-1"><Layers className="h-3 w-3" /> {project.depth}m</span>
+                          )}
+                          {project.yield && (
+                            <span className="flex items-center gap-1"><Droplets className="h-3 w-3" /> {project.yield}</span>
+                          )}
+                          <span className="flex items-center gap-1 ml-auto"><Calendar className="h-3 w-3" /> {project.completionYear}</span>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        )}
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center gap-2 mt-10">
-            <Button variant="outline" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</Button>
-            <span className="flex items-center px-4 text-sm text-muted-foreground">Page {page} of {totalPages}</span>
-            <Button variant="outline" size="sm" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next</Button>
-          </div>
-        )}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-3">
+              <Button variant="outline" size="sm" className="h-8 text-xs" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</Button>
+              <span className="px-3 text-xs text-muted-foreground">Page {page} of {totalPages}</span>
+              <Button variant="outline" size="sm" className="h-8 text-xs" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next</Button>
+            </div>
+          )}
+        </div>
 
-        {/* CTA */}
-        <div className="mt-16 rounded-2xl bg-primary/8 border border-primary/20 p-8 sm:p-12 text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-3">Start Your Own Water Project</h2>
-          <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            Join thousands of satisfied clients across Kenya. Get a free hydrogeological assessment and quote for your location.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg">
-              <Link href="/contact">Request a Free Quote</Link>
-            </Button>
-            <a href="tel:+254103400209">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">Call +254 103 400 209</Button>
+        {/* Slim CTA */}
+        <div className="mt-3 rounded-xl bg-primary/8 border border-primary/20 px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span className="text-sm font-semibold text-foreground">Start your own water project</span>
+          <div className="flex gap-2">
+            <Button asChild size="sm" className="h-8 text-xs"><Link href="/contact">Request a Free Quote</Link></Button>
+            <a href="tel:+254762211512">
+              <Button size="sm" variant="outline" className="h-8 text-xs">Call +254 762 211 512</Button>
             </a>
           </div>
         </div>
