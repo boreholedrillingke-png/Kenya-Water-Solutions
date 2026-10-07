@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,10 +16,11 @@ import Contact from "@/pages/Contact";
 import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/not-found";
+import { hydrateCache, persistCache, prefetchSite } from "@/lib/prefetch";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { retry: 1, staleTime: 30000 },
+    queries: { retry: 1, staleTime: 5 * 60 * 1000, gcTime: 30 * 60 * 1000, refetchOnWindowFocus: false },
   },
 });
 
@@ -46,7 +48,14 @@ function Router() {
   );
 }
 
+hydrateCache(queryClient);
+persistCache(queryClient);
+
 function App() {
+  useEffect(() => {
+    prefetchSite(queryClient);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
