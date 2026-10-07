@@ -82,13 +82,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-white/45">
+        <div className="mt-3 pt-2.5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 items-center gap-1 text-center text-white/45">
+          <span className="hidden sm:block" />
           <span>© {new Date().getFullYear()} Kenya Water Solutions. All rights reserved.</span>
           <a
             href="https://www.facebook.com/perfect.borehole.drillers"
             target="_blank"
             rel="noopener noreferrer"
-            className={link}
+            className={`sm:text-right ${link}`}
           >
             Facebook
           </a>
