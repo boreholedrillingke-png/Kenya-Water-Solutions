@@ -1,18 +1,22 @@
 import type { ReactNode } from "react";
+import { IMAGES } from "@/lib/images";
 
 interface PageBannerProps {
   eyebrow: string;
   title: string;
   description: string;
   children?: ReactNode;
+  image?: string;
 }
 
 /** Compact two-column blue banner shared by inner pages. Left: text. Right: page-specific controls. */
-export default function PageBanner({ eyebrow, title, description, children }: PageBannerProps) {
+export default function PageBanner({ eyebrow, title, description, children, image = IMAGES.rig }: PageBannerProps) {
   return (
     <section
       className="relative overflow-hidden text-white"
-      style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}
+      style={{
+        background: `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), url(${image}) center 55% / cover`,
+      }}
     >
       <div
         className="absolute inset-0 opacity-[0.10]"

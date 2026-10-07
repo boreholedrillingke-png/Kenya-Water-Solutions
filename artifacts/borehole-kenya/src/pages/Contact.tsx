@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Clock, MessageSquare, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
+import { IMAGES } from "@/lib/images";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -66,6 +67,7 @@ export default function Contact() {
   return (
     <div className="bg-background">
       <PageBanner
+        image={IMAGES.water}
         eyebrow="Get in Touch"
         title="Contact Us"
         description="Get a free quote, ask a question, or report an emergency. We respond within 24 hours."

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
+import { IMAGES, pickImage } from "@/lib/images";
 import { useListProjects } from "@workspace/api-client-react";
 
 const PAGE_SIZE = 8;
@@ -56,6 +57,7 @@ export default function Projects() {
   return (
     <div className="bg-background">
       <PageBanner
+        image={IMAGES.rig}
         eyebrow="Our Track Record"
         title="Completed Projects"
         description="Boreholes and water systems delivered for homes, farms and institutions across Kenya."
@@ -119,8 +121,10 @@ export default function Projects() {
                   <Card className="h-full group hover:shadow-md transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
                     <CardContent className="p-0 flex flex-col h-full">
                       <div
-                        className="h-24 flex items-end p-3 relative overflow-hidden"
-                        style={{ background: "linear-gradient(135deg, hsl(212 70% 20%) 0%, hsl(200 70% 30%) 100%)" }}
+                        className="h-28 flex items-end p-3 relative overflow-hidden"
+                        style={{
+                          background: `linear-gradient(180deg, hsl(215 70% 8% / .15) 0%, hsl(215 70% 8% / .88) 100%), url(${pickImage(project.serviceType, project.title, project.description)}) center / cover`,
+                        }}
                       >
                         {project.featured && (
                           <span className="absolute top-2 right-2 text-[9px] font-bold uppercase tracking-wider bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full">

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetService, useCreateInquiry } from "@workspace/api-client-react";
+import { pickImage } from "@/lib/images";
 import { formatKES, whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -91,7 +92,7 @@ export default function ServiceDetail() {
   return (
     <div className="bg-background">
       {/* Header */}
-      <div className="text-white pt-[76px] pb-6" style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}>
+      <div className="text-white pt-[76px] pb-6" style={{ background: `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), url(${pickImage(service.name, service.category)}) center 55% / cover` }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/services" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="h-4 w-4" /> All Services

@@ -3,12 +3,19 @@ import { Link } from "wouter";
 import { ArrowRight, CheckCircle, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
+import { IMAGES } from "@/lib/images";
 
 const services = [
   { label: "Drilling", href: "/services" },
   { label: "Surveys", href: "/services" },
   { label: "Pumps", href: "/products" },
   { label: "Solar", href: "/services" },
+];
+
+const tiles = [
+  { title: "Borehole Drilling", text: "Surveyed, drilled, cased and tested.", image: IMAGES.rig, href: "/services" },
+  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.water, href: "/products" },
+  { title: "Solar Pumping", text: "Cut your power bills for good.", image: IMAGES.solar, href: "/services" },
 ];
 
 function QuickQuote() {
@@ -55,9 +62,12 @@ function QuickQuote() {
 
 export default function Home() {
   return (
+    <>
     <div
       className="min-h-[calc(100dvh-64px)] pt-[64px] pb-8 text-white flex items-center"
-      style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}
+      style={{
+        background: `linear-gradient(90deg, hsl(215 70% 9% / .93) 0%, hsl(214 72% 14% / .80) 45%, hsl(212 75% 20% / .35) 100%), url(${IMAGES.rig}) center 60% / cover`,
+      }}
     >
       <div className="w-full max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-5 gap-8 items-center">
         <div className="md:col-span-3">
@@ -97,5 +107,22 @@ export default function Home() {
         </div>
       </div>
     </div>
+
+    {/* What we do */}
+    <section className="bg-background py-8">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {tiles.map((t) => (
+          <Link key={t.title} href={t.href} className="group relative block overflow-hidden rounded-2xl h-44 sm:h-52 shadow-md">
+            <img src={t.image} alt={t.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 35%, hsl(215 70% 8% / .88) 100%)" }} />
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+              <div className="text-base font-bold leading-tight">{t.title}</div>
+              <div className="text-xs text-white/80 mt-0.5">{t.text}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+    </>
   );
 }

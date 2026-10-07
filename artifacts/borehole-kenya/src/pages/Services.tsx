@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useListServices } from "@workspace/api-client-react";
 import { formatKES } from "@/lib/utils";
+import { IMAGES, pickImage } from "@/lib/images";
 
 export default function Services() {
   const { data: services, isLoading } = useListServices(
@@ -29,8 +30,14 @@ export default function Services() {
                 </CardContent></Card>
               ))
             : (services ?? []).map((service) => (
-                <Card key={service.id} className="h-full group hover:shadow-md transition-all border-border" data-testid={`card-service-${service.id}`}>
-                  <CardContent className="p-3.5 flex flex-col h-full">
+                <Card key={service.id} className="h-full group hover:shadow-md transition-all border-border overflow-hidden flex flex-col" data-testid={`card-service-${service.id}`}>
+                  <img
+                    src={pickImage(service.name, service.category)}
+                    alt={service.name}
+                    loading="lazy"
+                    className="h-24 w-full object-cover"
+                  />
+                  <CardContent className="p-3.5 flex flex-col flex-1">
                     <h2 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                       {service.name}
                     </h2>
@@ -70,8 +77,9 @@ export default function Services() {
 
           {/* Water purification (quote based) */}
           {!isLoading && (
-            <Card className="lg:col-span-2 lg:col-start-1 sm:col-span-2 border-border" data-testid="card-service-purification">
-              <CardContent className="p-3.5 flex flex-col h-full">
+            <Card className="lg:col-span-2 lg:col-start-1 sm:col-span-2 border-border overflow-hidden flex flex-col" data-testid="card-service-purification">
+              <img src={IMAGES.water} alt="Water purification" loading="lazy" className="h-24 w-full object-cover object-[center_35%]" />
+              <CardContent className="p-3.5 flex flex-col flex-1">
                 <h2 className="text-sm font-semibold text-foreground mb-1">Water Purification</h2>
                 <p className="text-xs text-muted-foreground leading-snug mb-2">
                   Filtration and treatment systems that make your water safe and clean, matched to your water test results.

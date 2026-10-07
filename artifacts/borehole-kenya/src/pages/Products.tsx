@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageBanner from "@/components/PageBanner";
+import { IMAGES } from "@/lib/images";
 import {
   useListProducts,
   useListProductCategories,
@@ -52,6 +53,7 @@ export default function Products() {
   return (
     <div className="bg-background">
       <PageBanner
+        image={IMAGES.solar}
         eyebrow="Equipment Store"
         title="Products & Equipment"
         description="Pumps, solar systems, pipes, tanks and accessories from trusted brands."
