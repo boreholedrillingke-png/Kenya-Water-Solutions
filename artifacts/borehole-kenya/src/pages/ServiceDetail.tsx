@@ -60,7 +60,7 @@ export default function ServiceDetail() {
 
   if (isLoading) {
     return (
-      <div className="bg-background pt-[108px] pb-8">
+      <div className="bg-background pt-[80px] pb-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-8 w-48 mb-8" />
           <Skeleton className="h-12 w-2/3 mb-4" />
@@ -79,7 +79,7 @@ export default function ServiceDetail() {
 
   if (!service) {
     return (
-      <div className="min-h-[60vh] bg-background pt-28 flex items-center justify-center">
+      <div className="min-h-[60vh] bg-background pt-20 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Service Not Found</h1>
           <Button asChild><Link href="/services">Back to Services</Link></Button>
@@ -91,7 +91,7 @@ export default function ServiceDetail() {
   return (
     <div className="bg-background">
       {/* Header */}
-      <div className="text-white pt-[104px] pb-6" style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}>
+      <div className="text-white pt-[76px] pb-6" style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/services" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="h-4 w-4" /> All Services

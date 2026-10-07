@@ -24,7 +24,7 @@ export default function PageBanner({ eyebrow, title, description, children }: Pa
           WebkitMaskImage: "radial-gradient(ellipse at 20% 50%, black 0%, transparent 70%)",
         }}
       />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[108px] pb-5 grid md:grid-cols-2 gap-4 md:gap-8 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[80px] pb-5 grid md:grid-cols-2 gap-4 md:gap-8 items-center">
         <div>
           <div className="text-[11px] uppercase tracking-widest text-amber-300 font-semibold mb-1">{eyebrow}</div>
           <h1 className="text-2xl sm:text-3xl font-extrabold leading-tight mb-1">{title}</h1>

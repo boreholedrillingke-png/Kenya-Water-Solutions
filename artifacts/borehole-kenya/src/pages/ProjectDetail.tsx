@@ -27,7 +27,7 @@ export default function ProjectDetail() {
 
   if (isLoading) {
     return (
-      <div className="bg-background pt-[108px] pb-8">
+      <div className="bg-background pt-[80px] pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-6 w-32 mb-8" />
           <Skeleton className="h-64 w-full rounded-xl mb-8" />
@@ -42,7 +42,7 @@ export default function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-[60vh] bg-background pt-28 flex items-center justify-center">
+      <div className="min-h-[60vh] bg-background pt-20 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
           <Button asChild><Link href="/projects">Browse Projects</Link></Button>
@@ -55,7 +55,7 @@ export default function ProjectDetail() {
     <div className="bg-background">
       {/* Hero */}
       <div
-        className="text-white pt-[104px] pb-6"
+        className="text-white pt-[76px] pb-6"
         style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

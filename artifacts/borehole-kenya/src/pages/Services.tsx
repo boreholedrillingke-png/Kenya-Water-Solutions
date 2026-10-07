@@ -14,7 +14,7 @@ export default function Services() {
 
   return (
     <div className="bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[104px] pb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[76px] pb-6">
         <h1 className="sr-only">Our Services</h1>
 
         {/* Cards in a row share one height */}

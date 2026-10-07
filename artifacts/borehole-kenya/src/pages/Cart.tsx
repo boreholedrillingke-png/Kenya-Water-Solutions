@@ -46,7 +46,7 @@ export default function Cart() {
 
   if (isLoading) {
     return (
-      <div className="bg-background pt-[108px] pb-8">
+      <div className="bg-background pt-[80px] pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-8 w-32 mb-8" />
           <div className="space-y-4">
@@ -62,7 +62,7 @@ export default function Cart() {
   const isEmpty = !cart || cart.items.length === 0;
 
   return (
-    <div className="bg-background pt-[108px] pb-8">
+    <div className="bg-background pt-[80px] pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
