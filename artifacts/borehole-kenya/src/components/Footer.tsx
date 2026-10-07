@@ -34,7 +34,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Quick Links</div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Quick Links</div>
             <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {quickLinks.map((l) => (
                 <li key={l.label}><Link href={l.href} className={link}>{l.label}</Link></li>
@@ -44,7 +44,7 @@ export default function Footer() {
 
           {/* Services */}
           <div className="hidden sm:block">
-            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Services</div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Services</div>
             <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {services.map((s) => (
                 <li key={s}><Link href="/services" className={link}>{s}</Link></li>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="col-span-1">
-            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Contact</div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Contact</div>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-1.5">
               <li>
                 <a href="tel:+254762211512" className={`flex items-center gap-1.5 ${link}`}>
