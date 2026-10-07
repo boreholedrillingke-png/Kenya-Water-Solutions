@@ -17,8 +17,8 @@ const link = "hover:text-white transition-colors";
 export default function Footer() {
   return (
     <footer className="shrink-0 bg-slate-950 text-white/70 text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-3">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2.5">
+        <div className="grid grid-cols-2 md:grid-cols-[1.1fr_1fr_1.3fr_1.7fr] gap-x-6 gap-y-4">
           {/* Brand */}
           <div className="hidden md:block">
             <div className="flex items-center gap-2 mb-2">
@@ -27,15 +27,15 @@ export default function Footer() {
               </div>
               <span className="text-sm font-bold text-white">Kenya Water Solutions</span>
             </div>
-            <p className="leading-relaxed text-white/60 max-w-[16rem]">
-              Borehole drilling, pumps, solar water systems and purification for homes, farms and institutions across Kenya.
+            <p className="leading-relaxed text-white/60 max-w-[15rem]">
+              Borehole drilling, pumps, solar and water purification across Kenya.
             </p>
           </div>
 
           {/* Quick links */}
           <div>
             <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Quick Links</div>
-            <ul className="space-y-1">
+            <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {quickLinks.map((l) => (
                 <li key={l.label}><Link href={l.href} className={link}>{l.label}</Link></li>
               ))}
@@ -45,7 +45,7 @@ export default function Footer() {
           {/* Services */}
           <div className="hidden sm:block">
             <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Services</div>
-            <ul className="space-y-1">
+            <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {services.map((s) => (
                 <li key={s}><Link href="/services" className={link}>{s}</Link></li>
               ))}
@@ -55,13 +55,13 @@ export default function Footer() {
           {/* Contact */}
           <div className="col-span-1">
             <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Contact</div>
-            <ul className="space-y-1.5">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-1.5">
               <li>
                 <a href="tel:+254762211512" className={`flex items-center gap-1.5 ${link}`}>
                   <Phone className="h-3 w-3 shrink-0" /> +254 762 211 512
                 </a>
               </li>
-              <li>
+              <li className="hidden md:block">
                 <a
                   href={whatsappLink("Hello, I'd like to inquire about your borehole services.")}
                   target="_blank"
@@ -71,18 +71,18 @@ export default function Footer() {
                   <MessageCircle className="h-3 w-3 shrink-0" /> WhatsApp us
                 </a>
               </li>
-              <li>
+              <li className="md:col-span-2">
                 <a href="mailto:sabwaterdrillingcompany@gmail.com" className={`flex items-start gap-1.5 break-all ${link}`}>
                   <Mail className="h-3 w-3 shrink-0 mt-0.5" /> sabwaterdrillingcompany@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-1.5"><MapPin className="h-3 w-3 shrink-0" /> Nairobi, Kenya</li>
-              <li className="hidden sm:flex items-center gap-1.5"><Clock className="h-3 w-3 shrink-0" /> Mon–Sat 7am–6pm · Emergency 24/7</li>
+              <li className="hidden md:flex items-center gap-1.5"><Clock className="h-3 w-3 shrink-0" /> Mon–Sat 7am–6pm</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-white/45">
+        <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-white/45">
           <span>© {new Date().getFullYear()} Kenya Water Solutions. All rights reserved.</span>
           <a
             href="https://www.facebook.com/perfect.borehole.drillers"
