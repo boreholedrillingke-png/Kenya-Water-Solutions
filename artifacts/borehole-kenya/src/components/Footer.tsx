@@ -1,32 +1,97 @@
 import { Link } from "wouter";
-import { Phone, Mail, MessageCircle } from "lucide-react";
+import { Phone, Mail, MessageCircle, MapPin, Clock, Droplets } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
+
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Products", href: "/products" },
+  { label: "Projects", href: "/projects" },
+  { label: "Contact", href: "/contact" },
+];
+
+const services = ["Borehole Drilling", "Hydrogeological Surveys", "Test Pumping", "Pump Installation", "Water Purification"];
+
+const link = "hover:text-white transition-colors";
 
 export default function Footer() {
   return (
     <footer className="shrink-0 bg-slate-950 text-white/70 text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-          <a href="tel:+254762211512" className="flex items-center gap-1.5 hover:text-white transition-colors">
-            <Phone className="h-3 w-3" /> +254 762 211 512
-          </a>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
+          {/* Brand */}
+          <div className="hidden md:block">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
+                <Droplets className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-sm font-bold text-white">Kenya Water Solutions</span>
+            </div>
+            <p className="leading-relaxed text-white/60 max-w-[16rem]">
+              Borehole drilling, pumps, solar water systems and purification for homes, farms and institutions across Kenya.
+            </p>
+          </div>
+
+          {/* Quick links */}
+          <div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Quick Links</div>
+            <ul className="space-y-1">
+              {quickLinks.map((l) => (
+                <li key={l.label}><Link href={l.href} className={link}>{l.label}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div className="hidden sm:block">
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Services</div>
+            <ul className="space-y-1">
+              {services.map((s) => (
+                <li key={s}><Link href="/services" className={link}>{s}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="col-span-1">
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2">Contact</div>
+            <ul className="space-y-1.5">
+              <li>
+                <a href="tel:+254762211512" className={`flex items-center gap-1.5 ${link}`}>
+                  <Phone className="h-3 w-3 shrink-0" /> +254 762 211 512
+                </a>
+              </li>
+              <li>
+                <a
+                  href={whatsappLink("Hello, I'd like to inquire about your borehole services.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-1.5 ${link}`}
+                >
+                  <MessageCircle className="h-3 w-3 shrink-0" /> WhatsApp us
+                </a>
+              </li>
+              <li>
+                <a href="mailto:sabwaterdrillingcompany@gmail.com" className={`flex items-start gap-1.5 break-all ${link}`}>
+                  <Mail className="h-3 w-3 shrink-0 mt-0.5" /> sabwaterdrillingcompany@gmail.com
+                </a>
+              </li>
+              <li className="flex items-center gap-1.5"><MapPin className="h-3 w-3 shrink-0" /> Nairobi, Kenya</li>
+              <li className="hidden sm:flex items-center gap-1.5"><Clock className="h-3 w-3 shrink-0" /> Mon–Sat 7am–6pm · Emergency 24/7</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-4 pt-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-white/45">
+          <span>© {new Date().getFullYear()} Kenya Water Solutions. All rights reserved.</span>
           <a
-            href={whatsappLink("Hello, I'd like to inquire about your borehole services.")}
+            href="https://www.facebook.com/perfect.borehole.drillers"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white transition-colors"
+            className={link}
           >
-            <MessageCircle className="h-3 w-3" /> WhatsApp
+            Facebook
           </a>
-          <a href="mailto:sabwaterdrillingcompany@gmail.com" className="hidden md:flex items-center gap-1.5 hover:text-white transition-colors">
-            <Mail className="h-3 w-3" /> sabwaterdrillingcompany@gmail.com
-          </a>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link href="/services" className="hover:text-white transition-colors">Services</Link>
-          <Link href="/products" className="hover:text-white transition-colors">Products</Link>
-          <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
-          <span className="text-white/40">© {new Date().getFullYear()} Kenya Water Solutions</span>
         </div>
       </div>
     </footer>

@@ -92,10 +92,10 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="rounded-2xl border border-border bg-card shadow-sm p-3">
           {/* Info row */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-3">
             {contactInfo.map((item) => {
               const inner = (
-                <div className="flex items-center gap-3 rounded-xl border border-border bg-background p-3 h-full hover:border-primary/40 transition-colors">
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 h-full hover:border-primary/40 transition-colors">
                   <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <item.icon className="h-4 w-4 text-primary" />
                   </div>

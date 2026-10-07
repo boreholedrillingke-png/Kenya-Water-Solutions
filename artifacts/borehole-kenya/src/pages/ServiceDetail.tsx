@@ -60,7 +60,7 @@ export default function ServiceDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background pt-28 pb-16">
+      <div className="bg-background pt-[108px] pb-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-8 w-48 mb-8" />
           <Skeleton className="h-12 w-2/3 mb-4" />
@@ -79,7 +79,7 @@ export default function ServiceDetail() {
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-background pt-28 flex items-center justify-center">
+      <div className="min-h-[60vh] bg-background pt-28 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Service Not Found</h1>
           <Button asChild><Link href="/services">Back to Services</Link></Button>
@@ -91,28 +91,28 @@ export default function ServiceDetail() {
   return (
     <div className="bg-background">
       {/* Header */}
-      <div className="bg-foreground text-white pt-32 pb-12">
+      <div className="text-white pt-[104px] pb-6" style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/services" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm mb-6 transition-colors">
+          <Link href="/services" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="h-4 w-4" /> All Services
           </Link>
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/20 px-3 py-1 rounded-full mb-3 inline-block">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-amber-300 bg-white/10 px-2.5 py-0.5 rounded-full mb-2 inline-block">
                 {service.category}
               </span>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">{service.name}</h1>
-              <p className="text-white/70 text-lg max-w-2xl">{service.shortDescription}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{service.name}</h1>
+              <p className="text-white/75 text-sm sm:text-base max-w-2xl">{service.shortDescription}</p>
             </div>
             {service.priceFrom && (
-              <div className="bg-white/10 rounded-xl px-6 py-4 flex-shrink-0 text-right">
+              <div className="bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 flex-shrink-0 text-left sm:text-right">
                 <div className="text-xs text-white/50 mb-1">Starting from</div>
-                <div className="text-2xl font-bold text-white">{formatKES(service.priceFrom)}</div>
+                <div className="text-xl font-bold text-amber-300">{formatKES(service.priceFrom)}</div>
                 {service.priceUnit && <div className="text-xs text-white/50">{service.priceUnit}</div>}
               </div>
             )}
           </div>
-          <div className="flex flex-wrap gap-4 mt-6">
+          <div className="flex flex-wrap gap-4 mt-3">
             {service.duration && (
               <div className="flex items-center gap-1.5 text-sm text-white/60">
                 <Clock className="h-4 w-4" /> {service.duration}
@@ -122,8 +122,8 @@ export default function ServiceDetail() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Description */}

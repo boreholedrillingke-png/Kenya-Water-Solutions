@@ -32,7 +32,7 @@ export default function ProductDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background pt-28 pb-16">
+      <div className="bg-background pt-[108px] pb-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-6 w-32 mb-8" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -51,7 +51,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-background pt-28 flex items-center justify-center">
+      <div className="min-h-[60vh] bg-background pt-28 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
           <Button asChild><Link href="/products">Browse Products</Link></Button>
@@ -64,7 +64,7 @@ export default function ProductDetail() {
   const specs = product.specifications ?? {};
 
   return (
-    <div className="min-h-screen bg-background pt-28 pb-16">
+    <div className="bg-background pt-[108px] pb-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <Link href="/products" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm mb-8 transition-colors">

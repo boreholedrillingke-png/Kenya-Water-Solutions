@@ -46,7 +46,7 @@ export default function Cart() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background pt-28 pb-16">
+      <div className="bg-background pt-[108px] pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-8 w-32 mb-8" />
           <div className="space-y-4">
@@ -62,10 +62,10 @@ export default function Cart() {
   const isEmpty = !cart || cart.items.length === 0;
 
   return (
-    <div className="min-h-screen bg-background pt-28 pb-16">
+    <div className="bg-background pt-[108px] pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-4">
           <Link href="/products" className="text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </Link>
@@ -76,7 +76,7 @@ export default function Cart() {
         </div>
 
         {isEmpty ? (
-          <div className="text-center py-20">
+          <div className="text-center py-12">
             <ShoppingCart className="h-16 w-16 text-muted-foreground/25 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-foreground mb-2">Your cart is empty</h2>
             <p className="text-muted-foreground mb-8">Browse our products and add equipment to your cart.</p>

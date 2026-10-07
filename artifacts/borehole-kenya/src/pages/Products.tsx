@@ -112,7 +112,7 @@ export default function Products() {
           )}
 
           {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
               {Array(PAGE_SIZE).fill(0).map((_, i) => (
                 <Card key={i}><CardContent className="p-3">
                   <Skeleton className="h-28 w-full rounded-lg mb-2" />
@@ -130,12 +130,12 @@ export default function Products() {
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
               {(products?.items ?? []).map((product) => (
                 <Card key={product.id} className="group hover:shadow-md transition-all flex flex-col overflow-hidden" data-testid={`card-product-${product.id}`}>
                   <CardContent className="p-0 flex flex-col h-full">
                     <Link href={`/products/${product.id}`} className="block">
-                      <div className="bg-muted h-28 flex items-center justify-center overflow-hidden">
+                      <div className="bg-muted h-24 sm:h-28 flex items-center justify-center overflow-hidden">
                         {product.imageUrl ? (
                           <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
                         ) : (
@@ -146,8 +146,8 @@ export default function Products() {
                       </div>
                     </Link>
 
-                    <div className="p-3 flex flex-col flex-1">
-                      <div className="flex items-start justify-between gap-1 mb-1">
+                    <div className="p-2.5 sm:p-3 flex flex-col flex-1">
+                      <div className="flex flex-wrap items-start justify-between gap-1 mb-1">
                         <span className="text-[11px] text-muted-foreground">{product.category}</span>
                         {product.inStock ? (
                           <span className="text-[10px] font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">In Stock</span>
@@ -163,21 +163,21 @@ export default function Products() {
                       {product.brand && <p className="text-[11px] text-muted-foreground mb-1">{product.brand}</p>}
 
                       <div className="flex items-baseline gap-2 mb-2 mt-auto">
-                        <span className="text-sm font-bold text-primary">{formatKES(product.price)}</span>
+                        <span className="text-sm font-bold text-primary whitespace-nowrap">{formatKES(product.price)}</span>
                         {product.comparePrice && (
-                          <span className="text-[11px] text-muted-foreground line-through">{formatKES(product.comparePrice)}</span>
+                          <span className="hidden sm:inline text-[11px] text-muted-foreground line-through whitespace-nowrap">{formatKES(product.comparePrice)}</span>
                         )}
                       </div>
 
                       <div className="flex gap-1.5">
                         <Button
                           size="sm"
-                          className="flex-1 h-8 text-xs"
+                          className="flex-1 h-8 text-xs px-2"
                           disabled={!product.inStock || addToCart.isPending}
                           onClick={() => handleAddToCart(product.id, product.name)}
                           data-testid={`button-add-cart-${product.id}`}
                         >
-                          <ShoppingCart className="h-3.5 w-3.5 mr-1.5" /> Add to Cart
+                          <ShoppingCart className="h-3.5 w-3.5 mr-1.5 hidden sm:block" /> Add to Cart
                         </Button>
                         {product.whatsappOrderEnabled && (
                           <a

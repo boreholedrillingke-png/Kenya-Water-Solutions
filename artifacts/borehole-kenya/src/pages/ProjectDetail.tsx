@@ -27,7 +27,7 @@ export default function ProjectDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background pt-28 pb-16">
+      <div className="bg-background pt-[108px] pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-6 w-32 mb-8" />
           <Skeleton className="h-64 w-full rounded-xl mb-8" />
@@ -42,7 +42,7 @@ export default function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-background pt-28 flex items-center justify-center">
+      <div className="min-h-[60vh] bg-background pt-28 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
           <Button asChild><Link href="/projects">Browse Projects</Link></Button>
@@ -55,15 +55,15 @@ export default function ProjectDetail() {
     <div className="bg-background">
       {/* Hero */}
       <div
-        className="text-white pt-32 pb-14"
-        style={{ background: "linear-gradient(135deg, hsl(210 60% 18%) 0%, hsl(200 70% 30%) 100%)" }}
+        className="text-white pt-[104px] pb-6"
+        style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/projects" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm mb-6 transition-colors">
+          <Link href="/projects" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="h-4 w-4" /> All Projects
           </Link>
 
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-3">
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${CLIENT_COLORS[project.clientType] ?? "bg-white/20 text-white"}`}>
               {project.clientType}
             </span>
@@ -77,7 +77,7 @@ export default function ProjectDetail() {
             )}
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">{project.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
 
           <div className="flex flex-wrap gap-5 text-sm text-white/70">
             <span className="flex items-center gap-1.5">
@@ -96,7 +96,7 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Key stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
           {[
