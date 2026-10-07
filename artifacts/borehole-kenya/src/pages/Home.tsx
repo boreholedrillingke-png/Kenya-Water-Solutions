@@ -56,7 +56,7 @@ function QuickQuote() {
 export default function Home() {
   return (
     <div
-      className="h-full overflow-hidden text-white flex items-center"
+      className="min-h-[calc(100dvh-92px)] pt-[92px] pb-8 text-white flex items-center"
       style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 22%) 55%, hsl(200 70% 30%) 100%)" }}
     >
       <div className="w-full max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-5 gap-8 items-center">
