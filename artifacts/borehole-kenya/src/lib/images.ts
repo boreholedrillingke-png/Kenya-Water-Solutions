@@ -6,7 +6,6 @@ export const IMAGES = {
   water: `${base}images/service-drilling.webp`,
   // services
   drilling: `${base}images/drilling-rig.webp`,
-  crew: `${base}images/drill-crew.webp`,
   survey: `${base}images/survey.webp`,
   testPumping: `${base}images/test-pumping.webp`,
   pumpInstall: `${base}images/pump-install.webp`,
@@ -30,16 +29,9 @@ export function pickImage(...texts: (string | undefined | null)[]): string {
   return IMAGES.drilling;
 }
 
-/** Drilling projects alternate between two real field photos so the grid is not repetitive. */
-export function pickProjectImage(id: number, ...texts: (string | undefined | null)[]): string {
-  const img = pickImage(...texts);
-  return img === IMAGES.drilling && id % 2 === 0 ? IMAGES.crew : img;
-}
-
 /** Where to focus when a photo is cropped, so the important part stays in view. */
 const POSITIONS: Record<string, string> = {
   [IMAGES.drilling]: "center 80%", // branded truck and driller
-  [IMAGES.crew]: "center 55%",
   [IMAGES.survey]: "center 55%",
   [IMAGES.testPumping]: "center 35%",
   [IMAGES.pumpInstall]: "center 40%", // hands on the pump
@@ -56,6 +48,9 @@ export function imagePosition(src: string): string {
 }
 
 /** Wide header background: the photo fills the width under a blue wash. */
-export function bannerBackground(src: string): string {
-  return `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), url(${src}) ${imagePosition(src)} / cover`;
+export function bannerBackground(src: string, position?: string): string {
+  return `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), url(${src}) ${position ?? imagePosition(src)} / cover`;
 }
+
+/** Header used when a project has no photo yet. */
+export const PLAIN_BANNER = "linear-gradient(135deg, hsl(215 70% 10%) 0%, hsl(214 72% 16%) 50%, hsl(212 75% 24%) 100%)";

@@ -5,8 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
-import { IMAGES, pickProjectImage } from "@/lib/images";
-import BlendedPhoto from "@/components/BlendedPhoto";
+import { IMAGES } from "@/lib/images";
+import { projectPhoto } from "@/lib/projectPhotos";
 import { useListProjects } from "@workspace/api-client-react";
 
 const PAGE_SIZE = 8;
@@ -122,14 +122,22 @@ export default function Projects() {
                   <Card className="h-full group hover:shadow-md transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
                     <CardContent className="p-0 flex flex-col h-full">
                       <div className="relative aspect-[3/2] overflow-hidden">
-                        <div className="absolute inset-0">
-                          <BlendedPhoto
-                            src={pickProjectImage(project.id, project.serviceType, project.title)}
-                            alt=""
-                            className="h-full"
-                            fadeBottom={false}
-                          />
-                        </div>
+                        {(() => {
+                          const photo = projectPhoto(project.title);
+                          return photo ? (
+                            <img
+                              src={photo.src}
+                              alt=""
+                              loading="lazy"
+                              className="absolute inset-0 h-full w-full object-cover"
+                              style={{ objectPosition: photo.pos }}
+                            />
+                          ) : (
+                            <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(212 75% 24%) 60%, hsl(200 70% 32%) 100%)" }}>
+                              <Droplets className="absolute right-3 top-3 h-14 w-14 text-white/10" />
+                            </div>
+                          );
+                        })()}
                         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(215 70% 8% / .1) 0%, hsl(215 70% 8% / .88) 100%)" }} />
                         {project.featured && (
                           <span className="absolute top-2 right-2 text-[9px] font-bold uppercase tracking-wider bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full">

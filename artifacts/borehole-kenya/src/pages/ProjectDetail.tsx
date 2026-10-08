@@ -1,4 +1,5 @@
-import { pickImage, bannerBackground } from "@/lib/images";
+import { bannerBackground, PLAIN_BANNER } from "@/lib/images";
+import { projectPhoto } from "@/lib/projectPhotos";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, MapPin, Droplets, Calendar, Layers, Clock, Users, Target, Lightbulb, TrendingUp, MessageSquare, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -57,7 +58,7 @@ export default function ProjectDetail() {
       {/* Hero */}
       <div
         className="relative overflow-hidden text-white pt-[76px] pb-6"
-        style={{ background: bannerBackground(pickImage(project.serviceType, project.title)) }}
+        style={{ background: projectPhoto(project.title) ? bannerBackground(projectPhoto(project.title)!.src, projectPhoto(project.title)!.pos) : PLAIN_BANNER }}
       >
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/projects" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
