@@ -29,6 +29,8 @@ const PHOTOS: Record<string, ProjectPhoto> = {
   "kitui arid lands community water": { src: p("kitui"), pos: "center 35%" },
   "meru county referral hospital": { src: p("meru"), pos: "center 40%" },
   "embu university college water supply": { src: p("embu"), pos: "center 62%" },
+  "garissa refugee camp emergency water": { src: p("garissa"), pos: "center 50%" },
+  "isiolo town water supply augmentation": { src: p("isiolo"), pos: "center 40%" },
   "taita-taveta sisal estate": { src: `${base}images/drill-crew.webp`, pos: "center 55%" },
   // other service types
   "ngong hills flower farm irrigation": { src: IMAGES.solarPump, pos: "65% 50%" },
