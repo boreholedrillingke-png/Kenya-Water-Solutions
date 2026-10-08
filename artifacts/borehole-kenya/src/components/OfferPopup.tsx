@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, Check, MessageCircle, BadgePercent } from "lucide-react";
 import { IMAGES } from "@/lib/images";
+import BlendedPhoto from "@/components/BlendedPhoto";
 import { formatKES, whatsappLink } from "@/lib/utils";
 
 // Edit these two numbers to change the offer.
@@ -46,14 +47,8 @@ export default function OfferPopup() {
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           {/* Photo */}
-          <div className="relative h-40 sm:h-48">
-            <img
-              src={IMAGES.survey}
-              alt="Geologist carrying out a hydrogeological survey next to a drilling rig"
-              className="h-full w-full object-cover"
-              style={{ objectPosition: "center 58%" }}
-            />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(215 70% 8% / .25) 0%, transparent 40%, hsl(215 70% 8% / .55) 100%)" }} />
+          <div className="relative">
+            <BlendedPhoto src={IMAGES.survey} alt="Geologist carrying out a hydrogeological survey next to a drilling rig" className="h-52 sm:h-60" />
             <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-900 shadow">
               <BadgePercent className="h-3.5 w-3.5" /> Today's offer
             </span>

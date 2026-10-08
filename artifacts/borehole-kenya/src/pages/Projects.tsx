@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
 import { IMAGES, pickImage } from "@/lib/images";
+import BlendedPhoto from "@/components/BlendedPhoto";
 import { useListProjects } from "@workspace/api-client-react";
 
 const PAGE_SIZE = 8;
@@ -120,18 +121,22 @@ export default function Projects() {
                 <Link key={project.id} href={`/projects/${project.id}`}>
                   <Card className="h-full group hover:shadow-md transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
                     <CardContent className="p-0 flex flex-col h-full">
-                      <div
-                        className="h-28 flex items-end p-3 relative overflow-hidden"
-                        style={{
-                          background: `linear-gradient(180deg, hsl(215 70% 8% / .15) 0%, hsl(215 70% 8% / .88) 100%), url(${pickImage(project.serviceType, project.title, project.description)}) center / cover`,
-                        }}
-                      >
+                      <div className="relative h-28 overflow-hidden">
+                        <div className="absolute inset-0">
+                          <BlendedPhoto
+                            src={pickImage(project.serviceType, project.title, project.description)}
+                            alt=""
+                            className="h-28"
+                            fadeBottom={false}
+                          />
+                        </div>
+                        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(215 70% 8% / .1) 0%, hsl(215 70% 8% / .88) 100%)" }} />
                         {project.featured && (
                           <span className="absolute top-2 right-2 text-[9px] font-bold uppercase tracking-wider bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full">
                             Featured
                           </span>
                         )}
-                        <div className="text-sm font-bold text-white leading-tight line-clamp-2 group-hover:text-amber-200 transition-colors">
+                        <div className="absolute inset-x-0 bottom-0 p-3 text-sm font-bold text-white leading-tight line-clamp-2 group-hover:text-amber-200 transition-colors">
                           {project.title}
                         </div>
                       </div>

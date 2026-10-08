@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { IMAGES } from "@/lib/images";
+import { IMAGES, bannerBackground } from "@/lib/images";
 
 interface PageBannerProps {
   eyebrow: string;
@@ -14,9 +14,7 @@ export default function PageBanner({ eyebrow, title, description, children, imag
   return (
     <section
       className="relative overflow-hidden text-white"
-      style={{
-        background: `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), url(${image}) center 55% / cover`,
-      }}
+      style={{ background: bannerBackground(image) }}
     >
       <div
         className="absolute inset-0 opacity-[0.10]"
