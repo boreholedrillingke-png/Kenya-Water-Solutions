@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useListServices } from "@workspace/api-client-react";
 import { formatKES } from "@/lib/utils";
-import { IMAGES, pickImage } from "@/lib/images";
+import { IMAGES, pickImage, imagePosition } from "@/lib/images";
 
 export default function Services() {
   const { data: services, isLoading } = useListServices(
@@ -36,6 +36,7 @@ export default function Services() {
                     alt={service.name}
                     loading="lazy"
                     className="h-24 w-full object-cover"
+                    style={{ objectPosition: imagePosition(pickImage(service.name, service.category)) }}
                   />
                   <CardContent className="p-3.5 flex flex-col flex-1">
                     <h2 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">

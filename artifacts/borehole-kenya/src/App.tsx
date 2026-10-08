@@ -17,6 +17,7 @@ import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/not-found";
 import { hydrateCache, persistCache, prefetchSite } from "@/lib/prefetch";
+import OfferPopup from "@/components/OfferPopup";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +45,7 @@ function Router() {
       </main>
       <Footer />
       <WhatsAppButton />
+      <OfferPopup />
     </div>
   );
 }

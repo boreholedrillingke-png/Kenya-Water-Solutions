@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Phone, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { IMAGES } from "@/lib/images";
 
-const services = [
-  { label: "Drilling", href: "/services" },
-  { label: "Surveys", href: "/services" },
-  { label: "Pumps", href: "/products" },
-  { label: "Solar", href: "/services" },
+const quickLinks = [
+  { label: "Surveys", href: "/services", icon: Radar, from: "#22d3ee", to: "#0369a1" },
+  { label: "Drilling", href: "/services", icon: Drill, from: "#fb923c", to: "#c2410c" },
+  { label: "Pumps", href: "/products", icon: Gauge, from: "#818cf8", to: "#4338ca" },
+  { label: "Solar", href: "/services", icon: Sun, from: "#fde047", to: "#d97706" },
+  { label: "Water Purification", href: "/services", icon: FlaskConical, from: "#34d399", to: "#047857" },
 ];
 
 const tiles = [
@@ -93,10 +94,21 @@ export default function Home() {
             ))}
           </ul>
 
-          <div className="flex flex-wrap gap-2">
-            {services.map((s) => (
-              <Link key={s.label} href={s.href} className="rounded-full border border-white/25 px-3.5 py-1 text-xs sm:text-sm hover:bg-white/10 transition-colors">
-                {s.label}
+          <div className="flex flex-wrap gap-2.5">
+            {quickLinks.map((q) => (
+              <Link
+                key={q.label}
+                href={q.href}
+                data-testid={`button-quick-${q.label.toLowerCase().replace(/\s+/g, "-")}`}
+                className="group inline-flex items-center gap-2 rounded-xl bg-white py-1.5 pl-1.5 pr-3.5 text-xs sm:text-sm font-semibold text-slate-800 ring-1 ring-black/5 shadow-[0_3px_0_0_rgba(15,23,42,.28),0_10px_18px_-8px_rgba(0,0,0,.55)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_5px_0_0_rgba(15,23,42,.28),0_14px_22px_-8px_rgba(0,0,0,.6)] active:translate-y-[2px] active:shadow-[0_1px_0_0_rgba(15,23,42,.28),0_4px_8px_-4px_rgba(0,0,0,.5)]"
+              >
+                <span
+                  className="flex h-7 w-7 items-center justify-center rounded-lg text-white ring-1 ring-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,.55),0_2px_4px_rgba(0,0,0,.25)] transition-transform duration-150 group-hover:scale-110"
+                  style={{ background: `linear-gradient(145deg, ${q.from}, ${q.to})` }}
+                >
+                  <q.icon className="h-4 w-4" strokeWidth={2.4} />
+                </span>
+                {q.label}
               </Link>
             ))}
           </div>
