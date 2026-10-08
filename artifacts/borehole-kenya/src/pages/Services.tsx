@@ -32,7 +32,7 @@ export default function Services() {
               ))
             : (services ?? []).map((service) => (
                 <Card key={service.id} className="h-full group hover:shadow-md transition-all border-border overflow-hidden flex flex-col" data-testid={`card-service-${service.id}`}>
-                  <BlendedPhoto src={pickImage(service.name, service.category)} alt={service.name} className="h-36" />
+                  <BlendedPhoto src={pickImage(service.name, service.category)} alt={service.name} className="aspect-[4/3]" />
                   <CardContent className="p-3.5 flex flex-col flex-1">
                     <h2 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                       {service.name}
@@ -73,14 +73,16 @@ export default function Services() {
 
           {/* Water purification (quote based) */}
           {!isLoading && (
-            <Card className="lg:col-span-2 lg:col-start-1 sm:col-span-2 border-border overflow-hidden flex flex-col" data-testid="card-service-purification">
-              <BlendedPhoto src={IMAGES.water} alt="Water purification" className="h-24" />
+            <Card className="lg:col-span-2 lg:col-start-1 sm:col-span-2 border-border overflow-hidden flex flex-col sm:flex-row" data-testid="card-service-purification">
+              <div className="sm:w-[42%] shrink-0">
+                <BlendedPhoto src={IMAGES.purification} alt="Water purification and filtration system" className="aspect-[4/3] sm:aspect-auto sm:h-full" fadeBottom={false} />
+              </div>
               <CardContent className="p-3.5 flex flex-col flex-1">
                 <h2 className="text-sm font-semibold text-foreground mb-1">Water Purification</h2>
                 <p className="text-xs text-muted-foreground leading-snug mb-2">
                   Filtration and treatment systems that make your water safe and clean, matched to your water test results.
                 </p>
-                <ul className="flex flex-wrap gap-x-4 gap-y-0.5 mb-3">
+                <ul className="space-y-0.5 mb-2">
                   {["Water testing", "Filtration and treatment", "Installation and servicing"].map((h) => (
                     <li key={h} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
                       <CheckCircle className="h-3 w-3 text-green-500 shrink-0" />

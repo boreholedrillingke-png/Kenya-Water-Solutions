@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
-import { IMAGES, pickImage } from "@/lib/images";
+import { IMAGES, pickProjectImage } from "@/lib/images";
 import BlendedPhoto from "@/components/BlendedPhoto";
 import { useListProjects } from "@workspace/api-client-react";
 
@@ -121,12 +121,12 @@ export default function Projects() {
                 <Link key={project.id} href={`/projects/${project.id}`}>
                   <Card className="h-full group hover:shadow-md transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
                     <CardContent className="p-0 flex flex-col h-full">
-                      <div className="relative h-28 overflow-hidden">
+                      <div className="relative aspect-[3/2] overflow-hidden">
                         <div className="absolute inset-0">
                           <BlendedPhoto
-                            src={pickImage(project.serviceType, project.title, project.description)}
+                            src={pickProjectImage(project.id, project.serviceType, project.title)}
                             alt=""
-                            className="h-28"
+                            className="h-full"
                             fadeBottom={false}
                           />
                         </div>

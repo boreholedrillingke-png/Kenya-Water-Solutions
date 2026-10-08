@@ -1,30 +1,58 @@
 const base = import.meta.env.BASE_URL;
 
 export const IMAGES = {
+  // atmosphere / wide
   rig: `${base}images/hero-bg.webp`,
   water: `${base}images/service-drilling.webp`,
-  solar: `${base}images/service-solar.webp`,
+  // services
+  drilling: `${base}images/drilling-rig.webp`,
+  crew: `${base}images/drill-crew.webp`,
   survey: `${base}images/survey.webp`,
   testPumping: `${base}images/test-pumping.webp`,
+  pumpInstall: `${base}images/pump-install.webp`,
+  purification: `${base}images/purification.webp`,
+  // solar and treatment
+  solarPump: `${base}images/solar-pump.webp`,
+  solarTower: `${base}images/solar-tower.webp`,
+  solarDiagram: `${base}images/solar-diagram.webp`,
+  treatment: `${base}images/treatment-garden.webp`,
 };
 
-/** Pick a fitting photo for a service, product or project by its name / type. */
+/** Pick the right photo for a service / project by its name or type. Pass only short labels (name, type), not long descriptions. */
 export function pickImage(...texts: (string | undefined | null)[]): string {
   const t = texts.filter(Boolean).join(" ").toLowerCase();
   if (/survey|hydro|geolog|geophys/.test(t)) return IMAGES.survey;
   if (/test.?pump|pump.?test/.test(t)) return IMAGES.testPumping;
-  if (/solar/.test(t)) return IMAGES.solar;
-  if (/test|purif|treat|filter|water supply/.test(t)) return IMAGES.water;
-  if (/pump|install/.test(t)) return IMAGES.solar;
-  return IMAGES.rig;
+  if (/purif|treat|filter/.test(t)) return IMAGES.purification;
+  if (/solar/.test(t)) return IMAGES.solarTower;
+  if (/pump|install/.test(t)) return IMAGES.pumpInstall;
+  if (/tank|storage|supply/.test(t)) return IMAGES.treatment;
+  return IMAGES.drilling;
 }
 
-/** Where to focus when a photo is cropped into a wide strip. */
+/** Drilling projects alternate between two real field photos so the grid is not repetitive. */
+export function pickProjectImage(id: number, ...texts: (string | undefined | null)[]): string {
+  const img = pickImage(...texts);
+  return img === IMAGES.drilling && id % 2 === 0 ? IMAGES.crew : img;
+}
+
+/** Where to focus when a photo is cropped, so the important part stays in view. */
+const POSITIONS: Record<string, string> = {
+  [IMAGES.drilling]: "center 80%", // branded truck and driller
+  [IMAGES.crew]: "center 55%",
+  [IMAGES.survey]: "center 55%",
+  [IMAGES.testPumping]: "center 35%",
+  [IMAGES.pumpInstall]: "center 40%", // hands on the pump
+  [IMAGES.purification]: "center 50%",
+  [IMAGES.solarPump]: "65% 50%",
+  [IMAGES.solarTower]: "center 55%",
+  [IMAGES.solarDiagram]: "center 50%",
+  [IMAGES.treatment]: "55% 50%",
+  [IMAGES.water]: "center 40%",
+};
+
 export function imagePosition(src: string): string {
-  if (src === IMAGES.survey) return "center 62%";
-  if (src === IMAGES.testPumping) return "center 35%";
-  if (src === IMAGES.water) return "center 40%";
-  return "center 55%";
+  return POSITIONS[src] ?? "center 55%";
 }
 
 /** Wide header background: the photo fills the width under a blue wash. */

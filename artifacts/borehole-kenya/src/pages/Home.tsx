@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { ArrowRight, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
-import { IMAGES } from "@/lib/images";
+import { IMAGES, imagePosition } from "@/lib/images";
 
 const quickLinks = [
   { label: "Surveys", href: "/services", icon: Radar, from: "#22d3ee", to: "#0369a1" },
@@ -14,9 +14,9 @@ const quickLinks = [
 ];
 
 const tiles = [
-  { title: "Borehole Drilling", text: "Surveyed, drilled, cased and tested.", image: IMAGES.rig, href: "/services" },
-  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.water, href: "/products" },
-  { title: "Solar Pumping", text: "Cut your power bills for good.", image: IMAGES.solar, href: "/services" },
+  { title: "Borehole Drilling", text: "Surveyed, drilled, cased and tested.", image: IMAGES.drilling, href: "/services" },
+  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.treatment, href: "/products" },
+  { title: "Solar Pumping", text: "Cut your power bills for good.", image: IMAGES.solarPump, href: "/services" },
 ];
 
 function QuickQuote() {
@@ -124,8 +124,8 @@ export default function Home() {
     <section className="bg-background py-8">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {tiles.map((t) => (
-          <Link key={t.title} href={t.href} className="group relative block overflow-hidden rounded-2xl h-44 sm:h-52 shadow-md">
-            <img src={t.image} alt={t.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <Link key={t.title} href={t.href} className="group relative block overflow-hidden rounded-2xl aspect-[4/3] shadow-md">
+            <img src={t.image} alt={t.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: imagePosition(t.image) }} />
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 35%, hsl(215 70% 8% / .88) 100%)" }} />
             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
               <div className="text-base font-bold leading-tight">{t.title}</div>

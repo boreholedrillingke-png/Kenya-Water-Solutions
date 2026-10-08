@@ -53,7 +53,7 @@ export default function Products() {
   return (
     <div className="bg-background">
       <PageBanner
-        image={IMAGES.solar}
+        image={IMAGES.solarDiagram}
         eyebrow="Equipment Store"
         title="Products & Equipment"
         description="Pumps, solar systems, pipes, tanks and accessories from trusted brands."

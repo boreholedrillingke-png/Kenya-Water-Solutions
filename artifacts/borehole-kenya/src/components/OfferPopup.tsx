@@ -48,7 +48,7 @@ export default function OfferPopup() {
         >
           {/* Photo */}
           <div className="relative">
-            <BlendedPhoto src={IMAGES.survey} alt="Geologist carrying out a hydrogeological survey next to a drilling rig" className="h-52 sm:h-60" />
+            <BlendedPhoto src={IMAGES.survey} alt="Geologist carrying out a hydrogeological survey next to a drilling rig" className="aspect-[4/3] max-h-[42vh]" />
             <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-900 shadow">
               <BadgePercent className="h-3.5 w-3.5" /> Today's offer
             </span>
