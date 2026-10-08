@@ -1,5 +1,4 @@
 import { pickImage, bannerBackground } from "@/lib/images";
-import BannerPhoto from "@/components/BannerPhoto";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, MapPin, Droplets, Calendar, Layers, Clock, Users, Target, Lightbulb, TrendingUp, MessageSquare, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,7 +59,6 @@ export default function ProjectDetail() {
         className="relative overflow-hidden text-white pt-[76px] pb-6"
         style={{ background: bannerBackground(pickImage(project.serviceType, project.title)) }}
       >
-        <BannerPhoto src={pickImage(project.serviceType, project.title)} />
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/projects" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="h-4 w-4" /> All Projects

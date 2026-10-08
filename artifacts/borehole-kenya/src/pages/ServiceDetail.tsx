@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetService, useCreateInquiry } from "@workspace/api-client-react";
-import { pickImage, bannerBackground, showsWhole } from "@/lib/images";
-import BannerPhoto from "@/components/BannerPhoto";
+import { pickImage, bannerBackground } from "@/lib/images";
 import { formatKES, whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -94,7 +93,6 @@ export default function ServiceDetail() {
     <div className="bg-background">
       {/* Header */}
       <div className="relative overflow-hidden text-white pt-[76px] pb-6" style={{ background: bannerBackground(pickImage(service.name, service.category)) }}>
-        <BannerPhoto src={pickImage(service.name, service.category)} />
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/services" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="h-4 w-4" /> All Services
@@ -108,7 +106,7 @@ export default function ServiceDetail() {
               <p className="text-white/75 text-sm sm:text-base max-w-2xl">{service.shortDescription}</p>
             </div>
             {service.priceFrom && (
-              <div className={`bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 flex-shrink-0 text-left sm:text-right ${showsWhole(pickImage(service.name, service.category)) ? "lg:mr-52" : ""}`}>
+              <div className="bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 flex-shrink-0 text-left sm:text-right">
                 <div className="text-xs text-white/50 mb-1">Starting from</div>
                 <div className="text-xl font-bold text-amber-300">{formatKES(service.priceFrom)}</div>
                 {service.priceUnit && <div className="text-xs text-white/50">{service.priceUnit}</div>}
