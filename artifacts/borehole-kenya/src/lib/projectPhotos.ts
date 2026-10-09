@@ -66,3 +66,71 @@ export function projectPhoto(title: string | undefined | null): ProjectPhoto | u
   if (!title) return undefined;
   return PHOTOS[title.trim().toLowerCase()];
 }
+
+/* ---------------------------------------------------------------------------
+ * Page backdrop for each project's detail page (the area below the header).
+ * A different photo from the header, chosen to fit the project's place and type:
+ *   rig-sunset  dry savanna / semi-arid areas
+ *   truck       green highland farm and estate areas
+ *   survey      lush green western and tea areas
+ *   solar-field green irrigated farms and solar projects
+ *   water       general water supply
+ *   ro-plant    hospitals, hotels, factories, packing plants
+ *   purification clean-water rooms
+ * Only large, sharp photos are used here so they never look blurry.
+ * ------------------------------------------------------------------------- */
+const BACKDROPS = {
+  "rig-sunset": { src: `${base}images/backdrops/rig-sunset.webp`, pos: "center 55%" },
+  truck: { src: `${base}images/backdrops/truck.webp`, pos: "center 45%" },
+  survey: { src: `${base}images/backdrops/survey.webp`, pos: "center 55%" },
+  "solar-field": { src: `${base}images/backdrops/solar-field.webp`, pos: "center 50%" },
+  water: { src: `${base}images/backdrops/water.webp`, pos: "center 40%" },
+  "ro-plant": { src: `${base}images/backdrops/ro-plant.webp`, pos: "center 50%" },
+  purification: { src: `${base}images/backdrops/purification.webp`, pos: "center 50%" },
+} as const;
+
+type BackdropKey = keyof typeof BACKDROPS;
+
+const BACKDROP_FOR: Record<string, BackdropKey> = {
+  "karura forest community borehole": "survey",
+  "ruiru industrial estate water supply": "truck",
+  "ngong hills flower farm irrigation": "solar-field",
+  "diani beach resort desalination & borehole": "purification",
+  "kilifi county government water project": "water",
+  "malindi fishermen's cooperative borehole": "water",
+  "mombasa airport road hotel complex": "ro-plant",
+  "nakuru dairy farm mega borehole": "truck",
+  "eldoret teaching hospital borehole": "ro-plant",
+  "bomet tea estate irrigation network": "solar-field",
+  "naivasha horticulture farm water system": "truck",
+  "kericho county school cluster": "survey",
+  "kisumu port industrial zone": "solar-field",
+  "kakamega sugar cane cooperative": "solar-field",
+  "bungoma town shopping mall": "water",
+  "siaya county water authority project": "survey",
+  "machakos mango farm irrigation": "rig-sunset",
+  "kitui arid lands community water": "rig-sunset",
+  "meru county referral hospital": "ro-plant",
+  "embu university college water supply": "truck",
+  "garissa refugee camp emergency water": "rig-sunset",
+  "turkana county livestock trough network": "rig-sunset",
+  "isiolo town water supply augmentation": "rig-sunset",
+  "nyeri county coffee cooperative": "truck",
+  "kirinyaga rice irrigation scheme": "solar-field",
+  "murang'a avocado packing station": "ro-plant",
+  "laikipia wildlife conservancy": "rig-sunset",
+  "taita-taveta sisal estate": "rig-sunset",
+  "nandi hills tea research station": "survey",
+  "vihiga county health facilities water": "survey",
+  "trans nzoia wheat farm irrigation": "solar-field",
+  "homa bay fish processing plant": "ro-plant",
+  "samburu national reserve camp": "rig-sunset",
+  "nyamira tea factory water supply": "purification",
+  "marsabit camel market water point": "rig-sunset",
+};
+
+export function projectBackdrop(title: string | undefined | null): ProjectPhoto | undefined {
+  if (!title) return undefined;
+  const key = BACKDROP_FOR[title.trim().toLowerCase()];
+  return key ? BACKDROPS[key] : undefined;
+}

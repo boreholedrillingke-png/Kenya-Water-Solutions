@@ -1,5 +1,5 @@
 import { bannerBackground, PLAIN_BANNER } from "@/lib/images";
-import { projectPhoto } from "@/lib/projectPhotos";
+import { projectPhoto, projectBackdrop } from "@/lib/projectPhotos";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, MapPin, Droplets, Calendar, Layers, Clock, Users, Target, Lightbulb, TrendingUp, MessageSquare, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -98,16 +98,28 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div
+        style={
+          projectBackdrop(project.title)
+            ? {
+                backgroundColor: "hsl(215 70% 10%)",
+                backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .55) 0%, hsl(215 70% 8% / .28) 40%, hsl(215 70% 8% / .55) 100%), url(${projectBackdrop(project.title)!.src})`,
+                backgroundSize: "cover",
+                backgroundPosition: projectBackdrop(project.title)!.pos,
+              }
+            : undefined
+        }
+      >
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Key stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Layers, label: "Borehole Depth", value: project.depth ? `${project.depth}m` : "N/A" },
             { icon: Droplets, label: "Water Yield", value: project.yield ?? "N/A" },
             { icon: Clock, label: "Duration", value: project.duration ?? "N/A" },
             { icon: Calendar, label: "Year", value: project.completionYear.toString() },
           ].map((stat) => (
-            <div key={stat.label} className="bg-card border border-border rounded-xl p-4 text-center">
+            <div key={stat.label} className="bg-card/95 border border-border rounded-xl p-4 text-center shadow-sm">
               <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-2">
                 <stat.icon className="h-4 w-4 text-primary" />
               </div>
@@ -118,14 +130,14 @@ export default function ProjectDetail() {
         </div>
 
         {/* Description */}
-        <div className="mb-8">
+        <div className="mb-6 rounded-xl border border-border bg-card/95 p-5 shadow-sm">
           <h2 className="text-xl font-semibold text-foreground mb-3">Project Overview</h2>
           <p className="text-muted-foreground leading-relaxed">{project.description}</p>
         </div>
 
         {/* Challenge / Solution / Outcome */}
         {(project.challenge || project.solution || project.outcome) && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
             {project.challenge && (
               <Card className="border-red-200">
                 <CardContent className="p-5">
@@ -163,7 +175,7 @@ export default function ProjectDetail() {
         )}
 
         {/* Location info */}
-        <Card className="mb-8 border-border">
+        <Card className="mb-6 border-border bg-card/95 shadow-sm">
           <CardContent className="p-5">
             <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" /> Project Location
@@ -188,7 +200,7 @@ export default function ProjectDetail() {
         </Card>
 
         {/* CTA */}
-        <div className="rounded-xl bg-primary/8 border border-primary/15 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+        <div className="rounded-xl bg-card/95 border border-primary/20 shadow-sm p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
           <div>
             <h3 className="font-semibold text-foreground mb-1">Want a Similar Project?</h3>
             <p className="text-sm text-muted-foreground">We can deliver the same results for your home, farm, or business anywhere in Kenya.</p>
@@ -210,11 +222,12 @@ export default function ProjectDetail() {
         </div>
 
         {/* Back link */}
-        <div className="mt-8 text-center">
-          <Link href="/projects" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors">
+        <div className="mt-6 text-center">
+          <Link href="/projects" className="inline-flex items-center gap-2 rounded-full bg-card/95 px-4 py-2 text-muted-foreground hover:text-foreground text-sm shadow-sm transition-colors">
             <ArrowLeft className="h-4 w-4" /> Browse all projects
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );
