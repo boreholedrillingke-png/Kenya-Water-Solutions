@@ -44,11 +44,11 @@ const PHOTOS: Record<string, ProjectPhoto> = {
   "diani beach resort desalination & borehole": photo(p("ro-plant")), // reverse osmosis plant
   "mombasa airport road hotel complex": photo(IMAGES.purification),
   "eldoret teaching hospital borehole": photo(p("ro-clean-room"), "center 38%"),
-  "meru county referral hospital": photo(p("tank-lift"), "center 30%"),
-  "kisumu port industrial zone": photo(p("ro-plant-industrial"), "center 55%"),
+  "meru county referral hospital": photo(p("ro-plant-industrial"), "center 55%"),
+  "kisumu port industrial zone": photo(p("solar-towers-urban"), "center 62%"), // solar with large storage tanks
   "homa bay fish processing plant": photo(IMAGES.water, "center 40%"),
   "murang'a avocado packing station": photo(IMAGES.pumpInstall, "center 40%"),
-  "bungoma town shopping mall": photo(p("solar-towers-urban"), "center 30%"),
+  "bungoma town shopping mall": photo(p("tank-lift"), "center 30%"),
   "samburu national reserve camp": photo(IMAGES.treatment, "55% 50%"),
 
   // --- irrigation and livestock: pumps, flowing water, tank towers ---
