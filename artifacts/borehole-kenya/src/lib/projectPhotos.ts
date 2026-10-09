@@ -31,35 +31,35 @@ const PHOTOS: Record<string, ProjectPhoto> = {
   "siaya county water authority project": photo(p("siaya"), "center 0%"),
   "kitui arid lands community water": photo(p("kitui"), "center 35%"),
   "embu university college water supply": photo(p("embu"), "center 62%"),
-  "garissa refugee camp emergency water": photo(p("garissa")),
+  "garissa refugee camp emergency water": photo(IMAGES.pumpInstall, "center 40%"), // dry, sandy
   "isiolo town water supply augmentation": photo(p("isiolo"), "center 40%"),
   "nyeri county coffee cooperative": photo(p("nyeri")),
-  "taita-taveta sisal estate": photo(p("drill-crew"), "center 55%"),
+  "taita-taveta sisal estate": photo(`${base}images/drill-crew.webp`, "center 55%"),
   "nandi hills tea research station": photo(p("nandi")),
   "vihiga county health facilities water": photo(p("vihiga"), "center 38%"),
-  "nyamira tea factory water supply": photo(p("nyamira"), "center 25%"),
+  "nyamira tea factory water supply": photo(p("garissa"), "center 55%"), // green tea hills
   "marsabit camel market water point": photo(p("marsabit")),
 
   // --- hospitals, resorts, hotels, factories, malls: clean water and storage ---
   "diani beach resort desalination & borehole": photo(p("ro-plant")), // reverse osmosis plant
-  "mombasa airport road hotel complex": photo(IMAGES.purification),
+  "mombasa airport road hotel complex": photo(IMAGES.treatment, "55% 50%"), // hotel garden, tanks and filters
   "eldoret teaching hospital borehole": photo(p("ro-clean-room"), "center 38%"),
   "meru county referral hospital": photo(p("ro-plant-industrial"), "center 55%"),
   "kisumu port industrial zone": photo(p("solar-towers-urban"), "center 62%"), // solar with large storage tanks
   "homa bay fish processing plant": photo(IMAGES.water, "center 40%"),
-  "murang'a avocado packing station": photo(IMAGES.pumpInstall, "center 40%"),
+  "murang'a avocado packing station": photo(IMAGES.purification),
   "bungoma town shopping mall": photo(p("tank-lift"), "center 30%"),
-  "samburu national reserve camp": photo(IMAGES.treatment, "55% 50%"),
+  "samburu national reserve camp": photo(IMAGES.solarTower, "center 55%"), // dry savanna, off-grid solar
 
   // --- irrigation and livestock: pumps, flowing water, tank towers ---
-  "ngong hills flower farm irrigation": photo(p("solar-field-pump"), "center 45%"),
-  "bomet tea estate irrigation network": photo(IMAGES.solarPump, "65% 50%"),
-  "kakamega sugar cane cooperative": photo(p("pump-discharge")),
+  "ngong hills flower farm irrigation": photo(p("pump-discharge")), // savanna
+  "bomet tea estate irrigation network": photo(p("tank-tower-panel"), "center 15%"), // green highlands
+  "kakamega sugar cane cooperative": photo(IMAGES.solarPump, "65% 50%"), // lush lowland
   "machakos mango farm irrigation": photo(p("solar-tank-tap"), "center 25%"),
-  "kirinyaga rice irrigation scheme": photo(p("water-jet-pipe"), "center 25%"),
+  "kirinyaga rice irrigation scheme": photo(p("solar-field-pump"), "center 45%"), // hot lowland, palms
   "trans nzoia wheat farm irrigation": photo(p("tank-tower-two"), "center 15%"),
-  "turkana county livestock trough network": photo(IMAGES.solarTower, "center 55%"),
-  "laikipia wildlife conservancy": photo(p("tank-tower-panel"), "center 15%"),
+  "turkana county livestock trough network": photo(p("water-jet-pipe"), "center 25%"), // arid
+  "laikipia wildlife conservancy": photo(p("eldoret"), "center 52%"), // open grassland
 };
 
 export function projectPhoto(title: string | undefined | null): ProjectPhoto | undefined {
