@@ -91,13 +91,21 @@ export default function Contact() {
         </div>
       </PageBanner>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="rounded-2xl border border-border bg-card shadow-sm p-3">
+      <div
+        style={{
+          backgroundColor: "hsl(215 70% 10%)",
+          backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .50) 0%, hsl(215 70% 8% / .22) 45%, hsl(215 70% 8% / .50) 100%), url(${IMAGES.backdropSolar})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center 50%",
+        }}
+      >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="p-0">
           {/* Info row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-3">
             {contactInfo.map((item) => {
               const inner = (
-                <div className="flex items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 h-full hover:border-primary/40 transition-colors">
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-card/95 shadow-sm px-3 py-2.5 h-full hover:border-primary/40 transition-colors">
                   <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <item.icon className="h-4 w-4 text-primary" />
                   </div>
@@ -122,7 +130,7 @@ export default function Contact() {
                   <Button onClick={() => setSubmitted(false)} variant="outline" size="sm">Send Another Inquiry</Button>
                 </div>
               ) : (
-                <div className="rounded-xl border border-border p-4">
+                <div className="rounded-xl border border-border bg-card/95 shadow-sm p-4">
                   <h2 className="text-sm font-semibold text-foreground mb-3">Send us a message</h2>
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -221,7 +229,7 @@ export default function Contact() {
                   </Button>
                 </a>
               </div>
-              <div className="rounded-xl border border-border p-4 flex-1">
+              <div className="rounded-xl border border-border bg-card/95 shadow-sm p-4 flex-1">
                 <h3 className="text-sm font-semibold text-foreground mb-2">Counties we serve</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Kisii", "Kakamega", "Nyeri", "Meru", "Machakos", "Kitui"].map((c) => (
@@ -233,6 +241,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

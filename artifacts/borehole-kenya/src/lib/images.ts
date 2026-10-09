@@ -15,6 +15,8 @@ export const IMAGES = {
   solarTower: `${base}images/solar-tower.webp`,
   solarDiagram: `${base}images/solar-diagram.webp`,
   treatment: `${base}images/treatment-garden.webp`,
+  // large, sharp photo used as a page backdrop
+  backdropSolar: `${base}images/backdrops/solar-field.webp`,
 };
 
 /** Pick the right photo for a service / project by its name or type. Pass only short labels (name, type), not long descriptions. */
