@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useListServices } from "@workspace/api-client-react";
 import { formatKES } from "@/lib/utils";
-import { IMAGES, pickImage } from "@/lib/images";
+import { IMAGES, pickImage, pageBackdrop } from "@/lib/images";
 import BlendedPhoto from "@/components/BlendedPhoto";
 
 export default function Services() {
@@ -15,8 +15,8 @@ export default function Services() {
   );
 
   return (
-    <div className="bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[76px] pb-6">
+    <div style={pageBackdrop(IMAGES.backdropRig, "center 55%")}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[84px] pb-6">
         <h1 className="sr-only">Our Services</h1>
 
         {/* Cards in a row share one height */}
@@ -102,7 +102,7 @@ export default function Services() {
 
           {/* Custom solution */}
           {!isLoading && (
-            <div className="lg:col-span-2 sm:col-span-2 rounded-xl bg-primary/8 border border-primary/20 p-3.5 flex flex-col justify-center text-center">
+            <div className="lg:col-span-2 sm:col-span-2 rounded-xl bg-card/95 border border-primary/20 shadow-sm p-3.5 flex flex-col justify-center text-center">
               <h2 className="text-sm font-bold text-foreground mb-1">Need a Custom Solution?</h2>
               <p className="text-xs text-muted-foreground mb-3 max-w-sm mx-auto">
                 Every water project is unique. Contact our team for a free site assessment and tailored quote.

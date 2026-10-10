@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageBanner from "@/components/PageBanner";
-import { IMAGES } from "@/lib/images";
+import { IMAGES, pageBackdrop } from "@/lib/images";
 import {
   useListProducts,
   useListProductCategories,
@@ -51,7 +51,7 @@ export default function Products() {
   const totalPages = products ? Math.ceil(products.total / PAGE_SIZE) : 1;
 
   return (
-    <div className="bg-background">
+    <div>
       <PageBanner
         image={IMAGES.solarDiagram}
         eyebrow="Equipment Store"
@@ -104,10 +104,11 @@ export default function Products() {
         </div>
       </PageBanner>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="rounded-2xl border border-border bg-card shadow-sm p-3">
+      <div style={pageBackdrop(IMAGES.backdropWater, "center 40%")}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div>
           {products && (
-            <p className="text-xs text-muted-foreground mb-2 px-1">
+            <p className="mb-2 inline-block rounded-full bg-card/95 px-3 py-1 text-xs text-muted-foreground shadow-sm">
               Showing {products.items.length} of {products.total} products
               {activeCategory !== "All" && ` in ${activeCategory}`}
             </p>
@@ -124,7 +125,7 @@ export default function Products() {
               ))}
             </div>
           ) : (products?.items ?? []).length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-12 rounded-xl bg-card/95 shadow-sm">
               <h3 className="text-sm font-medium text-foreground mb-1">No products found</h3>
               <p className="text-muted-foreground text-xs mb-4">Try a different search term or category</p>
               <Button variant="outline" size="sm" onClick={() => { setSearch(""); setActiveCategory("All"); setInStockOnly(false); }}>
@@ -202,13 +203,14 @@ export default function Products() {
           )}
 
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-3">
+            <div className="mx-auto mt-4 flex w-fit items-center justify-center gap-2 rounded-full bg-card/95 px-3 py-1.5 shadow-sm">
               <Button variant="outline" size="sm" className="h-8 text-xs" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</Button>
               <span className="px-3 text-xs text-muted-foreground">Page {page} of {totalPages}</span>
               <Button variant="outline" size="sm" className="h-8 text-xs" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next</Button>
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

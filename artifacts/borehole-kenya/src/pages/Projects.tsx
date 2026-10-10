@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
-import { IMAGES } from "@/lib/images";
+import { IMAGES, pageBackdrop } from "@/lib/images";
 import { projectPhoto } from "@/lib/projectPhotos";
 import { useListProjects } from "@workspace/api-client-react";
 
@@ -56,7 +56,7 @@ export default function Projects() {
   }
 
   return (
-    <div className="bg-background">
+    <div>
       <PageBanner
         image={IMAGES.rig}
         eyebrow="Our Track Record"
@@ -78,10 +78,11 @@ export default function Projects() {
         </div>
       </PageBanner>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="rounded-2xl border border-border bg-card shadow-sm p-3">
+      <div style={pageBackdrop(IMAGES.backdropTruck, "center 50%")}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div>
           {/* Filters + count */}
-          <div className="flex flex-wrap items-center gap-2 mb-3 px-1">
+          <div className="flex flex-wrap items-center gap-2 mb-3 rounded-xl bg-card/95 px-3 py-2 shadow-sm">
             <select className={select} value={serviceType} onChange={(e) => { setServiceType(e.target.value); setPage(1); }} aria-label="Service type">
               {SERVICE_TYPES.map((t) => <option key={t} value={t}>{t === "All" ? "All services" : t}</option>)}
             </select>
@@ -109,7 +110,7 @@ export default function Projects() {
               ))}
             </div>
           ) : projects.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-12 rounded-xl bg-card/95 shadow-sm">
               <Droplets className="h-8 w-8 text-muted-foreground/25 mx-auto mb-2" />
               <h3 className="text-sm font-medium text-foreground mb-1">No projects found</h3>
               <p className="text-muted-foreground text-xs mb-3">Try adjusting your filters</p>
@@ -183,7 +184,7 @@ export default function Projects() {
           )}
 
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-3">
+            <div className="mx-auto mt-4 flex w-fit items-center justify-center gap-2 rounded-full bg-card/95 px-3 py-1.5 shadow-sm">
               <Button variant="outline" size="sm" className="h-8 text-xs" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</Button>
               <span className="px-3 text-xs text-muted-foreground">Page {page} of {totalPages}</span>
               <Button variant="outline" size="sm" className="h-8 text-xs" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next</Button>
@@ -192,7 +193,7 @@ export default function Projects() {
         </div>
 
         {/* Slim CTA */}
-        <div className="mt-3 rounded-xl bg-primary/8 border border-primary/20 px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-4 rounded-xl bg-card/95 border border-primary/20 shadow-sm px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="text-sm font-semibold text-foreground">Start your own water project</span>
           <div className="flex gap-2">
             <Button asChild size="sm" className="h-8 text-xs"><Link href="/contact">Request a Free Quote</Link></Button>
@@ -201,6 +202,7 @@ export default function Projects() {
             </a>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

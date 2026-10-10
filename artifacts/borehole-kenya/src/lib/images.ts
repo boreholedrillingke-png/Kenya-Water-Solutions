@@ -17,6 +17,10 @@ export const IMAGES = {
   treatment: `${base}images/treatment-garden.webp`,
   // large, sharp photo used as a page backdrop
   backdropSolar: `${base}images/backdrops/solar-field.webp`,
+  backdropRig: `${base}images/backdrops/rig-sunset.webp`,
+  backdropTruck: `${base}images/backdrops/truck.webp`,
+  backdropPlant: `${base}images/backdrops/ro-plant.webp`,
+  backdropWater: `${base}images/backdrops/water.webp`,
 };
 
 /** Pick the right photo for a service / project by its name or type. Pass only short labels (name, type), not long descriptions. */
@@ -56,3 +60,14 @@ export function bannerBackground(src: string, position?: string): string {
 
 /** Header used when a project has no photo yet. */
 export const PLAIN_BANNER = "linear-gradient(135deg, hsl(215 70% 10%) 0%, hsl(214 72% 16%) 50%, hsl(212 75% 24%) 100%)";
+
+
+/** Full-width photo behind a page's content, darkened slightly so white cards on top stay easy to read. */
+export function pageBackdrop(src: string, position = "center 50%") {
+  return {
+    backgroundColor: "hsl(215 70% 10%)",
+    backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .50) 0%, hsl(215 70% 8% / .22) 45%, hsl(215 70% 8% / .50) 100%), url(${src})`,
+    backgroundSize: "cover",
+    backgroundPosition: position,
+  } as const;
+}
