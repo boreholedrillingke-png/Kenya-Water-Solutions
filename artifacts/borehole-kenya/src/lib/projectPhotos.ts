@@ -91,9 +91,20 @@ const PHOTOS: Record<string, ProjectPhoto> = {
   "syokimau residential borehole": photo(p("kisumu-port"), "center 50%"),
 };
 
-export function projectPhoto(title: string | undefined | null): ProjectPhoto | undefined {
+/** Stand-in photos by category for projects that have no photo of their own yet. Replace by adding the project to PHOTOS above. */
+const FALLBACK_BY_TYPE: Record<string, ProjectPhoto> = {
+  "Hydrogeological Survey": photo(IMAGES.survey, "center 50%"),
+  "Test Pumping": photo(IMAGES.testPumping, "center 35%"),
+  "Water Purification": photo(IMAGES.purification, "center 50%"),
+  "Pump Installation": photo(IMAGES.pumpInstall, "center 40%"),
+  "Drilling & Pump": photo(IMAGES.drilling, "center 80%"),
+  "Borehole Drilling": photo(IMAGES.drilling, "center 80%"),
+  "Full Package": photo(IMAGES.drilling, "center 80%"),
+};
+
+export function projectPhoto(title: string | undefined | null, serviceType?: string | null): ProjectPhoto | undefined {
   if (!title) return undefined;
-  return PHOTOS[title.trim().toLowerCase()];
+  return PHOTOS[title.trim().toLowerCase()] ?? (serviceType ? FALLBACK_BY_TYPE[serviceType] : undefined);
 }
 
 /* ---------------------------------------------------------------------------
@@ -186,8 +197,18 @@ const BACKDROP_FOR: Record<string, BackdropKey> = {
   "syokimau residential borehole": "rig-sunset",
 };
 
-export function projectBackdrop(title: string | undefined | null): ProjectPhoto | undefined {
+const BACKDROP_BY_TYPE: Record<string, BackdropKey> = {
+  "Hydrogeological Survey": "survey",
+  "Test Pumping": "water",
+  "Water Purification": "purification",
+  "Pump Installation": "water",
+  "Drilling & Pump": "truck",
+  "Borehole Drilling": "rig-sunset",
+  "Full Package": "rig-sunset",
+};
+
+export function projectBackdrop(title: string | undefined | null, serviceType?: string | null): ProjectPhoto | undefined {
   if (!title) return undefined;
-  const key = BACKDROP_FOR[title.trim().toLowerCase()];
+  const key = BACKDROP_FOR[title.trim().toLowerCase()] ?? (serviceType ? BACKDROP_BY_TYPE[serviceType] : undefined);
   return key ? BACKDROPS[key] : undefined;
 }

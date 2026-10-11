@@ -209,3 +209,80 @@ export const NEW_PROJECTS: NewProject[] = [
     solution: "Drilled and cased to 220m, then developed and flushed until the water ran clear.",
     outcome: "A reliable private water source in place of tanker deliveries.", featured: false, latitude: "-1.3560", longitude: "36.9330" }),
 ];
+
+// ---------------- 30 more hydrogeological surveys (built from a compact table) ----------------
+type Climate = "dry" | "wet" | "coast" | "highland";
+// [title, county, town, region, clientType, noun, climate, depth, lat, lng, year]
+const SURVEY_ROWS: [string, string, string, string, string, string, Climate, number, string, string, number][] = [
+  ["Kasarani Estate Survey", "Nairobi", "Kasarani", "Nairobi Metropolitan", "Residential", "housing estate", "dry", 240, "-1.2210", "36.8980", 2025],
+  ["Langata Homes Borehole Survey", "Nairobi", "Langata", "Nairobi Metropolitan", "Residential", "family home", "dry", 270, "-1.3650", "36.7490", 2026],
+  ["Ruaraka Commercial Plot Survey", "Nairobi", "Ruaraka", "Nairobi Metropolitan", "Commercial", "commercial plot", "dry", 220, "-1.2400", "36.8700", 2024],
+  ["Juja Student Hostels Survey", "Kiambu", "Juja", "Nairobi Metropolitan", "Education", "student hostel", "dry", 210, "-1.1000", "37.0140", 2025],
+  ["Limuru Farm Water Survey", "Kiambu", "Limuru", "Nairobi Metropolitan", "Agricultural", "farm", "highland", 170, "-1.1090", "36.6420", 2024],
+  ["Ongata Rongai Residence Survey", "Kajiado", "Ongata Rongai", "Rift Valley", "Residential", "residence", "dry", 240, "-1.3960", "36.7440", 2025],
+  ["Kitengela Commercial Block Survey", "Kajiado", "Kitengela", "Rift Valley", "Commercial", "commercial block", "dry", 230, "-1.4730", "36.9590", 2026],
+  ["Isinya Greenhouse Farm Survey", "Kajiado", "Isinya", "Rift Valley", "Agricultural", "greenhouse farm", "dry", 250, "-1.8900", "36.8440", 2024],
+  ["Magadi Road Community Survey", "Kajiado", "Magadi", "Rift Valley", "Community", "community water point", "dry", 260, "-1.8980", "36.2860", 2025],
+  ["Mlolongo Industrial Plot Survey", "Machakos", "Mlolongo", "Eastern", "Commercial", "industrial plot", "dry", 220, "-1.3930", "36.9450", 2024],
+  ["Kangundo Orchard Survey", "Machakos", "Kangundo", "Eastern", "Agricultural", "orchard", "dry", 190, "-1.3000", "37.3500", 2025],
+  ["Wote Village Water Survey", "Makueni", "Wote", "Eastern", "Community", "village water point", "dry", 200, "-1.7800", "37.6290", 2024],
+  ["Mwingi Dispensary Survey", "Kitui", "Mwingi", "Eastern", "Healthcare", "dispensary", "dry", 210, "-0.9330", "38.0600", 2025],
+  ["Ahero Rice Farm Survey", "Kisumu", "Ahero", "Nyanza", "Agricultural", "rice farm", "wet", 150, "-0.1700", "34.9190", 2024],
+  ["Kondele Residential Survey", "Kisumu", "Kondele", "Nyanza", "Residential", "residential plot", "wet", 145, "-0.0870", "34.7550", 2025],
+  ["Mumias Commercial Centre Survey", "Kakamega", "Mumias", "Western", "Commercial", "commercial centre", "wet", 150, "0.3340", "34.4880", 2024],
+  ["Webuye Factory Water Survey", "Bungoma", "Webuye", "Western", "Commercial", "factory", "wet", 155, "0.6070", "34.7690", 2025],
+  ["Busia Town Hotel Survey", "Busia", "Busia", "Western", "Hospitality", "hotel", "wet", 150, "0.4600", "34.1120", 2024],
+  ["Bondo Homestead Survey", "Siaya", "Bondo", "Nyanza", "Residential", "homestead", "wet", 145, "0.2370", "34.2740", 2025],
+  ["Kisii Town School Survey", "Kisii", "Kisii", "Nyanza", "Education", "school", "highland", 150, "-0.6820", "34.7660", 2026],
+  ["Njoro Dairy Farm Survey", "Nakuru", "Njoro", "Rift Valley", "Agricultural", "dairy farm", "dry", 230, "-0.3310", "35.9440", 2024],
+  ["Naivasha Health Centre Survey", "Nakuru", "Naivasha", "Rift Valley", "Healthcare", "health centre", "dry", 220, "-0.7170", "36.4310", 2025],
+  ["Eldoret Residential Estate Survey", "Uasin Gishu", "Eldoret", "Rift Valley", "Residential", "residential estate", "highland", 170, "0.5140", "35.2700", 2025],
+  ["Kericho Tea Farm Survey", "Kericho", "Kericho", "Rift Valley", "Agricultural", "tea farm", "highland", 150, "-0.3670", "35.2830", 2024],
+  ["Karatina Market Water Survey", "Nyeri", "Karatina", "Central", "Commercial", "market", "highland", 160, "-0.4830", "37.1290", 2025],
+  ["Maua Miraa Farm Survey", "Meru", "Maua", "Eastern", "Agricultural", "farm", "highland", 170, "0.2300", "37.9440", 2024],
+  ["Runyenjes Homestead Survey", "Embu", "Runyenjes", "Eastern", "Residential", "homestead", "highland", 150, "-0.4190", "37.5710", 2025],
+  ["Mtwapa Residential Survey", "Kilifi", "Mtwapa", "Coast", "Residential", "residential plot", "coast", 120, "-3.9490", "39.7380", 2025],
+  ["Ukunda Guest House Survey", "Kwale", "Ukunda", "Coast", "Hospitality", "guest house", "coast", 130, "-4.2900", "39.5700", 2026],
+  ["Nyali Apartments Survey", "Mombasa", "Nyali", "Coast", "Residential", "apartment block", "coast", 110, "-4.0200", "39.7160", 2024],
+];
+
+const CHALLENGE: Record<Climate, string> = {
+  dry: "Deep water and hard ground, so a wrongly placed borehole is costly.",
+  wet: "Water sits at different depths from one spot to the next.",
+  highland: "Hilly ground with water in fractured rock that is easy to miss.",
+  coast: "Close to the sea, where a wrongly placed borehole pulls in salt water.",
+};
+const YIELD: Record<Climate, string[]> = {
+  dry: ["Est. 3 m³/hr", "Est. 4 m³/hr", "Est. 5 m³/hr", "Est. 6 m³/hr"],
+  wet: ["Est. 5 m³/hr", "Est. 6 m³/hr", "Est. 7 m³/hr", "Est. 8 m³/hr"],
+  highland: ["Est. 4 m³/hr", "Est. 5 m³/hr", "Est. 6 m³/hr", "Est. 7 m³/hr"],
+  coast: ["Est. 3 m³/hr", "Est. 4 m³/hr", "Est. 5 m³/hr", "Est. 3 m³/hr"],
+};
+const OUTCOME = [
+  "Drill point, depth and report handed over before any drilling money was spent.",
+  "The client drilled at the marked point and avoided a dry hole.",
+  "Report supported the WARMA permit application.",
+  "The client got a clear drilling depth and a written report for the drilling quote.",
+];
+
+const slugify = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const MORE_SURVEYS: NewProject[] = SURVEY_ROWS.map(([title, county, town, region, clientType, noun, climate, depth, lat, lng, year], i) => ({
+  title,
+  slug: slugify(title),
+  county, town, region, clientType,
+  serviceType: "Hydrogeological Survey",
+  depth,
+  yield: YIELD[climate][i % 4],
+  duration: "1 day",
+  completionYear: year,
+  description: `Hydrogeological survey for a ${noun} in ${town}, to find the best borehole point before drilling.`,
+  challenge: CHALLENGE[climate],
+  solution: `ADMT-300S-X geophysical scan of ${2 + (i % 3)} candidate sites. The strongest water-bearing zone was marked, with a recommended depth of ${depth}m.`,
+  outcome: OUTCOME[i % 4],
+  featured: false,
+  latitude: lat,
+  longitude: lng,
+}));
+
+NEW_PROJECTS.push(...MORE_SURVEYS);

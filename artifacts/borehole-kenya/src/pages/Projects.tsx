@@ -171,7 +171,7 @@ export default function Projects() {
                     <CardContent className="p-0 flex flex-col h-full">
                       <div className="relative aspect-[3/2] overflow-hidden">
                         {(() => {
-                          const photo = projectPhoto(project.title);
+                          const photo = projectPhoto(project.title, project.serviceType);
                           return photo ? (
                             <img
                               src={photo.src}

@@ -59,7 +59,7 @@ export default function ProjectDetail() {
       {/* Hero */}
       <div
         className="relative overflow-hidden text-white pt-[76px] pb-6"
-        style={{ background: projectPhoto(project.title) ? bannerBackground(projectPhoto(project.title)!.src, projectPhoto(project.title)!.pos) : PLAIN_BANNER }}
+        style={{ background: projectPhoto(project.title, project.serviceType) ? bannerBackground(projectPhoto(project.title, project.serviceType)!.src, projectPhoto(project.title, project.serviceType)!.pos) : PLAIN_BANNER }}
       >
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/projects" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-3 transition-colors">
@@ -101,12 +101,12 @@ export default function ProjectDetail() {
 
       <div
         style={
-          projectBackdrop(project.title)
+          projectBackdrop(project.title, project.serviceType)
             ? {
                 backgroundColor: "hsl(215 70% 10%)",
-                backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .55) 0%, hsl(215 70% 8% / .28) 40%, hsl(215 70% 8% / .55) 100%), url(${projectBackdrop(project.title)!.src})`,
+                backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .55) 0%, hsl(215 70% 8% / .28) 40%, hsl(215 70% 8% / .55) 100%), url(${projectBackdrop(project.title, project.serviceType)!.src})`,
                 backgroundSize: "cover",
-                backgroundPosition: projectBackdrop(project.title)!.pos,
+                backgroundPosition: projectBackdrop(project.title, project.serviceType)!.pos,
               }
             : undefined
         }
