@@ -11,8 +11,6 @@ import {
 } from "@workspace/api-client-react";
 
 /** Must match the page size / filters used by the pages so cache keys line up. */
-const PRODUCT_PAGE_SIZE = 8;
-const PROJECT_PAGE_SIZE = 8;
 const FIVE_MIN = 5 * 60 * 1000;
 
 const PERSIST_KEY = "kws-cache-v1";
@@ -93,15 +91,15 @@ export async function prefetchSite(qc: QueryClient) {
     safe(() => qc.fetchQuery({ queryKey: ["services", "all"], queryFn: () => listServices({}), staleTime: FIVE_MIN })),
     safe(() =>
       qc.fetchQuery({
-        queryKey: ["products", "All", false, "", 1],
-        queryFn: () => listProducts({ page: 1, limit: PRODUCT_PAGE_SIZE }),
+        queryKey: ["products", "all", false, ""],
+        queryFn: () => listProducts({ inStock: undefined, search: undefined, page: 1, limit: 500 }),
         staleTime: FIVE_MIN,
       })
     ),
     safe(() =>
       qc.fetchQuery({
-        queryKey: ["projects", "All", "All", 1],
-        queryFn: () => listProjects({ page: 1, limit: PROJECT_PAGE_SIZE }),
+        queryKey: ["projects", "all"],
+        queryFn: () => listProjects({ page: 1, limit: 200 }),
         staleTime: FIVE_MIN,
       })
     ),
@@ -123,7 +121,7 @@ export async function prefetchSite(qc: QueryClient) {
   for (const p of products?.items ?? []) {
     jobs.push(qc.prefetchQuery({ queryKey: ["product", String(p.id)], queryFn: () => getProduct(p.id), staleTime: FIVE_MIN }));
   }
-  for (const p of projects?.items ?? []) {
+  for (const p of (projects?.items ?? []).slice(0, 12)) {
     jobs.push(qc.prefetchQuery({ queryKey: ["project", String(p.id)], queryFn: () => getProject(p.id), staleTime: FIVE_MIN }));
   }
   await Promise.all(jobs);

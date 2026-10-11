@@ -1,5 +1,6 @@
-import { db, productsTable, servicesTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { db, productsTable, servicesTable, projectsTable } from "@workspace/db";
+import { eq, and } from "drizzle-orm";
+import { NEW_PROJECTS, PROJECT_UPDATES } from "./projectsData";
 import { logger } from "./logger";
 
 // Idempotent catalog corrections applied on startup (runs against the live database).
@@ -14,15 +15,15 @@ export async function applyCatalogFixes() {
           "Slotted borehole screen and plain steel casing for water intake and borehole lining. Prevents sand ingress while maximising yield. Supplied in 6 m lengths.",
         specifications: { Diameter: "6 inch", Length: "6 m each", "Slot Size": "0.5mm" },
       })
-      .where(eq(productsTable.slug, "stainless-steel-borehole-screen-6inch"));
+      .where(and(eq(productsTable.slug, "stainless-steel-borehole-screen-6inch"), eq(productsTable.price, "8500.00")));
     await db
       .update(productsTable)
       .set({ price: "5500.00" })
-      .where(eq(productsTable.slug, "upvc-borehole-casing-6inch"));
+      .where(and(eq(productsTable.slug, "upvc-borehole-casing-6inch"), eq(productsTable.price, "3500.00")));
     await db
       .update(productsTable)
       .set({ price: "680000.00", comparePrice: null })
-      .where(eq(productsTable.slug, "reverse-osmosis-500lph"));
+      .where(and(eq(productsTable.slug, "reverse-osmosis-500lph"), eq(productsTable.price, "380000.00")));
     // New product: JA Solar Panel 550W (inserted once if missing)
     const existing = await db
       .select({ id: productsTable.id })
@@ -75,5 +76,30 @@ export async function applyCatalogFixes() {
     }
   } catch (err) {
     logger.warn({ err }, "Catalog fixes failed");
+  }
+  await applyProjectFixes();
+}
+
+// Project categories, realistic depths and extra projects. Safe to run on every start.
+async function applyProjectFixes() {
+  try {
+    for (const u of PROJECT_UPDATES) {
+      const [row] = await db.select().from(projectsTable).where(eq(projectsTable.slug, u.slug));
+      if (!row) continue;
+      // Only change a project that still has its old depth, so later manual edits are kept.
+      if (row.depth !== u.oldDepth) continue;
+      const patch: Partial<typeof row> = { depth: u.depth, serviceType: u.serviceType };
+      for (const [field, pair] of Object.entries(u.replace ?? {})) {
+        const key = field as "description" | "challenge" | "solution" | "outcome";
+        const current = row[key];
+        if (pair && current) patch[key] = current.replace(pair[0], pair[1]);
+      }
+      await db.update(projectsTable).set(patch).where(eq(projectsTable.slug, u.slug));
+    }
+    for (const p of NEW_PROJECTS) {
+      await db.insert(projectsTable).values(p).onConflictDoNothing({ target: projectsTable.slug });
+    }
+  } catch (err) {
+    logger.warn({ err }, "Project fixes failed");
   }
 }

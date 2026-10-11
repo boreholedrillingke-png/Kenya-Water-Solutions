@@ -10,8 +10,26 @@ import { projectPhoto } from "@/lib/projectPhotos";
 import { useListProjects } from "@workspace/api-client-react";
 
 const PAGE_SIZE = 8;
-const SERVICE_TYPES = ["All", "Borehole Drilling", "Solar Pump Systems", "Pump Installation", "Water Treatment"];
-const CLIENT_TYPES = ["All", "Community", "Agricultural", "Commercial", "Government", "Healthcare", "Education", "Hospitality", "Humanitarian", "Conservation", "Research"];
+// Project categories, in the order shown on the page
+const CATEGORIES = [
+  "Hydrogeological Survey",
+  "Borehole Drilling",
+  "Drilling & Pump",
+  "Pump Installation",
+  "Test Pumping",
+  "Water Purification",
+  "Full Package",
+];
+const CATEGORY_HINT: Record<string, string> = {
+  "Hydrogeological Survey": "Survey only",
+  "Borehole Drilling": "Drilling only",
+  "Drilling & Pump": "Drilling and pump",
+  "Pump Installation": "Pump only",
+  "Test Pumping": "Pump test only",
+  "Water Purification": "Treatment systems",
+  "Full Package": "Survey to pump",
+};
+const CLIENT_TYPES = ["All", "Community", "Agricultural", "Commercial", "Government", "Healthcare", "Education", "Residential", "Hospitality", "Humanitarian", "Conservation", "Research"];
 
 const CLIENT_COLORS: Record<string, string> = {
   Community: "bg-green-100 text-green-700",
@@ -21,6 +39,7 @@ const CLIENT_COLORS: Record<string, string> = {
   Healthcare: "bg-red-100 text-red-700",
   Education: "bg-indigo-100 text-indigo-700",
   Hospitality: "bg-pink-100 text-pink-700",
+  Residential: "bg-cyan-100 text-cyan-700",
   Humanitarian: "bg-orange-100 text-orange-700",
   Conservation: "bg-teal-100 text-teal-700",
   Research: "bg-gray-100 text-gray-700",
@@ -34,18 +53,20 @@ export default function Projects() {
   const [clientType, setClientType] = useState("All");
   const [page, setPage] = useState(1);
 
+  // Load every project once, then filter and page here so category counts are instant.
   const { data, isLoading } = useListProjects(
-    {
-      serviceType: serviceType !== "All" ? serviceType : undefined,
-      clientType: clientType !== "All" ? clientType : undefined,
-      page,
-      limit: PAGE_SIZE,
-    },
-    { query: { queryKey: ["projects", serviceType, clientType, page] } }
+    { page: 1, limit: 200 },
+    { query: { queryKey: ["projects", "all"] } }
   );
 
-  const projects = data?.items ?? [];
-  const total = data?.total ?? 0;
+  const all = data?.items ?? [];
+  const counts: Record<string, number> = {};
+  for (const p of all) counts[p.serviceType] = (counts[p.serviceType] ?? 0) + 1;
+  const filtered = all.filter(
+    (p) => (serviceType === "All" || p.serviceType === serviceType) && (clientType === "All" || p.clientType === clientType)
+  );
+  const total = filtered.length;
+  const projects = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const totalPages = Math.ceil(total / PAGE_SIZE);
   const hasFilters = serviceType !== "All" || clientType !== "All";
 
@@ -81,11 +102,37 @@ export default function Projects() {
       <div style={pageBackdrop(IMAGES.backdropTruck, "center 50%")}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div>
+          {/* Categories */}
+          <div className="mb-3 rounded-xl bg-card/95 p-2 shadow-sm">
+            <div className="flex gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:thin]" role="tablist" aria-label="Project categories">
+              {["All", ...CATEGORIES].map((c) => {
+                const active = serviceType === c;
+                const n = c === "All" ? all.length : counts[c] ?? 0;
+                return (
+                  <button
+                    key={c}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => { setServiceType(c); setPage(1); }}
+                    data-testid={`tab-project-${c}`}
+                    className={`shrink-0 rounded-lg px-3 py-1.5 text-left transition-colors ${
+                      active ? "bg-primary text-primary-foreground shadow" : "bg-muted/60 text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    <span className="block text-xs font-semibold leading-tight whitespace-nowrap">
+                      {c === "All" ? "All projects" : c} <span className={active ? "text-white/80" : "text-muted-foreground"}>({n})</span>
+                    </span>
+                    <span className={`block text-[10px] leading-tight ${active ? "text-white/75" : "text-muted-foreground"}`}>
+                      {c === "All" ? "Every job we have done" : CATEGORY_HINT[c]}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Filters + count */}
           <div className="flex flex-wrap items-center gap-2 mb-3 rounded-xl bg-card/95 px-3 py-2 shadow-sm">
-            <select className={select} value={serviceType} onChange={(e) => { setServiceType(e.target.value); setPage(1); }} aria-label="Service type">
-              {SERVICE_TYPES.map((t) => <option key={t} value={t}>{t === "All" ? "All services" : t}</option>)}
-            </select>
             <select className={select} value={clientType} onChange={(e) => { setClientType(e.target.value); setPage(1); }} aria-label="Client type">
               {CLIENT_TYPES.map((t) => <option key={t} value={t}>{t === "All" ? "All clients" : t}</option>)}
             </select>

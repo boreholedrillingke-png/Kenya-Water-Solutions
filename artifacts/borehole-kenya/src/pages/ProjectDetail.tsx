@@ -16,6 +16,7 @@ const CLIENT_COLORS: Record<string, string> = {
   Healthcare: "bg-red-100 text-red-700",
   Education: "bg-indigo-100 text-indigo-700",
   Hospitality: "bg-pink-100 text-pink-700",
+  Residential: "bg-cyan-100 text-cyan-700",
   Humanitarian: "bg-orange-100 text-orange-700",
   Conservation: "bg-teal-100 text-teal-700",
   Research: "bg-gray-100 text-gray-700",
@@ -114,8 +115,8 @@ export default function ProjectDetail() {
         {/* Key stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { icon: Layers, label: "Borehole Depth", value: project.depth ? `${project.depth}m` : "N/A" },
-            { icon: Droplets, label: "Water Yield", value: project.yield ?? "N/A" },
+            { icon: Layers, label: project.serviceType === "Hydrogeological Survey" ? "Recommended Depth" : "Borehole Depth", value: project.depth ? `${project.depth}m` : "N/A" },
+            { icon: Droplets, label: project.serviceType === "Water Purification" ? "Treatment Capacity" : project.serviceType === "Hydrogeological Survey" ? "Expected Yield" : "Water Yield", value: project.yield ?? "N/A" },
             { icon: Clock, label: "Duration", value: project.duration ?? "N/A" },
             { icon: Calendar, label: "Year", value: project.completionYear.toString() },
           ].map((stat) => (
