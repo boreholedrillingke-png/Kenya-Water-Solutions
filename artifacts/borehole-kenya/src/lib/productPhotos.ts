@@ -6,6 +6,11 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/sp5a-1.webp",
     "/images/products/sp5a-3.webp",
   ],
+  "Grundfos SP 11A Submersible Pump": [
+    "/images/products/sp11a-1.webp",
+    "/images/products/sp11a-2.webp",
+    "/images/products/sp11a-3.webp",
+  ],
 };
 
 export function productImages(name: string, imageUrl?: string | null): string[] {
