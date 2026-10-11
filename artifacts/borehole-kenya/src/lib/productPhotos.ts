@@ -80,6 +80,13 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/hdpe32-5.webp",
     "/images/products/hdpe32-6.webp",
   ],
+  "Pressure Tank 100L": [
+    "/images/products/tank100-1.webp",
+    "/images/products/tank100-2.webp",
+    "/images/products/tank100-3.webp",
+    "/images/products/tank100-4.webp",
+    "/images/products/tank100-5.webp",
+  ],
 };
 
 // Display-only renames/edits for products stored in the database under another name.
