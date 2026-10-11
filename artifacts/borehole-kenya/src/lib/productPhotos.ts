@@ -28,6 +28,14 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/lps2-6.webp",
     "/images/products/lps2-7.webp",
   ],
+  "uPVC Borehole Casing Pipe 6 inch": [
+    "/images/products/upvc6-1.webp",
+    "/images/products/upvc6-2.webp",
+    "/images/products/upvc6-3.webp",
+    "/images/products/upvc6-4.webp",
+    "/images/products/upvc6-5.webp",
+    "/images/products/upvc6-6.webp",
+  ],
 };
 
 export function productImages(name: string, imageUrl?: string | null): string[] {
