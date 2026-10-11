@@ -1,7 +1,8 @@
 import { productImages, applyOverrides } from "@/lib/productPhotos";
 import { useState } from "react";
 import { Link } from "wouter";
-import { Search, ShoppingCart, MessageSquare, Filter, X } from "lucide-react";
+import { Search, ShoppingCart, MessageSquare, Filter, X, ChevronDown, Check } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ export default function Products() {
   const [activeCategory, setActiveCategory] = useState(() => new URLSearchParams(window.location.search).get("category") || "All");
   const [inStockOnly, setInStockOnly] = useState(false);
   const [page, setPage] = useState(1);
+  const [catOpen, setCatOpen] = useState(false);
 
   const { data: categories } = useListProductCategories();
   const { data: products, isLoading } = useListProducts(
@@ -59,13 +61,13 @@ export default function Products() {
         title="Products & Equipment"
         description="Pumps, solar systems, pipes, tanks and accessories from trusted brands."
       >
-        <div className="flex gap-2 mb-2.5">
+        <div className="flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/60" />
             <Input
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              placeholder="Search pumps, tanks, pipes..."
+              placeholder="Search..."
               className="pl-9 h-9 text-sm bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-amber-300/70"
               data-testid="input-search"
             />
@@ -75,6 +77,45 @@ export default function Products() {
               </button>
             )}
           </div>
+          <Popover open={catOpen} onOpenChange={setCatOpen}>
+            <div
+              className={`flex items-center h-9 rounded-md border text-xs font-medium transition-all ${
+                activeCategory !== "All" ? "border-amber-300 bg-amber-300 text-slate-900" : "border-white/25 text-white/90 hover:bg-white/10"
+              }`}
+            >
+              <PopoverTrigger asChild>
+                <button className="flex items-center gap-1.5 pl-3 pr-2 h-full max-w-[150px] sm:max-w-[220px]" data-testid="button-category-dropdown">
+                  <span className="truncate">{activeCategory === "All" ? "All categories" : activeCategory}</span>
+                  <ChevronDown className="h-3.5 w-3.5 shrink-0" />
+                </button>
+              </PopoverTrigger>
+              {activeCategory !== "All" && (
+                <button
+                  onClick={() => { setActiveCategory("All"); setPage(1); }}
+                  aria-label="Clear category"
+                  data-testid="button-category-clear"
+                  className="pr-2 pl-0.5 h-full"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+            <PopoverContent align="end" className="w-60 p-1">
+              {allCategories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => { setActiveCategory(cat); setPage(1); setCatOpen(false); }}
+                  data-testid={`button-category-${cat}`}
+                  className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-left hover:bg-muted ${
+                    activeCategory === cat ? "font-semibold text-primary" : "text-foreground"
+                  }`}
+                >
+                  {cat === "All" ? "All categories" : cat}
+                  {activeCategory === cat && <Check className="h-4 w-4" />}
+                </button>
+              ))}
+            </PopoverContent>
+          </Popover>
           <button
             onClick={() => { setInStockOnly(!inStockOnly); setPage(1); }}
             data-testid="button-instock-filter"
@@ -86,22 +127,6 @@ export default function Products() {
           >
             <Filter className="h-3.5 w-3.5" /> In Stock
           </button>
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {allCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => { setActiveCategory(cat); setPage(1); }}
-              data-testid={`button-category-${cat}`}
-              className={`px-2.5 py-0.5 rounded-full text-xs font-medium border transition-all ${
-                activeCategory === cat
-                  ? "bg-amber-300 text-slate-900 border-amber-300"
-                  : "border-white/25 text-white/85 hover:bg-white/10"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
         </div>
       </PageBanner>
 
