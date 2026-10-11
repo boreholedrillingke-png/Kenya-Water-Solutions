@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { ArrowRight, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
-import { IMAGES, imagePosition } from "@/lib/images";
+import { IMAGES, imagePosition, pageBackdrop } from "@/lib/images";
 
 const quickLinks = [
   { label: "Surveys", href: "/services", icon: Radar, from: "#22d3ee", to: "#0369a1" },
@@ -121,7 +121,7 @@ export default function Home() {
     </div>
 
     {/* What we do */}
-    <section className="bg-background py-8">
+    <section className="py-8" style={pageBackdrop(IMAGES.backdropRig, "center 55%")}>
       <div className="max-w-6xl mx-auto px-5 sm:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {tiles.map((t) => (
           <Link key={t.title} href={t.href} className="group relative block overflow-hidden rounded-2xl aspect-[4/3] shadow-md">

@@ -1,3 +1,4 @@
+import { IMAGES, pageBackdrop } from "@/lib/images";
 import { displayName } from "@/lib/productPhotos";
 import { Link } from "wouter";
 import { Trash2, Plus, Minus, ShoppingCart, MessageSquare, ArrowLeft } from "lucide-react";
@@ -47,7 +48,7 @@ export default function Cart() {
 
   if (isLoading) {
     return (
-      <div className="bg-background pt-[80px] pb-8">
+      <div className="pt-[80px] pb-8 min-h-screen" style={pageBackdrop(IMAGES.backdropWater, "center 50%")}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Skeleton className="h-8 w-32 mb-8" />
           <div className="space-y-4">
@@ -63,8 +64,8 @@ export default function Cart() {
   const isEmpty = !cart || cart.items.length === 0;
 
   return (
-    <div className="bg-background pt-[80px] pb-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-[80px] pb-8 min-h-screen" style={pageBackdrop(IMAGES.backdropWater, "center 50%")}>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 rounded-2xl bg-card/95 shadow-xl py-4">
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
           <Link href="/products" className="text-muted-foreground hover:text-foreground transition-colors">

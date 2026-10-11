@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetService, useCreateInquiry } from "@workspace/api-client-react";
-import { pickImage, bannerBackground } from "@/lib/images";
+import { IMAGES, pickImage, bannerBackground, pageBackdrop } from "@/lib/images";
 import { formatKES, whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -89,8 +89,17 @@ export default function ServiceDetail() {
     );
   }
 
+  const svcText = `${service.name} ${service.category}`.toLowerCase();
+  const backdrop = /solar/.test(svcText)
+    ? IMAGES.backdropSolar
+    : /purif|treat|filter/.test(svcText)
+    ? IMAGES.backdropPlant
+    : /pump|install/.test(svcText)
+    ? IMAGES.backdropTruck
+    : IMAGES.backdropRig;
+
   return (
-    <div className="bg-background">
+    <div style={pageBackdrop(backdrop, "center 50%")}>
       {/* Header */}
       <div className="relative overflow-hidden text-white pt-[76px] pb-6" style={{ background: bannerBackground(pickImage(service.name, service.category)) }}>
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -126,7 +135,7 @@ export default function ServiceDetail() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6 rounded-2xl bg-card/95 shadow-xl p-4 sm:p-6 self-start">
             {/* Description */}
             <div>
               <h2 className="text-xl font-semibold text-foreground mb-4">About This Service</h2>
