@@ -63,6 +63,15 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/ro500-6.webp",
     "/images/products/ro500-7.webp",
   ],
+  "Water Level Meter 100m": [
+    "/images/products/wlm100-1.webp",
+    "/images/products/wlm100-2.webp",
+    "/images/products/wlm100-3.webp",
+    "/images/products/wlm100-4.webp",
+    "/images/products/wlm100-5.webp",
+    "/images/products/wlm100-6.webp",
+    "/images/products/wlm100-7.webp",
+  ],
 };
 
 // Display-only renames/edits for products stored in the database under another name.
