@@ -22,4 +22,15 @@ app.listen(port, (err) => {
   }
 
   logger.info({ port }, "Server listening");
+
+  // Keep-alive: Render's free plan sleeps after ~15 min without public traffic.
+  // Pinging our own public URL every 10 min counts as traffic and prevents it.
+  const publicUrl = process.env["RENDER_EXTERNAL_URL"];
+  if (publicUrl) {
+    const ping = () =>
+      fetch(`${publicUrl}/api/healthz`).catch((err) =>
+        logger.warn({ err }, "Keep-alive ping failed"),
+      );
+    setInterval(ping, 10 * 60 * 1000).unref?.();
+  }
 });
