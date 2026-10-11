@@ -8,7 +8,7 @@ import { formatKES, getCartSessionId, whatsappLink } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import ProductGallery from "@/components/ProductGallery";
-import { productImages } from "@/lib/productPhotos";
+import { productImages, applyOverrides } from "@/lib/productPhotos";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -16,9 +16,10 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1);
   const sessionId = getCartSessionId();
 
-  const { data: product, isLoading } = useGetProduct(Number(id), {
+  const { data: rawProduct, isLoading } = useGetProduct(Number(id), {
     query: { queryKey: ["product", id] },
   });
+  const product = rawProduct ? applyOverrides(rawProduct) : rawProduct;
   const addToCart = useAddToCart();
 
   function handleAddToCart() {

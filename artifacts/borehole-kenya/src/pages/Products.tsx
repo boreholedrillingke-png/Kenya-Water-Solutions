@@ -1,4 +1,4 @@
-import { productImages } from "@/lib/productPhotos";
+import { productImages, applyOverrides } from "@/lib/productPhotos";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Search, ShoppingCart, MessageSquare, Filter, X } from "lucide-react";
@@ -135,7 +135,7 @@ export default function Products() {
             </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-              {(products?.items ?? []).map((product) => (
+              {(products?.items ?? []).map(applyOverrides).map((product) => (
                 <Card key={product.id} className="group hover:shadow-md transition-all flex flex-col overflow-hidden" data-testid={`card-product-${product.id}`}>
                   <CardContent className="p-0 flex flex-col h-full">
                     <Link href={`/products/${product.id}`} className="block">

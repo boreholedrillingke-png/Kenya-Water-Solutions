@@ -36,10 +36,38 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/upvc6-5.webp",
     "/images/products/upvc6-6.webp",
   ],
+  "Borehole Screen 6 inch": [
+    "/images/products/screen6-1.webp",
+    "/images/products/screen6-2.webp",
+    "/images/products/screen6-3.webp",
+    "/images/products/screen6-4.webp",
+    "/images/products/screen6-5.webp",
+    "/images/products/screen6-6.webp",
+    "/images/products/screen6-7.webp",
+  ],
 };
 
+// Display-only renames/edits for products stored in the database under another name.
+const OVERRIDES: Record<string, { name: string; description?: string; specifications?: Record<string, string> }> = {
+  "Stainless Steel Borehole Screen 6 inch": {
+    name: "Borehole Screen 6 inch",
+    description: "Slotted borehole screen for water intake. Prevents sand ingress while maximising yield. Supplied in 6 m lengths.",
+    specifications: { Diameter: "6 inch", Length: "6 m each", "Slot Size": "0.5mm" },
+  },
+};
+
+export function displayName(name: string): string {
+  return OVERRIDES[name]?.name ?? name;
+}
+
+export function applyOverrides<T extends { name: string; description?: string | null; specifications?: unknown }>(p: T): T {
+  const o = OVERRIDES[p.name];
+  if (!o) return p;
+  return { ...p, name: o.name, description: o.description ?? p.description, specifications: o.specifications ?? p.specifications };
+}
+
 export function productImages(name: string, imageUrl?: string | null): string[] {
-  const extra = PRODUCT_GALLERY[name];
+  const extra = PRODUCT_GALLERY[displayName(name)] ?? PRODUCT_GALLERY[name];
   if (extra?.length) return extra;
   return imageUrl ? [imageUrl] : [];
 }

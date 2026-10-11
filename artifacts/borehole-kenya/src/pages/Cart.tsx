@@ -1,3 +1,4 @@
+import { displayName } from "@/lib/productPhotos";
 import { Link } from "wouter";
 import { Trash2, Plus, Minus, ShoppingCart, MessageSquare, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,7 @@ export default function Cart() {
   function buildWhatsAppMessage() {
     if (!cart?.items.length) return "";
     const lines = cart.items.map(
-      (item) => `• ${item.productName} x${item.quantity} — ${formatKES(item.subtotal)}`
+      (item) => `• ${displayName(item.productName)} x${item.quantity} — ${formatKES(item.subtotal)}`
     );
     return [
       "Hello, I would like to place an order for the following items:",
@@ -93,7 +94,7 @@ export default function Cart() {
                       {/* Image */}
                       <div className="w-16 h-16 rounded-lg bg-muted flex-shrink-0 flex items-center justify-center overflow-hidden">
                         {item.productImageUrl ? (
-                          <img src={item.productImageUrl} alt={item.productName} className="w-full h-full object-cover rounded-lg" />
+                          <img src={item.productImageUrl} alt={displayName(item.productName)} className="w-full h-full object-cover rounded-lg" />
                         ) : (
                           <ShoppingCart className="h-5 w-5 text-muted-foreground/40" />
                         )}
@@ -102,7 +103,7 @@ export default function Cart() {
                       {/* Details */}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-foreground text-sm leading-snug line-clamp-2 mb-1">
-                          {item.productName}
+                          {displayName(item.productName)}
                         </h3>
                         <p className="text-sm text-muted-foreground">{formatKES(item.price)} each</p>
                       </div>
@@ -156,7 +157,7 @@ export default function Cart() {
                   <div className="space-y-2 mb-4">
                     {cart.items.map((item) => (
                       <div key={item.id} className="flex justify-between text-sm">
-                        <span className="text-muted-foreground truncate max-w-[130px]">{item.productName} ×{item.quantity}</span>
+                        <span className="text-muted-foreground truncate max-w-[130px]">{displayName(item.productName)} ×{item.quantity}</span>
                         <span className="text-foreground font-medium ml-2 flex-shrink-0">{formatKES(item.subtotal)}</span>
                       </div>
                     ))}
