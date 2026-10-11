@@ -87,6 +87,12 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/tank100-4.webp",
     "/images/products/tank100-5.webp",
   ],
+  "Borehole Flow Meter 2 inch": [
+    "/images/products/flow2-1.webp",
+    "/images/products/flow2-2.webp",
+    "/images/products/flow2-3.webp",
+    "/images/products/flow2-4.webp",
+  ],
 };
 
 // Display-only renames/edits for products stored in the database under another name.
