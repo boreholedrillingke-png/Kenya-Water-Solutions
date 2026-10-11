@@ -23,7 +23,7 @@ export default function Products() {
   const sessionId = getCartSessionId();
 
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(() => new URLSearchParams(window.location.search).get("category") || "All");
   const [inStockOnly, setInStockOnly] = useState(false);
   const [page, setPage] = useState(1);
 

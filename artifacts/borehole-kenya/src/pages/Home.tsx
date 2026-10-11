@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical } from "lucide-react";
+import { ArrowRight, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical, ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { IMAGES, imagePosition, pageBackdrop } from "@/lib/images";
+import { useListServices } from "@workspace/api-client-react";
 
+// Each button opens its own page. "match" finds the service by name; "to" is used when it is a product category.
 const quickLinks = [
-  { label: "Surveys", href: "/services", icon: Radar, from: "#22d3ee", to: "#0369a1" },
-  { label: "Drilling", href: "/services", icon: Drill, from: "#fb923c", to: "#c2410c" },
-  { label: "Pumps", href: "/products", icon: Gauge, from: "#818cf8", to: "#4338ca" },
-  { label: "Solar", href: "/services", icon: Sun, from: "#fde047", to: "#d97706" },
-  { label: "Water Purification", href: "/services", icon: FlaskConical, from: "#34d399", to: "#047857" },
+  { label: "Surveys", match: /survey/i, icon: Radar, from: "#22d3ee", to: "#0369a1" },
+  { label: "Inspection", match: /inspect/i, icon: ScanSearch, from: "#f472b6", to: "#be185d" },
+  { label: "Drilling", match: /^borehole drilling|drilling/i, icon: Drill, from: "#fb923c", to: "#c2410c" },
+  { label: "Pumps", href: "/products?category=Submersible%20Pumps", icon: Gauge, from: "#818cf8", to: "#4338ca" },
+  { label: "Solar", href: "/products?category=Solar%20Pump%20Systems", icon: Sun, from: "#fde047", to: "#d97706" },
+  { label: "Water Purification", href: "/products?category=Water%20Treatment", icon: FlaskConical, from: "#34d399", to: "#047857" },
 ];
 
 const tiles = [
-  { title: "Borehole Drilling", text: "Surveyed, drilled, cased and tested.", image: IMAGES.drilling, href: "/services" },
-  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.treatment, href: "/products" },
-  { title: "Solar Pumping", text: "Cut your power bills for good.", image: IMAGES.solarPump, href: "/services" },
+  { title: "Borehole Drilling", text: "Surveyed, drilled, cased and tested.", image: IMAGES.drilling, match: /drilling/i },
+  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.treatment, href: "/products?category=Water%20Treatment" },
+  { title: "Solar Pumping", text: "Cut your power bills for good.", image: IMAGES.solarPump, href: "/products?category=Solar%20Pump%20Systems" },
 ];
 
 function QuickQuote() {
@@ -62,6 +65,12 @@ function QuickQuote() {
 }
 
 export default function Home() {
+  const { data: services } = useListServices({}, { query: { queryKey: ["services", "all"] } });
+  const hrefFor = (item: { href?: string; match?: RegExp }) => {
+    if (item.href) return item.href;
+    const svc = (services ?? []).find((x) => item.match!.test(x.name) && !/test/i.test(x.name));
+    return svc ? `/services/${svc.id}` : "/services";
+  };
   return (
     <>
     <div
@@ -98,7 +107,7 @@ export default function Home() {
             {quickLinks.map((q) => (
               <Link
                 key={q.label}
-                href={q.href}
+                href={hrefFor(q)}
                 data-testid={`button-quick-${q.label.toLowerCase().replace(/\s+/g, "-")}`}
                 className="group inline-flex items-center gap-2 rounded-xl bg-white py-1.5 pl-1.5 pr-3.5 text-xs sm:text-sm font-semibold text-slate-800 ring-1 ring-black/5 shadow-[0_3px_0_0_rgba(15,23,42,.28),0_10px_18px_-8px_rgba(0,0,0,.55)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_5px_0_0_rgba(15,23,42,.28),0_14px_22px_-8px_rgba(0,0,0,.6)] active:translate-y-[2px] active:shadow-[0_1px_0_0_rgba(15,23,42,.28),0_4px_8px_-4px_rgba(0,0,0,.5)]"
               >
@@ -124,7 +133,7 @@ export default function Home() {
     <section className="py-8" style={pageBackdrop(IMAGES.backdropRig, "center 55%")}>
       <div className="max-w-6xl mx-auto px-5 sm:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {tiles.map((t) => (
-          <Link key={t.title} href={t.href} className="group relative block overflow-hidden rounded-2xl aspect-[4/3] shadow-md">
+          <Link key={t.title} href={hrefFor(t)} className="group relative block overflow-hidden rounded-2xl aspect-[4/3] shadow-md">
             <img src={t.image} alt={t.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: imagePosition(t.image) }} />
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 35%, hsl(215 70% 8% / .88) 100%)" }} />
             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
