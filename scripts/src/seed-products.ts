@@ -87,7 +87,7 @@ const products = [
     category: "Borehole Casing",
     brand: null,
     description: "304 stainless steel slotted screen for borehole water intake. Prevents sand ingress while maximising yield.",
-    price: "8500.00",
+    price: "17500.00",
     comparePrice: null,
     inStock: true,
     stockQty: 200,

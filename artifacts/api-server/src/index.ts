@@ -1,5 +1,6 @@
 import app from "./app";
 import { logger } from "./lib/logger";
+import { applyCatalogFixes } from "./lib/catalogFixes";
 
 const rawPort = process.env["PORT"];
 
@@ -22,6 +23,7 @@ app.listen(port, (err) => {
   }
 
   logger.info({ port }, "Server listening");
+  void applyCatalogFixes();
 
   // Keep-alive: Render's free plan sleeps after ~15 min without public traffic.
   // Pinging our own public URL every 10 min counts as traffic and prevents it.
