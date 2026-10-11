@@ -47,7 +47,7 @@ export default function Footer() {
             <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Services</div>
             <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {services.map((s) => (
-                <li key={s}><Link href="/services" className={link}>{s}</Link></li>
+                <li key={s}><Link href={s === "Water Purification" ? "/purification" : "/services"} className={link}>{s}</Link></li>
               ))}
             </ul>
           </div>

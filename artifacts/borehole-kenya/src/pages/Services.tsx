@@ -93,7 +93,7 @@ export default function Services() {
                 <div className="mt-auto pt-2 border-t border-border flex items-center justify-between gap-3">
                   <span className="text-xs text-muted-foreground">Quote on request</span>
                   <Button asChild size="sm" className="h-8 text-xs">
-                    <Link href="/contact">Request a Quote <ArrowRight className="ml-1 h-3 w-3" /></Link>
+                    <Link href="/purification">View details <ArrowRight className="ml-1 h-3 w-3" /></Link>
                   </Button>
                 </div>
               </CardContent>

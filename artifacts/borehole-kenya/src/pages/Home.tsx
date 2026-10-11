@@ -13,12 +13,12 @@ const quickLinks = [
   { label: "Drilling", match: /^borehole drilling|drilling/i, icon: Drill, from: "#fb923c", to: "#c2410c" },
   { label: "Pumps", href: "/products?category=Submersible%20Pumps", icon: Gauge, from: "#818cf8", to: "#4338ca" },
   { label: "Solar", href: "/products?category=Solar%20Pump%20Systems", icon: Sun, from: "#fde047", to: "#d97706" },
-  { label: "Water Purification", href: "/products?category=Water%20Treatment", icon: FlaskConical, from: "#34d399", to: "#047857" },
+  { label: "Water Purification", href: "/purification", icon: FlaskConical, from: "#34d399", to: "#047857" },
 ];
 
 const tiles = [
   { title: "Borehole Drilling", text: "Surveyed, drilled, cased and tested.", image: IMAGES.drilling, match: /drilling/i },
-  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.treatment, href: "/products?category=Water%20Treatment" },
+  { title: "Clean Water Supply", text: "Pumps, tanks and water treatment.", image: IMAGES.treatment, href: "/purification" },
   { title: "Solar Pumping", text: "Cut your power bills for good.", image: IMAGES.solarPump, href: "/products?category=Solar%20Pump%20Systems" },
 ];
 
