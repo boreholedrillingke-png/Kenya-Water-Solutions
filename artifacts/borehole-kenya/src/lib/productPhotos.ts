@@ -19,6 +19,15 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/spc3-5.webp",
     "/images/products/spc3-6.webp",
   ],
+  "Lorentz PS2 Solar Pump System": [
+    "/images/products/lps2-1.webp",
+    "/images/products/lps2-2.webp",
+    "/images/products/lps2-3.webp",
+    "/images/products/lps2-4.webp",
+    "/images/products/lps2-5.webp",
+    "/images/products/lps2-6.webp",
+    "/images/products/lps2-7.webp",
+  ],
 };
 
 export function productImages(name: string, imageUrl?: string | null): string[] {
