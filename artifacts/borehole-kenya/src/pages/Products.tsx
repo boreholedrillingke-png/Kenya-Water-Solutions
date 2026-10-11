@@ -24,22 +24,26 @@ export default function Products() {
   const sessionId = getCartSessionId();
 
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState(() => new URLSearchParams(window.location.search).get("category") || "All");
+  const [selected, setSelected] = useState<string[]>(() => (new URLSearchParams(window.location.search).get("category") || "").split(",").filter(Boolean));
+  const toggleCategory = (c: string) => { setSelected((cur) => (cur.includes(c) ? cur.filter((x) => x !== c) : [...cur, c])); setPage(1); };
+  const clearCategories = () => { setSelected([]); setPage(1); };
   const [inStockOnly, setInStockOnly] = useState(false);
   const [page, setPage] = useState(1);
   const [catOpen, setCatOpen] = useState(false);
 
   const { data: categories } = useListProductCategories();
-  const { data: products, isLoading } = useListProducts(
+  // Load once, then filter the chosen categories here so several can be ticked at once.
+  const { data: all, isLoading } = useListProducts(
     {
-      category: activeCategory !== "All" ? activeCategory : undefined,
       inStock: inStockOnly || undefined,
       search: search || undefined,
-      page,
-      limit: PAGE_SIZE,
+      page: 1,
+      limit: 500,
     },
-    { query: { queryKey: ["products", activeCategory, inStockOnly, search, page] } }
+    { query: { queryKey: ["products", "all", inStockOnly, search] } }
   );
+  const filtered = (all?.items ?? []).filter((p) => selected.length === 0 || selected.includes(p.category));
+  const products = all ? { items: filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE), total: filtered.length } : undefined;
 
   const addToCart = useAddToCart();
 
@@ -50,7 +54,7 @@ export default function Products() {
     );
   }
 
-  const allCategories = ["All", ...(categories ?? []).map((c) => c.name)];
+  const allCategories = (categories ?? []).map((c) => c.name);
   const totalPages = products ? Math.ceil(products.total / PAGE_SIZE) : 1;
 
   return (
@@ -80,18 +84,18 @@ export default function Products() {
           <Popover open={catOpen} onOpenChange={setCatOpen}>
             <div
               className={`flex items-center h-9 rounded-md border text-xs font-medium transition-all ${
-                activeCategory !== "All" ? "border-amber-300 bg-amber-300 text-slate-900" : "border-white/25 text-white/90 hover:bg-white/10"
+                selected.length > 0 ? "border-amber-300 bg-amber-300 text-slate-900" : "border-white/25 text-white/90 hover:bg-white/10"
               }`}
             >
               <PopoverTrigger asChild>
                 <button className="flex items-center gap-1.5 pl-3 pr-2 h-full max-w-[150px] sm:max-w-[220px]" data-testid="button-category-dropdown">
-                  <span className="truncate">{activeCategory === "All" ? "All categories" : activeCategory}</span>
+                  <span className="truncate">{selected.length === 0 ? "All categories" : selected.length === 1 ? selected[0] : `${selected.length} categories`}</span>
                   <ChevronDown className="h-3.5 w-3.5 shrink-0" />
                 </button>
               </PopoverTrigger>
-              {activeCategory !== "All" && (
+              {selected.length > 0 && (
                 <button
-                  onClick={() => { setActiveCategory("All"); setPage(1); }}
+                  onClick={clearCategories}
                   aria-label="Clear category"
                   data-testid="button-category-clear"
                   className="pr-2 pl-0.5 h-full"
@@ -100,20 +104,35 @@ export default function Products() {
                 </button>
               )}
             </div>
-            <PopoverContent align="end" className="w-60 p-1">
-              {allCategories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => { setActiveCategory(cat); setPage(1); setCatOpen(false); }}
-                  data-testid={`button-category-${cat}`}
-                  className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-left hover:bg-muted ${
-                    activeCategory === cat ? "font-semibold text-primary" : "text-foreground"
-                  }`}
-                >
-                  {cat === "All" ? "All categories" : cat}
-                  {activeCategory === cat && <Check className="h-4 w-4" />}
-                </button>
-              ))}
+            <PopoverContent align="end" className="w-64 p-1">
+              <button
+                onClick={clearCategories}
+                data-testid="button-category-All"
+                className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-left hover:bg-muted ${
+                  selected.length === 0 ? "font-semibold text-primary" : "text-foreground"
+                }`}
+              >
+                All categories
+                {selected.length === 0 && <Check className="h-4 w-4" />}
+              </button>
+              <div className="my-1 h-px bg-border" />
+              {allCategories.map((cat) => {
+                const on = selected.includes(cat);
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => toggleCategory(cat)}
+                    data-testid={`button-category-${cat}`}
+                    className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-left text-foreground hover:bg-muted"
+                  >
+                    <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${on ? "bg-primary border-primary text-primary-foreground" : "border-border"}`}>
+                      {on && <Check className="h-3 w-3" />}
+                    </span>
+                    {cat}
+                  </button>
+                );
+              })}
+              <p className="px-3 pt-1 pb-1.5 text-[11px] text-muted-foreground">Tick one or more categories</p>
             </PopoverContent>
           </Popover>
           <button
@@ -136,7 +155,7 @@ export default function Products() {
           {products && (
             <p className="mb-2 inline-block rounded-full bg-card/95 px-3 py-1 text-xs text-muted-foreground shadow-sm">
               Showing {products.items.length} of {products.total} products
-              {activeCategory !== "All" && ` in ${activeCategory}`}
+              {selected.length > 0 && ` in ${selected.join(", ")}`}
             </p>
           )}
 
@@ -154,7 +173,7 @@ export default function Products() {
             <div className="text-center py-12 rounded-xl bg-card/95 shadow-sm">
               <h3 className="text-sm font-medium text-foreground mb-1">No products found</h3>
               <p className="text-muted-foreground text-xs mb-4">Try a different search term or category</p>
-              <Button variant="outline" size="sm" onClick={() => { setSearch(""); setActiveCategory("All"); setInStockOnly(false); }}>
+              <Button variant="outline" size="sm" onClick={() => { setSearch(""); setSelected([]); setInStockOnly(false); }}>
                 Clear Filters
               </Button>
             </div>
