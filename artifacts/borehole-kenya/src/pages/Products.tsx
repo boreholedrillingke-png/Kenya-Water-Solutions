@@ -1,3 +1,4 @@
+import { productImages } from "@/lib/productPhotos";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Search, ShoppingCart, MessageSquare, Filter, X } from "lucide-react";
@@ -139,8 +140,8 @@ export default function Products() {
                   <CardContent className="p-0 flex flex-col h-full">
                     <Link href={`/products/${product.id}`} className="block">
                       <div className="bg-muted h-24 sm:h-28 flex items-center justify-center overflow-hidden">
-                        {product.imageUrl ? (
-                          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                        {productImages(product.name, product.imageUrl).length ? (
+                          <img src={productImages(product.name, product.imageUrl)[0]} alt={product.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className="text-3xl font-bold text-muted-foreground/20">
                             {product.category.slice(0, 2).toUpperCase()}

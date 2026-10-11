@@ -7,6 +7,8 @@ import { useGetProduct, useAddToCart } from "@workspace/api-client-react";
 import { formatKES, getCartSessionId, whatsappLink } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import ProductGallery from "@/components/ProductGallery";
+import { productImages } from "@/lib/productPhotos";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -73,18 +75,16 @@ export default function ProductDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
           {/* Image */}
-          <div className="rounded-xl overflow-hidden bg-muted h-72 lg:h-auto flex items-center justify-center">
-            {product.imageUrl ? (
-              <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
-            ) : (
+          <ProductGallery
+            images={productImages(product.name, product.imageUrl)}
+            alt={product.name}
+            fallback={
               <div className="text-center">
-                <div className="text-6xl font-bold text-muted-foreground/20 mb-2">
-                  {product.category.slice(0, 2).toUpperCase()}
-                </div>
+                <div className="text-6xl font-bold text-muted-foreground/20 mb-2">{product.category.slice(0, 2).toUpperCase()}</div>
                 <div className="text-sm text-muted-foreground">{product.category}</div>
               </div>
-            )}
-          </div>
+            }
+          />
 
           {/* Details */}
           <div>
