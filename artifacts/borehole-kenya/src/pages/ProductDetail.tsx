@@ -7,6 +7,16 @@ import { useGetProduct, useAddToCart } from "@workspace/api-client-react";
 import { formatKES, getCartSessionId, whatsappLink } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { IMAGES, pageBackdrop } from "@/lib/images";
+
+function backdropFor(category: string): string {
+  const c = category.toLowerCase();
+  if (/solar/.test(c)) return IMAGES.backdropSolar;
+  if (/treat/.test(c)) return IMAGES.backdropPlant;
+  if (/casing/.test(c)) return IMAGES.backdropRig;
+  if (/equipment/.test(c)) return IMAGES.backdropTruck;
+  return IMAGES.backdropWater;
+}
 import ProductGallery from "@/components/ProductGallery";
 import { productImages, applyOverrides } from "@/lib/productPhotos";
 
@@ -67,17 +77,9 @@ export default function ProductDetail() {
   const specs = product.specifications ?? {};
 
   return (
-    <div className="relative overflow-hidden bg-slate-900 pt-[80px] pb-8 min-h-screen">
-      {/* Photo backdrop: the product's own picture, softened */}
-      {productImages(product.name, product.imageUrl)[0] && (
-        <div
-          aria-hidden
-          className="absolute inset-0 scale-110 bg-cover bg-center blur-xl"
-          style={{ backgroundImage: `url(${productImages(product.name, product.imageUrl)[0]})` }}
-        />
-      )}
-      <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(215 70% 8% / .62) 0%, hsl(215 70% 8% / .35) 45%, hsl(215 70% 8% / .62) 100%)" }} />
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-[80px] pb-8 min-h-screen" style={pageBackdrop(backdropFor(product.category), "center 50%")}>
+      {/* Sharp photo backdrop chosen by product category, same as the other pages */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <Link href="/products" className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm mb-5 transition-colors">
           <ArrowLeft className="h-4 w-4" /> Back to Products
