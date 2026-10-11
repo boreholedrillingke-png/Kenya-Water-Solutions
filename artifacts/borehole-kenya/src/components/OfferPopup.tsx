@@ -9,29 +9,14 @@ import { formatKES, whatsappLink } from "@/lib/utils";
 const REGULAR_PRICE = 32000;
 const OFFER_PRICE = 27000;
 
-const SEEN_KEY = "kws-offer-seen";
 const SHOW_DELAY_MS = 1800;
 
 export default function OfferPopup() {
   const [open, setOpen] = useState(false);
 
-  // Show once per visit (a new visit = a new browser session), shortly after the page settles.
+  // Show on every page load / refresh, shortly after the page settles.
   useEffect(() => {
-    let seen = false;
-    try {
-      seen = sessionStorage.getItem(SEEN_KEY) === "1";
-    } catch {
-      /* storage blocked: still show once per page load */
-    }
-    if (seen) return;
-    const timer = setTimeout(() => {
-      setOpen(true);
-      try {
-        sessionStorage.setItem(SEEN_KEY, "1");
-      } catch {
-        /* ignore */
-      }
-    }, SHOW_DELAY_MS);
+    const timer = setTimeout(() => setOpen(true), SHOW_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
