@@ -10,6 +10,7 @@ export const IMAGES = {
   testPumping: `${base}images/test-pumping.webp`,
   pumpInstall: `${base}images/pump-install.webp`,
   purification: `${base}images/purification.webp`,
+  inspection: `${base}images/inspection.webp`,
   // solar and treatment
   solarPump: `${base}images/solar-pump.webp`,
   solarTower: `${base}images/solar-tower.webp`,
@@ -26,6 +27,7 @@ export const IMAGES = {
 /** Pick the right photo for a service / project by its name or type. Pass only short labels (name, type), not long descriptions. */
 export function pickImage(...texts: (string | undefined | null)[]): string {
   const t = texts.filter(Boolean).join(" ").toLowerCase();
+  if (/inspect|camera/.test(t)) return IMAGES.inspection;
   if (/survey|hydro|geolog|geophys/.test(t)) return IMAGES.survey;
   if (/test.?pump|pump.?test/.test(t)) return IMAGES.testPumping;
   if (/purif|treat|filter/.test(t)) return IMAGES.purification;
@@ -39,6 +41,7 @@ export function pickImage(...texts: (string | undefined | null)[]): string {
 const POSITIONS: Record<string, string> = {
   [IMAGES.drilling]: "center 80%", // branded truck and driller
   [IMAGES.survey]: "center 55%",
+  [IMAGES.inspection]: "center 40%",
   [IMAGES.testPumping]: "center 35%",
   [IMAGES.pumpInstall]: "center 40%", // hands on the pump
   [IMAGES.purification]: "center 50%",

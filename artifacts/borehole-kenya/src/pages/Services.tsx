@@ -20,7 +20,7 @@ export default function Services() {
         <h1 className="sr-only">Our Services</h1>
 
         {/* Cards in a row share one height */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {isLoading
             ? Array(4).fill(0).map((_, i) => (
                 <Card key={i}><CardContent className="p-3.5">
@@ -73,7 +73,7 @@ export default function Services() {
 
           {/* Water purification (quote based) */}
           {!isLoading && (
-            <Card className="lg:col-span-2 lg:col-start-1 sm:col-span-2 border-border overflow-hidden flex flex-col sm:flex-row" data-testid="card-service-purification">
+            <Card className="lg:col-span-3 sm:col-span-2 border-border overflow-hidden flex flex-col sm:flex-row" data-testid="card-service-purification">
               <div className="sm:w-[42%] shrink-0">
                 <BlendedPhoto src={IMAGES.purification} alt="Water purification and filtration system" className="aspect-[4/3] sm:aspect-auto sm:h-full" fadeBottom={false} />
               </div>

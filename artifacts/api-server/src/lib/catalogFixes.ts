@@ -1,4 +1,4 @@
-import { db, productsTable } from "@workspace/db";
+import { db, productsTable, servicesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { logger } from "./logger";
 
@@ -45,6 +45,32 @@ export async function applyCatalogFixes() {
         deliveryDays: 2,
         whatsappOrderEnabled: true,
         featured: false,
+      });
+    }
+    // New service: Borehole Inspection (inserted once if missing)
+    const svc = await db
+      .select({ id: servicesTable.id })
+      .from(servicesTable)
+      .where(eq(servicesTable.slug, "borehole-inspection"));
+    if (svc.length === 0) {
+      await db.insert(servicesTable).values({
+        name: "Borehole Inspection",
+        slug: "borehole-inspection",
+        category: "Inspection",
+        shortDescription: "Camera inspection of your borehole to check casing, screens, depth and water entry points.",
+        description:
+          "We lower a high-resolution borehole camera down your borehole and watch the live video on a monitor. It shows the condition of the casing and screens, any blockage, silt or damage, the true depth, and where water enters.\n\nUseful for older boreholes with falling yield, before installing or replacing a pump, and for checking new work. A video recording of the inspection can be provided.\n\nInspection cost: Ksh. 25,000",
+        imageUrl: null,
+        featured: false,
+        priceFrom: "25000.00",
+        priceUnit: "per borehole",
+        duration: "Half day",
+        highlights: [
+          "Live camera view of casing and screens",
+          "Finds blockages, damage and water entry points",
+          "Video recording available",
+        ],
+        coverageAreas: [],
       });
     }
   } catch (err) {

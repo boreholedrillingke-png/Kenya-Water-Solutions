@@ -10,7 +10,7 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const services = ["Borehole Drilling", "Hydrogeological Surveys", "Test Pumping", "Pump Installation", "Water Purification"];
+const services = ["Borehole Drilling", "Hydrogeological Surveys", "Test Pumping", "Pump Installation", "Borehole Inspection", "Water Purification"];
 
 const link = "hover:text-white transition-colors";
 
