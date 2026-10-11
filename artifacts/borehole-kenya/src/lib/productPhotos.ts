@@ -11,6 +11,14 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/sp11a-2.webp",
     "/images/products/sp11a-3.webp",
   ],
+  "Solar Pump Controller 3kW": [
+    "/images/products/spc3-1.webp",
+    "/images/products/spc3-2.webp",
+    "/images/products/spc3-3.webp",
+    "/images/products/spc3-4.webp",
+    "/images/products/spc3-5.webp",
+    "/images/products/spc3-6.webp",
+  ],
 };
 
 export function productImages(name: string, imageUrl?: string | null): string[] {
