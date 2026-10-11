@@ -15,6 +15,10 @@ export async function applyCatalogFixes() {
         specifications: { Diameter: "6 inch", Length: "6 m each", "Slot Size": "0.5mm" },
       })
       .where(eq(productsTable.slug, "stainless-steel-borehole-screen-6inch"));
+    await db
+      .update(productsTable)
+      .set({ price: "5500.00" })
+      .where(eq(productsTable.slug, "upvc-borehole-casing-6inch"));
   } catch (err) {
     logger.warn({ err }, "Catalog fixes failed");
   }

@@ -71,7 +71,7 @@ const products = [
     category: "Borehole Casing",
     brand: null,
     description: "High-strength uPVC borehole casing pipe, 6 inch diameter, sold per metre. Suitable for boreholes up to 150m.",
-    price: "3500.00",
+    price: "5500.00",
     comparePrice: null,
     inStock: true,
     stockQty: 500,
