@@ -19,6 +19,10 @@ export async function applyCatalogFixes() {
       .update(productsTable)
       .set({ price: "5500.00" })
       .where(eq(productsTable.slug, "upvc-borehole-casing-6inch"));
+    await db
+      .update(productsTable)
+      .set({ price: "680000.00", comparePrice: null })
+      .where(eq(productsTable.slug, "reverse-osmosis-500lph"));
   } catch (err) {
     logger.warn({ err }, "Catalog fixes failed");
   }

@@ -54,6 +54,15 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/uv1000-6.webp",
     "/images/products/uv1000-7.webp",
   ],
+  "Reverse Osmosis System 500 LPH": [
+    "/images/products/ro500-1.webp",
+    "/images/products/ro500-2.webp",
+    "/images/products/ro500-3.webp",
+    "/images/products/ro500-4.webp",
+    "/images/products/ro500-5.webp",
+    "/images/products/ro500-6.webp",
+    "/images/products/ro500-7.webp",
+  ],
 };
 
 // Display-only renames/edits for products stored in the database under another name.
