@@ -93,6 +93,11 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/flow2-3.webp",
     "/images/products/flow2-4.webp",
   ],
+  "JA Solar Panel 550W": [
+    "/images/products/ja550-1.webp",
+    "/images/products/ja550-2.webp",
+    "/images/products/ja550-3.webp",
+  ],
 };
 
 // Display-only renames/edits for products stored in the database under another name.

@@ -23,6 +23,30 @@ export async function applyCatalogFixes() {
       .update(productsTable)
       .set({ price: "680000.00", comparePrice: null })
       .where(eq(productsTable.slug, "reverse-osmosis-500lph"));
+    // New product: JA Solar Panel 550W (inserted once if missing)
+    const existing = await db
+      .select({ id: productsTable.id })
+      .from(productsTable)
+      .where(eq(productsTable.slug, "ja-solar-panel-550w"));
+    if (existing.length === 0) {
+      await db.insert(productsTable).values({
+        name: "JA Solar Panel 550W",
+        slug: "ja-solar-panel-550w",
+        category: "Solar Panels",
+        brand: "JA Solar",
+        description: "550W mono half-cell solar panel for solar pumping and power systems. Efficient, durable and suited to Kenyan sunshine.",
+        price: "30000.00",
+        comparePrice: null,
+        inStock: true,
+        stockQty: 100,
+        imageUrl: null,
+        specifications: { Power: "550W", Type: "Mono half-cell", Brand: "JA Solar" },
+        deliveryAvailable: true,
+        deliveryDays: 2,
+        whatsappOrderEnabled: true,
+        featured: false,
+      });
+    }
   } catch (err) {
     logger.warn({ err }, "Catalog fixes failed");
   }

@@ -67,14 +67,23 @@ export default function ProductDetail() {
   const specs = product.specifications ?? {};
 
   return (
-    <div className="bg-background pt-[80px] pb-8">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative overflow-hidden bg-slate-900 pt-[80px] pb-8 min-h-screen">
+      {/* Photo backdrop: the product's own picture, softened */}
+      {productImages(product.name, product.imageUrl)[0] && (
+        <div
+          aria-hidden
+          className="absolute inset-0 scale-110 bg-cover bg-center blur-xl"
+          style={{ backgroundImage: `url(${productImages(product.name, product.imageUrl)[0]})` }}
+        />
+      )}
+      <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(215 70% 8% / .62) 0%, hsl(215 70% 8% / .35) 45%, hsl(215 70% 8% / .62) 100%)" }} />
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <Link href="/products" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm mb-8 transition-colors">
+        <Link href="/products" className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm mb-5 transition-colors">
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
+        <div className="rounded-2xl bg-card/95 shadow-xl p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-6">
           {/* Image */}
           <ProductGallery
             images={productImages(product.name, product.imageUrl)}
@@ -176,7 +185,7 @@ export default function ProductDetail() {
 
         {/* Specifications */}
         {Object.keys(specs).length > 0 && (
-          <div className="mb-10">
+          <div className="mb-6 rounded-2xl bg-card/95 shadow-xl p-4 sm:p-6">
             <h2 className="text-xl font-semibold text-foreground mb-5">Technical Specifications</h2>
             <Card className="border-border">
               <CardContent className="p-0">
@@ -196,7 +205,7 @@ export default function ProductDetail() {
         )}
 
         {/* Contact CTA */}
-        <div className="rounded-xl bg-primary/6 border border-primary/15 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="rounded-xl bg-card/95 shadow-lg border border-primary/15 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h3 className="font-semibold text-foreground mb-1">Need Help Choosing?</h3>
             <p className="text-sm text-muted-foreground">Our technical team can recommend the right equipment for your borehole specifications.</p>
