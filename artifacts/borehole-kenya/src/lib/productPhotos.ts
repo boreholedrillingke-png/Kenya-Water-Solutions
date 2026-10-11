@@ -45,6 +45,15 @@ export const PRODUCT_GALLERY: Record<string, string[]> = {
     "/images/products/screen6-6.webp",
     "/images/products/screen6-7.webp",
   ],
+  "UV Water Steriliser 1000 LPH": [
+    "/images/products/uv1000-1.webp",
+    "/images/products/uv1000-2.webp",
+    "/images/products/uv1000-3.webp",
+    "/images/products/uv1000-4.webp",
+    "/images/products/uv1000-5.webp",
+    "/images/products/uv1000-6.webp",
+    "/images/products/uv1000-7.webp",
+  ],
 };
 
 // Display-only renames/edits for products stored in the database under another name.
