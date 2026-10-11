@@ -82,7 +82,7 @@ const products = [
     featured: false,
   },
   {
-    name: "Borehole Screen 6 inch",
+    name: "Borehole Screen & Steel Casing 6 inch",
     slug: "stainless-steel-borehole-screen-6inch",
     category: "Borehole Casing",
     brand: null,

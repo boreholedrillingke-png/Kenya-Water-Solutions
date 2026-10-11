@@ -8,10 +8,10 @@ export async function applyCatalogFixes() {
     await db
       .update(productsTable)
       .set({
-        name: "Borehole Screen 6 inch",
+        name: "Borehole Screen & Steel Casing 6 inch",
         price: "17500.00",
         description:
-          "Slotted borehole screen for water intake. Prevents sand ingress while maximising yield. Supplied in 6 m lengths.",
+          "Slotted borehole screen and plain steel casing for water intake and borehole lining. Prevents sand ingress while maximising yield. Supplied in 6 m lengths.",
         specifications: { Diameter: "6 inch", Length: "6 m each", "Slot Size": "0.5mm" },
       })
       .where(eq(productsTable.slug, "stainless-steel-borehole-screen-6inch"));
