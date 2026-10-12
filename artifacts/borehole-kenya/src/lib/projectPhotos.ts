@@ -100,6 +100,8 @@ const FALLBACK_BY_TYPE: Record<string, ProjectPhoto> = {
   "Drilling & Pump": photo(IMAGES.drilling, "center 80%"),
   "Borehole Drilling": photo(IMAGES.drilling, "center 80%"),
   "Full Package": photo(IMAGES.drilling, "center 80%"),
+  "Borehole Inspection": photo(IMAGES.inspection, "center 40%"),
+  "Borehole Maintenance": photo(IMAGES.pumpInstall, "center 40%"),
 };
 
 export function projectPhoto(title: string | undefined | null, serviceType?: string | null): ProjectPhoto | undefined {
@@ -205,6 +207,8 @@ const BACKDROP_BY_TYPE: Record<string, BackdropKey> = {
   "Drilling & Pump": "truck",
   "Borehole Drilling": "rig-sunset",
   "Full Package": "rig-sunset",
+  "Borehole Inspection": "water",
+  "Borehole Maintenance": "water",
 };
 
 export function projectBackdrop(title: string | undefined | null, serviceType?: string | null): ProjectPhoto | undefined {

@@ -1,6 +1,7 @@
 import { db, productsTable, servicesTable, projectsTable } from "@workspace/db";
 import { eq, and } from "drizzle-orm";
 import { NEW_PROJECTS, PROJECT_UPDATES } from "./projectsData";
+import { MORE_PROJECTS } from "./projectsMore";
 import { logger } from "./logger";
 
 // Idempotent catalog corrections applied on startup (runs against the live database).
@@ -96,7 +97,7 @@ async function applyProjectFixes() {
       }
       await db.update(projectsTable).set(patch).where(eq(projectsTable.slug, u.slug));
     }
-    for (const p of NEW_PROJECTS) {
+    for (const p of [...NEW_PROJECTS, ...MORE_PROJECTS]) {
       await db.insert(projectsTable).values(p).onConflictDoNothing({ target: projectsTable.slug });
     }
   } catch (err) {

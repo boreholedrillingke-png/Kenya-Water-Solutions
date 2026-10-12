@@ -18,6 +18,8 @@ const CATEGORIES = [
   "Pump Installation",
   "Test Pumping",
   "Water Purification",
+  "Borehole Inspection",
+  "Borehole Maintenance",
   "Full Package",
 ];
 const CATEGORY_HINT: Record<string, string> = {
@@ -27,6 +29,8 @@ const CATEGORY_HINT: Record<string, string> = {
   "Pump Installation": "Pump only",
   "Test Pumping": "Pump test only",
   "Water Purification": "Treatment systems",
+  "Borehole Inspection": "Camera check",
+  "Borehole Maintenance": "Cleaning and servicing",
   "Full Package": "Survey to pump",
 };
 const CLIENT_TYPES = ["All", "Community", "Agricultural", "Commercial", "Government", "Healthcare", "Education", "Residential", "Hospitality", "Humanitarian", "Conservation", "Research"];

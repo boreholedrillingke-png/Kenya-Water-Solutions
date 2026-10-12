@@ -116,7 +116,7 @@ export default function ProjectDetail() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Layers, label: project.serviceType === "Hydrogeological Survey" ? "Recommended Depth" : "Borehole Depth", value: project.depth ? `${project.depth}m` : "N/A" },
-            { icon: Droplets, label: project.serviceType === "Water Purification" ? "Treatment Capacity" : project.serviceType === "Hydrogeological Survey" ? "Expected Yield" : "Water Yield", value: project.yield ?? "N/A" },
+            { icon: Droplets, label: project.serviceType === "Water Purification" ? "Treatment Capacity" : project.serviceType === "Hydrogeological Survey" ? "Expected Yield" : project.serviceType === "Borehole Inspection" ? "Deliverable" : project.serviceType === "Borehole Maintenance" ? "Yield (before → after)" : "Water Yield", value: project.yield ?? "N/A" },
             { icon: Clock, label: "Duration", value: project.duration ?? "N/A" },
             { icon: Calendar, label: "Year", value: project.completionYear.toString() },
           ].map((stat) => (
