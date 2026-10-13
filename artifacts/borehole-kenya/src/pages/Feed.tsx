@@ -6,7 +6,8 @@ import { IMAGES, pageBackdrop } from "@/lib/images";
 import { whatsappLink } from "@/lib/utils";
 
 interface FeedVideo {
-  file: string; // file name inside /public/videos, e.g. "rig-kisumu.mp4"
+  file?: string; // video file name inside /public/videos, e.g. "rig-kisumu.mp4"
+  image?: string; // or a photo file name inside /public/videos
   title: string;
   category?: string; // Drilling, Surveys, Test Pumping, Pump Installation, Purification, Inspection ...
   location?: string;
@@ -74,17 +75,21 @@ export default function Feed() {
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((v, i) => (
-              <article key={v.file} className="overflow-hidden rounded-2xl bg-card/95 shadow-xl">
-                <video
-                  ref={(el) => { refs.current[i] = el; }}
-                  src={`${base}videos/${v.file}`}
-                  poster={v.poster ? `${base}videos/${v.poster}` : undefined}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  onPlay={() => onPlay(i)}
-                  className="aspect-[9/14] w-full bg-black object-contain"
-                />
+              <article key={v.file ?? v.image} className="overflow-hidden rounded-2xl bg-card/95 shadow-xl">
+                {v.image ? (
+                  <img src={`${base}videos/${v.image}`} alt={v.title} loading="lazy" className="aspect-[9/14] w-full bg-black object-cover" />
+                ) : (
+                  <video
+                    ref={(el) => { refs.current[i] = el; }}
+                    src={`${base}videos/${v.file}`}
+                    poster={v.poster ? `${base}videos/${v.poster}` : undefined}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    onPlay={() => onPlay(i)}
+                    className="aspect-[9/14] w-full bg-black object-contain"
+                  />
+                )}
                 <div className="p-4">
                   {v.category && <span className="text-[11px] font-bold uppercase tracking-wide text-primary">{v.category}</span>}
                   <h3 className="font-semibold text-foreground">{v.title}</h3>
@@ -95,7 +100,7 @@ export default function Feed() {
                   )}
                   <Button asChild size="sm" className="mt-3 bg-green-600 text-white hover:bg-green-700">
                     <a
-                      href={whatsappLink(`Hello, I watched "${v.title}" on your Feed and would like a quote for something similar.`)}
+                      href={whatsappLink(`Hello, I saw "${v.title}" on your Feed and would like a quote for something similar.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
