@@ -23,51 +23,65 @@ const PHOTOS: Record<string, ProjectPhoto> = {
   // --- drilling ---
   "karura forest community borehole": photo(p("karura"), "center 82%"),
   "ruiru industrial estate water supply": photo(p("ruiru")),
-  "kilifi county government water project": photo(p("kilifi"), "center 92%"),
+  "kilifi community water project": photo(p("kilifi"), "center 92%"),
   "malindi fishermen's cooperative borehole": photo(p("diani")), // palm trees, coastal
   "nakuru dairy farm mega borehole": photo(p("nakuru-dairy"), "center 55%"),
   "naivasha horticulture farm water system": photo(p("naivasha")),
-  "kericho county school cluster": photo(p("kericho")),
-  "siaya county water authority project": photo(p("siaya"), "center 0%"),
+  "kericho school cluster water": photo(p("kericho")),
+  "siaya community water project": photo(p("siaya"), "center 0%"),
   "kitui arid lands community water": photo(p("kitui"), "center 35%"),
-  "embu university college water supply": photo(p("embu"), "center 62%"),
-  "garissa refugee camp emergency water": photo(IMAGES.pumpInstall, "center 40%"), // dry, sandy
+  "embu private college water supply": photo(p("embu"), "center 62%"),
+  "garissa settlement emergency water": photo(IMAGES.pumpInstall, "center 40%"), // dry, sandy
   "isiolo town water supply augmentation": photo(p("isiolo"), "center 40%"),
   "nyeri county coffee cooperative": photo(p("nyeri")),
   "taita-taveta sisal estate": photo(`${base}images/drill-crew.webp`, "center 55%"),
-  "nandi hills tea research station": photo(p("nandi")),
-  "vihiga county health facilities water": photo(p("vihiga"), "center 38%"),
+  "nandi hills tea estate water supply": photo(p("nandi")),
+  "vihiga dispensary water supply": photo(p("vihiga"), "center 38%"),
   "nyamira tea factory water supply": photo(p("garissa"), "center 55%"), // green tea hills
   "marsabit camel market water point": photo(p("marsabit")),
 
   // --- hospitals, resorts, hotels, factories, malls: clean water and storage ---
   "diani beach resort desalination & borehole": photo(p("ro-plant")), // reverse osmosis plant
   "mombasa airport road hotel complex": photo(IMAGES.treatment, "55% 50%"), // hotel garden, tanks and filters
-  "eldoret teaching hospital borehole": photo(p("ro-clean-room"), "center 38%"),
-  "meru county referral hospital": photo(p("ro-plant-industrial"), "center 55%"),
+  "eldoret private hospital borehole": photo(p("ro-clean-room"), "center 38%"),
+  "meru private hospital water supply": photo(p("ro-plant-industrial"), "center 55%"),
   "kisumu port industrial zone": photo(p("solar-towers-urban"), "center 62%"), // solar with large storage tanks
   "homa bay fish processing plant": photo(IMAGES.water, "center 40%"),
   "murang'a avocado packing station": photo(IMAGES.purification),
   "bungoma town shopping mall": photo(p("tank-lift"), "center 30%"),
-  "samburu national reserve camp": photo(IMAGES.solarTower, "center 55%"), // dry savanna, off-grid solar
+  "samburu safari camp water": photo(IMAGES.solarTower, "center 55%"), // dry savanna, off-grid solar
 
   // --- irrigation and livestock: pumps, flowing water, tank towers ---
   "ngong hills flower farm irrigation": photo(p("pump-discharge")), // savanna
   "bomet tea estate irrigation network": photo(p("tank-tower-panel"), "center 15%"), // green highlands
   "kakamega sugar cane cooperative": photo(IMAGES.solarPump, "65% 50%"), // lush lowland
   "machakos mango farm irrigation": photo(p("solar-tank-tap"), "center 25%"),
-  "kirinyaga rice irrigation scheme": photo(p("solar-field-pump"), "center 45%"), // hot lowland, palms
+  "kirinyaga rice farmers irrigation": photo(p("solar-field-pump"), "center 45%"), // hot lowland, palms
   "trans nzoia wheat farm irrigation": photo(p("tank-tower-two"), "center 15%"),
-  "turkana county livestock trough network": photo(p("water-jet-pipe"), "center 25%"), // arid
+  "turkana livestock trough network": photo(p("water-jet-pipe"), "center 25%"), // arid
   "laikipia wildlife conservancy": photo(p("eldoret"), "center 52%"), // open grassland
 
+  // --- real survey photos ---
+  "kajiado ranch hydrogeological survey": photo(p("svy-kajiado-ranch"), "center 50%"),
+  "machakos school water survey": photo(p("svy-machakos-school"), "center 55%"),
+  "kakamega forest edge farm survey": photo(p("svy-kakamega-forest-edge"), "center 75%"),
+  "garissa community water point survey": photo(p("svy-garissa-survey"), "center 40%"),
+  "kericho tea farm survey": photo(p("svy-kericho-tea-survey"), "center 45%"),
+  "kisumu lakeside homestead survey": photo(p("svy-kisumu-lakeside"), "center 40%"),
+  "namanga homestead survey": photo(p("svy-namanga-survey"), "center 40%"),
+  "eldoret residential estate survey": photo(p("svy-eldoret-estate-survey"), "center 55%"),
+  "limuru farm water survey": photo(p("svy-limuru-farm-survey"), "center 45%"),
+  "njoro dairy farm survey": photo(p("svy-njoro-dairy-survey"), "center 70%"),
+  "magadi road community survey": photo(p("svy-magadi-road-survey"), "center 55%"),
+  "loitokitok community water point survey": photo(p("svy-loitokitok-survey"), "center 50%"),
+
   // --- added projects (spare photos first; general service photos are shared until more are supplied) ---
-  "kajiado ranch hydrogeological survey": photo(IMAGES.survey, "center 40%"),
+
   "karen residential estate survey": photo(IMAGES.survey, "center 62%"),
-  "kisumu lakeside homestead survey": photo(IMAGES.survey, "center 25%"),
-  "kakamega forest edge farm survey": photo(IMAGES.survey, "center 78%"),
+
+
   "malindi beachfront plots survey": photo(IMAGES.survey, "center 50%"),
-  "machakos school water survey": photo(IMAGES.survey, "center 90%"),
+
   "ruai estate borehole pump test": photo(IMAGES.testPumping, "center 35%"),
   "kitengela factory borehole test pumping": photo(IMAGES.testPumping, "center 60%"),
   "kisii hotel borehole pump test": photo(IMAGES.testPumping, "center 15%"),
@@ -138,35 +152,35 @@ const BACKDROP_FOR: Record<string, BackdropKey> = {
   "ruiru industrial estate water supply": "truck",
   "ngong hills flower farm irrigation": "solar-field",
   "diani beach resort desalination & borehole": "purification",
-  "kilifi county government water project": "water",
+  "kilifi community water project": "water",
   "malindi fishermen's cooperative borehole": "water",
   "mombasa airport road hotel complex": "ro-plant",
   "nakuru dairy farm mega borehole": "truck",
-  "eldoret teaching hospital borehole": "ro-plant",
+  "eldoret private hospital borehole": "ro-plant",
   "bomet tea estate irrigation network": "solar-field",
   "naivasha horticulture farm water system": "truck",
-  "kericho county school cluster": "survey",
+  "kericho school cluster water": "survey",
   "kisumu port industrial zone": "solar-field",
   "kakamega sugar cane cooperative": "solar-field",
   "bungoma town shopping mall": "water",
-  "siaya county water authority project": "survey",
+  "siaya community water project": "survey",
   "machakos mango farm irrigation": "rig-sunset",
   "kitui arid lands community water": "rig-sunset",
-  "meru county referral hospital": "ro-plant",
-  "embu university college water supply": "truck",
-  "garissa refugee camp emergency water": "rig-sunset",
-  "turkana county livestock trough network": "rig-sunset",
+  "meru private hospital water supply": "ro-plant",
+  "embu private college water supply": "truck",
+  "garissa settlement emergency water": "rig-sunset",
+  "turkana livestock trough network": "rig-sunset",
   "isiolo town water supply augmentation": "rig-sunset",
   "nyeri county coffee cooperative": "truck",
-  "kirinyaga rice irrigation scheme": "solar-field",
+  "kirinyaga rice farmers irrigation": "solar-field",
   "murang'a avocado packing station": "ro-plant",
   "laikipia wildlife conservancy": "rig-sunset",
   "taita-taveta sisal estate": "rig-sunset",
-  "nandi hills tea research station": "survey",
-  "vihiga county health facilities water": "survey",
+  "nandi hills tea estate water supply": "survey",
+  "vihiga dispensary water supply": "survey",
   "trans nzoia wheat farm irrigation": "solar-field",
   "homa bay fish processing plant": "ro-plant",
-  "samburu national reserve camp": "rig-sunset",
+  "samburu safari camp water": "rig-sunset",
   "nyamira tea factory water supply": "purification",
   "marsabit camel market water point": "rig-sunset",
 

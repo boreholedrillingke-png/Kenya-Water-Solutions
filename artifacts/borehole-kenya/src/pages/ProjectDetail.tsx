@@ -132,8 +132,8 @@ export default function ProjectDetail() {
 
         {/* Description */}
         <div className="mb-6 rounded-xl border border-border bg-card/95 p-5 shadow-sm">
-          <h2 className="text-xl font-semibold text-foreground mb-3">Project Overview</h2>
-          <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+          <h2 className="text-xl font-semibold text-foreground mb-3">The Story</h2>
+          <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{project.description}</p>
         </div>
 
         {/* Challenge / Solution / Outcome */}
@@ -145,8 +145,8 @@ export default function ProjectDetail() {
                   <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center mb-3">
                     <Target className="h-4 w-4 text-red-500" />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2 text-sm">The Challenge</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{project.challenge}</p>
+                  <h3 className="font-semibold text-foreground mb-2 text-sm">What we ran into</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{project.challenge}</p>
                 </CardContent>
               </Card>
             )}
@@ -156,8 +156,8 @@ export default function ProjectDetail() {
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
                     <Lightbulb className="h-4 w-4 text-blue-500" />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2 text-sm">Our Solution</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{project.solution}</p>
+                  <h3 className="font-semibold text-foreground mb-2 text-sm">How we did it</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{project.solution}</p>
                 </CardContent>
               </Card>
             )}
@@ -167,8 +167,8 @@ export default function ProjectDetail() {
                   <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-3">
                     <TrendingUp className="h-4 w-4 text-green-500" />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2 text-sm">The Outcome</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{project.outcome}</p>
+                  <h3 className="font-semibold text-foreground mb-2 text-sm">How it ended</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{project.outcome}</p>
                 </CardContent>
               </Card>
             )}
