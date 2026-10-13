@@ -16,6 +16,7 @@ import Contact from "@/pages/Contact";
 import Purification from "@/pages/Purification";
 import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
+import Feed from "@/pages/Feed";
 import NotFound from "@/pages/not-found";
 import { hydrateCache, persistCache, prefetchSite } from "@/lib/prefetch";
 import OfferPopup from "@/components/OfferPopup";
@@ -40,6 +41,7 @@ function Router() {
           <Route path="/cart" component={Cart} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:id" component={ProjectDetail} />
+          <Route path="/feed" component={Feed} />
           <Route path="/purification" component={Purification} />
           <Route path="/contact" component={Contact} />
           <Route component={NotFound} />
