@@ -45,7 +45,7 @@ export default function Feed() {
         description="Real rigs, real sites. Watch how we survey, drill, test and install."
       />
       <div className="min-h-[65vh]" style={pageBackdrop(`${base}images/backdrops/rig-sunset.webp`, "center 55%")}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {cats.length > 2 && (
             <div className="mb-4 flex flex-wrap gap-2 rounded-2xl bg-card/95 p-3 shadow-xl">
               {cats.map((c) => (
@@ -72,7 +72,7 @@ export default function Feed() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((v, i) => (
               <article key={v.file} className="overflow-hidden rounded-2xl bg-card/95 shadow-xl">
                 <video
@@ -83,7 +83,7 @@ export default function Feed() {
                   playsInline
                   preload="metadata"
                   onPlay={() => onPlay(i)}
-                  className="aspect-video w-full bg-black object-contain"
+                  className="aspect-[9/14] w-full bg-black object-contain"
                 />
                 <div className="p-4">
                   {v.category && <span className="text-[11px] font-bold uppercase tracking-wide text-primary">{v.category}</span>}

@@ -1,1 +1,65 @@
-[]
+[
+ {
+  "file": "flushing-new-borehole.mp4",
+  "poster": "flushing-new-borehole.jpg",
+  "title": "Flushing a newly drilled borehole",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "air-flush-water-rising.mp4",
+  "poster": "air-flush-water-rising.jpg",
+  "title": "Air flushing, water rising",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "developing-the-borehole.mp4",
+  "poster": "developing-the-borehole.jpg",
+  "title": "Rig on site: developing the borehole",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "water-and-foam.mp4",
+  "poster": "water-and-foam.jpg",
+  "title": "Water and foam during development",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "clearing-the-hole.mp4",
+  "poster": "clearing-the-hole.jpg",
+  "title": "Clearing the hole after drilling",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "full-flow-at-mouth.mp4",
+  "poster": "full-flow-at-mouth.jpg",
+  "title": "Full flow at the borehole mouth",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "driller-at-the-rig.mp4",
+  "poster": "driller-at-the-rig.jpg",
+  "title": "Driller at the rig during flushing",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "yield-check.mp4",
+  "poster": "yield-check.jpg",
+  "title": "Yield check during development",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ },
+ {
+  "file": "first-strong-flow.mp4",
+  "poster": "first-strong-flow.jpg",
+  "title": "First strong flow of the day",
+  "category": "Drilling",
+  "location": "On site, Kenya"
+ }
+]
