@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, ShieldCheck } from "lucide-react";
+import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
 
 interface FeedVideo {
@@ -9,15 +9,26 @@ interface FeedVideo {
   poster?: string;
 }
 interface Comment { id: number; name: string; body: string; createdAt: string }
+interface Stat { likes: number; views: number; shares: number; comments: number }
+const ZERO: Stat = { likes: 0, views: 0, shares: 0, comments: 0 };
 
 const base = import.meta.env.BASE_URL;
 const API = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
 const api = (path: string) => `${API}/api/video-comments${path}`;
+const statsApi = (path: string) => `${API}/api/video-stats${path}`;
 
 const store = {
   get: (k: string) => { try { return localStorage.getItem(k) ?? ""; } catch { return ""; } },
   set: (k: string, v: string) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch { /* ignore */ } },
 };
+// anonymous id so one visitor = one like per video
+const clientId = (() => {
+  let id = store.get("kws_client");
+  if (!id) { id = (crypto?.randomUUID?.() ?? String(Math.random()).slice(2) + Date.now()); store.set("kws_client", id); }
+  return id;
+})();
+
+const fmt = (n: number) => (n >= 1_000_000 ? `${(n / 1_000_000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(1)}K` : String(n));
 
 const ago = (iso: string) => {
   const s = Math.max(1, Math.floor((Date.now() - new Date(iso + (iso.endsWith("Z") ? "" : "Z")).getTime()) / 1000));
@@ -31,20 +42,45 @@ export default function Feed() {
   const [videos, setVideos] = useState<FeedVideo[] | null>(null);
   const [active, setActive] = useState(0);
   const [muted, setMuted] = useState(true);
-  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [stats, setStats] = useState<Record<string, Stat>>({});
+  const [liked, setLiked] = useState<Set<string>>(new Set());
+  const [hearts, setHearts] = useState<{ id: number; x: number; y: number; slide: number }[]>([]);
+  const [flash, setFlash] = useState<{ slide: number; paused: boolean; n: number } | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [toast, setToast] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const [adminKey, setAdminKey] = useState(() => store.get("kws_admin"));
   const scroller = useRef<HTMLDivElement>(null);
   const els = useRef<(HTMLVideoElement | null)[]>([]);
   const mutedRef = useRef(true);
+  const lastTap = useRef({ t: 0, i: -1 });
+  const tapTimer = useRef<number | undefined>(undefined);
+  const viewed = useRef<Set<string>>(new Set());
+  const likedRef = useRef(liked);
   mutedRef.current = muted;
+  likedRef.current = liked;
+
+  const stat = (id: string) => stats[id] ?? ZERO;
+  const bump = useCallback((id: string, key: keyof Stat, d: number) =>
+    setStats((s) => ({ ...s, [id]: { ...(s[id] ?? ZERO), [key]: Math.max(0, (s[id]?.[key] ?? 0) + d) } })), []);
+  const say = (m: string) => { setToast(m); window.setTimeout(() => setToast(""), 1800); };
 
   useEffect(() => {
     fetch(`${base}videos/feed.json`, { cache: "no-cache" })
       .then((r) => (r.ok ? r.json() : []))
-      .then((d) => setVideos(Array.isArray(d) ? d.filter((v: FeedVideo) => v.file) : []))
+      .then((d) => {
+        const list: FeedVideo[] = Array.isArray(d) ? d.filter((v: FeedVideo) => v.file) : [];
+        setVideos(list);
+        // shared link: /feed?v=file.mp4 opens that video
+        const want = new URLSearchParams(window.location.search).get("v");
+        const idx = want ? list.findIndex((v) => v.file === want) : -1;
+        if (idx > 0) window.setTimeout(() => scroller.current?.scrollTo({ top: idx * scroller.current.clientHeight }), 60);
+      })
       .catch(() => setVideos([]));
-    fetch(api("/counts")).then((r) => r.json()).then(setCounts).catch(() => {});
+    fetch(statsApi(`?clientId=${encodeURIComponent(clientId)}`))
+      .then((r) => r.json())
+      .then((d) => { setStats(d.stats ?? {}); setLiked(new Set(d.liked ?? [])); })
+      .catch(() => {});
   }, []);
 
   // Admin sign-in: open the page once with ?admin=1
@@ -77,6 +113,7 @@ export default function Feed() {
             v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
           } else {
             v.pause();
+            if (e.intersectionRatio === 0) v.currentTime = 0;
           }
         });
       },
@@ -88,13 +125,99 @@ export default function Feed() {
 
   useEffect(() => { els.current.forEach((v) => { if (v) v.muted = muted; }); }, [muted]);
 
-  const toggleTap = (i: number) => {
+  // Keyboard: arrow keys / space like on desktop reels
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (openId || (e.target as HTMLElement)?.tagName === "INPUT") return;
+      const s = scroller.current;
+      if (!s) return;
+      if (e.key === "ArrowDown") { e.preventDefault(); s.scrollBy({ top: s.clientHeight, behavior: "smooth" }); }
+      if (e.key === "ArrowUp") { e.preventDefault(); s.scrollBy({ top: -s.clientHeight, behavior: "smooth" }); }
+      if (e.key === " ") { e.preventDefault(); togglePlay(activeRef.current); }
+      if (e.key.toLowerCase() === "m") setMuted((m) => !m);
+      if (e.key.toLowerCase() === "l") likeVideo(activeRef.current, true);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+  const activeRef = useRef(0);
+  activeRef.current = active;
+
+  // A view counts after 3 seconds of watching (once per visit)
+  useEffect(() => {
+    const v = videos?.[active];
+    if (!v || viewed.current.has(v.file)) return;
+    const id = window.setTimeout(() => {
+      viewed.current.add(v.file);
+      bump(v.file, "views", 1);
+      fetch(statsApi(`/${encodeURIComponent(v.file)}/view`), { method: "POST" }).catch(() => {});
+    }, 3000);
+    return () => window.clearTimeout(id);
+  }, [active, videos, bump]);
+
+  const togglePlay = (i: number) => {
     const v = els.current[i];
     if (!v) return;
     if (v.paused) v.play().catch(() => {}); else v.pause();
+    setFlash({ slide: i, paused: v.paused, n: Date.now() });
+    window.setTimeout(() => setFlash((f) => (f && Date.now() - f.n >= 600 ? null : f)), 650);
   };
 
-  const bump = useCallback((id: string, d: number) => setCounts((c) => ({ ...c, [id]: Math.max(0, (c[id] ?? 0) + d) })), []);
+  const likeVideo = (i: number, only = false) => {
+    const v = videos?.[i];
+    if (!v) return;
+    const isLiked = likedRef.current.has(v.file);
+    if (only && isLiked) return;
+    const next = !isLiked;
+    setLiked((s) => { const n = new Set(s); next ? n.add(v.file) : n.delete(v.file); return n; });
+    bump(v.file, "likes", next ? 1 : -1);
+    fetch(statsApi(`/${encodeURIComponent(v.file)}/like`), {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clientId, liked: next }),
+    }).catch(() => {});
+  };
+
+  const burst = (slide: number, x: number, y: number) => {
+    const id = Date.now() + Math.random();
+    setHearts((h) => [...h, { id, x, y, slide }]);
+    window.setTimeout(() => setHearts((h) => h.filter((p) => p.id !== id)), 900);
+  };
+
+  // single tap = pause/play, double tap = like (with heart burst)
+  const onTap = (e: React.MouseEvent, i: number) => {
+    const now = Date.now();
+    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    if (lastTap.current.i === i && now - lastTap.current.t < 300) {
+      window.clearTimeout(tapTimer.current);
+      lastTap.current = { t: 0, i: -1 };
+      burst(i, e.clientX - r.left, e.clientY - r.top);
+      likeVideo(i, true);
+      return;
+    }
+    lastTap.current = { t: now, i };
+    tapTimer.current = window.setTimeout(() => togglePlay(i), 300);
+  };
+
+  const share = async (v: FeedVideo) => {
+    const url = `${window.location.origin}${base}feed?v=${encodeURIComponent(v.file)}`.replace(/([^:])\/\//g, "$1/");
+    const data = { title: v.title, text: `${v.title} | Kenya Water Solutions`, url };
+    let done = false;
+    if (navigator.share) {
+      try { await navigator.share(data); done = true; } catch (e) { if ((e as Error)?.name === "AbortError") return; }
+    }
+    if (!done) {
+      try { await navigator.clipboard.writeText(url); say("Link copied"); done = true; }
+      catch { window.prompt("Copy this link", url); done = true; }
+    }
+    bump(v.file, "shares", 1);
+    fetch(statsApi(`/${encodeURIComponent(v.file)}/share`), { method: "POST" }).catch(() => {});
+  };
+
+  const seek = (e: React.MouseEvent<HTMLDivElement>, i: number) => {
+    const v = els.current[i];
+    if (!v || !v.duration) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    v.currentTime = ((e.clientX - r.left) / r.width) * v.duration;
+  };
 
   return (
     <div className="relative bg-black">
@@ -108,58 +231,101 @@ export default function Feed() {
             <div><Play className="mx-auto mb-2 h-8 w-8" /><p className="font-bold">Successful boreholes are on the way</p><p className="text-sm text-white/70">Check back soon.</p></div>
           </div>
         )}
-        {videos?.map((v, i) => (
-          <section key={v.file} data-i={i} className="relative flex h-full snap-start snap-always justify-center bg-black">
-            <div className="relative h-full w-full md:max-w-[440px]">
-              <video
-                ref={(el) => { els.current[i] = el; }}
-                src={`${base}videos/${v.file}`}
-                poster={v.poster ? `${base}videos/${v.poster}` : undefined}
-                loop
-                muted
-                playsInline
-                preload={Math.abs(i - active) <= 1 ? "auto" : "metadata"}
-                onClick={() => toggleTap(i)}
-                className="h-full w-full cursor-pointer object-cover"
-              />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 to-transparent" />
+        {videos?.map((v, i) => {
+          const s = stat(v.file);
+          const isLiked = liked.has(v.file);
+          return (
+            <section key={v.file} data-i={i} className="relative flex h-full snap-start snap-always justify-center bg-black">
+              <div className="relative h-full w-full select-none md:max-w-[440px]">
+                <video
+                  ref={(el) => { els.current[i] = el; }}
+                  src={`${base}videos/${v.file}`}
+                  poster={v.poster ? `${base}videos/${v.poster}` : undefined}
+                  loop
+                  muted
+                  playsInline
+                  preload={Math.abs(i - active) <= 1 ? "auto" : "metadata"}
+                  onClick={(e) => onTap(e, i)}
+                  onTimeUpdate={(e) => { if (i === activeRef.current) { const d = e.currentTarget.duration; setProgress(d ? e.currentTarget.currentTime / d : 0); } }}
+                  className="h-full w-full cursor-pointer object-cover"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 to-transparent" />
 
-              <div className="pointer-events-none absolute bottom-5 left-4 right-20 text-white">
-                <h2 className="text-base font-bold leading-tight drop-shadow">{v.title}</h2>
-                {v.location && (
-                  <p className="mt-1 flex items-center gap-1 text-xs text-white/80"><MapPin className="h-3 w-3" /> {v.location}</p>
+                {/* play / pause flash */}
+                {flash?.slide === i && (
+                  <div className="pointer-events-none absolute inset-0 grid place-items-center">
+                    <span key={flash.n} className="grid h-16 w-16 animate-ping place-items-center rounded-full bg-black/40 text-white [animation-iteration-count:1] [animation-duration:.6s]">
+                      {flash.paused ? <Pause className="h-7 w-7" /> : <Play className="h-7 w-7" />}
+                    </span>
+                  </div>
                 )}
-                <p className="mt-1 text-[11px] text-white/60">Kenya Water Solutions</p>
-              </div>
 
-              <div className="absolute bottom-6 right-3 flex flex-col items-center gap-4 text-white">
-                <button onClick={() => setOpenId(v.file)} className="flex flex-col items-center gap-0.5" aria-label="Comments">
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur"><MessageCircle className="h-5 w-5" /></span>
-                  <span className="text-[11px] font-semibold">{counts[v.file] ?? 0}</span>
-                </button>
-                <a
-                  href={whatsappLink(`Hello, I saw "${v.title}" on your Successful Boreholes page and would like a quote for something similar.`)}
-                  target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-0.5" aria-label="Get a quote"
-                >
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-green-600"><Send className="h-5 w-5" /></span>
-                  <span className="text-[11px] font-semibold">Quote</span>
-                </a>
-                <button onClick={() => setMuted((m) => !m)} className="flex flex-col items-center gap-0.5" aria-label={muted ? "Unmute" : "Mute"}>
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur">
-                    {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-                  </span>
-                  <span className="text-[11px] font-semibold">{muted ? "Sound" : "Mute"}</span>
-                </button>
-              </div>
-              {i === 0 && (
-                <div className="pointer-events-none absolute left-0 right-0 top-3 text-center text-[11px] font-semibold uppercase tracking-wider text-white/70">
-                  Successful Boreholes · swipe up
+                {/* double-tap hearts */}
+                {hearts.filter((h) => h.slide === i).map((h) => (
+                  <Heart key={h.id} className="pointer-events-none absolute h-24 w-24 -translate-x-1/2 -translate-y-1/2 animate-bounce fill-red-500 text-red-500 drop-shadow-lg [animation-iteration-count:1] [animation-duration:.8s]"
+                    style={{ left: h.x, top: h.y }} />
+                ))}
+
+                <div className="pointer-events-none absolute bottom-6 left-4 right-20 text-white">
+                  <h2 className="text-base font-bold leading-tight drop-shadow">{v.title}</h2>
+                  {v.location && (
+                    <p className="mt-1 flex items-center gap-1 text-xs text-white/80"><MapPin className="h-3 w-3" /> {v.location}</p>
+                  )}
+                  <p className="mt-1 flex items-center gap-2 text-[11px] text-white/60">
+                    Kenya Water Solutions
+                    <span className="flex items-center gap-0.5"><Eye className="h-3 w-3" /> {fmt(s.views)}</span>
+                  </p>
                 </div>
-              )}
-            </div>
-          </section>
-        ))}
+
+                <div className="absolute bottom-8 right-3 flex flex-col items-center gap-3.5 text-white">
+                  <button onClick={() => likeVideo(i)} className="flex flex-col items-center gap-0.5" aria-label={isLiked ? "Unlike" : "Like"}>
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur">
+                      <Heart className={`h-6 w-6 transition-transform ${isLiked ? "scale-110 fill-red-500 text-red-500" : ""}`} />
+                    </span>
+                    <span className="text-[11px] font-semibold">{fmt(s.likes)}</span>
+                  </button>
+                  <button onClick={() => setOpenId(v.file)} className="flex flex-col items-center gap-0.5" aria-label="Comments">
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur"><MessageCircle className="h-5 w-5" /></span>
+                    <span className="text-[11px] font-semibold">{fmt(s.comments)}</span>
+                  </button>
+                  <button onClick={() => share(v)} className="flex flex-col items-center gap-0.5" aria-label="Share">
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur"><Share2 className="h-5 w-5" /></span>
+                    <span className="text-[11px] font-semibold">{s.shares ? fmt(s.shares) : "Share"}</span>
+                  </button>
+                  <a
+                    href={whatsappLink(`Hello, I saw "${v.title}" on your Successful Boreholes page and would like a quote for something similar.`)}
+                    target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-0.5" aria-label="Get a quote"
+                  >
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-green-600"><Send className="h-5 w-5" /></span>
+                    <span className="text-[11px] font-semibold">Quote</span>
+                  </a>
+                  <button onClick={() => setMuted((m) => !m)} className="flex flex-col items-center gap-0.5" aria-label={muted ? "Unmute" : "Mute"}>
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur">
+                      {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                    </span>
+                    <span className="text-[11px] font-semibold">{muted ? "Sound" : "Mute"}</span>
+                  </button>
+                </div>
+
+                {/* progress bar (tap to seek) */}
+                <div className="absolute inset-x-0 bottom-0 h-3 cursor-pointer" onClick={(e) => seek(e, i)}>
+                  <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/25">
+                    <div className="h-full bg-white" style={{ width: `${(i === active ? progress : 0) * 100}%` }} />
+                  </div>
+                </div>
+
+                {i === 0 && (
+                  <div className="pointer-events-none absolute left-0 right-0 top-3 text-center text-[11px] font-semibold uppercase tracking-wider text-white/70">
+                    Successful Boreholes · swipe up · double-tap to like
+                  </div>
+                )}
+              </div>
+            </section>
+          );
+        })}
       </div>
+
+      {toast && <div className="pointer-events-none absolute left-1/2 top-16 z-30 -translate-x-1/2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-900 shadow-lg">{toast}</div>}
 
       {adminKey && (
         <button
@@ -176,7 +342,7 @@ export default function Feed() {
           title={videos?.find((v) => v.file === openId)?.title ?? ""}
           adminKey={adminKey}
           onClose={() => setOpenId(null)}
-          onCount={(d) => bump(openId, d)}
+          onCount={(d) => bump(openId, "comments", d)}
           onBadAdmin={() => { store.set("kws_admin", ""); setAdminKey(""); }}
         />
       )}

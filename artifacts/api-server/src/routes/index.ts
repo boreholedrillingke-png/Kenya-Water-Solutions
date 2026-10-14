@@ -7,6 +7,7 @@ import inquiriesRouter from "./inquiries";
 import catalogRouter from "./catalog";
 import projectsRouter from "./projects";
 import videoCommentsRouter from "./videoComments";
+import videoStatsRouter from "./videoStats";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(inquiriesRouter);
 router.use(catalogRouter);
 router.use(projectsRouter);
 router.use(videoCommentsRouter);
+router.use(videoStatsRouter);
 
 export default router;
