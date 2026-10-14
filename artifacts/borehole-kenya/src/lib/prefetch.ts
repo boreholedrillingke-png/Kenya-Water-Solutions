@@ -9,6 +9,7 @@ import {
   listProjects,
   getProject,
 } from "@workspace/api-client-react";
+import { projectPhoto } from "@/lib/projectPhotos";
 
 /** Must match the page size / filters used by the pages so cache keys line up. */
 const FIVE_MIN = 5 * 60 * 1000;
@@ -111,6 +112,12 @@ export async function prefetchSite(qc: QueryClient) {
   // 2. Product pictures, so cards appear fully drawn
   for (const p of products?.items ?? []) {
     if (p.imageUrl) new Image().src = p.imageUrl;
+  }
+
+  // 2b. Project card photos (first three pages of the list), so the Projects page paints at once
+  for (const p of (projects?.items ?? []).slice(0, 24)) {
+    const src = projectPhoto(p.title, p.serviceType)?.src;
+    if (src) new Image().src = src;
   }
 
   // 3. Every detail page behind those lists

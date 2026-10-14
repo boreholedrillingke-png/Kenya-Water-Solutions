@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { MapPin, Droplets, Calendar, Layers } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -72,6 +72,13 @@ export default function Projects() {
   const total = filtered.length;
   const projects = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const totalPages = Math.ceil(total / PAGE_SIZE);
+  // Warm the photos for the next page so paging is instant too
+  useEffect(() => {
+    for (const p of filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)) {
+      const src = projectPhoto(p.title, p.serviceType)?.src;
+      if (src) new Image().src = src;
+    }
+  }, [filtered.length, page, serviceType, clientType]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasFilters = serviceType !== "All" || clientType !== "All";
 
   function resetFilters() {
@@ -173,14 +180,14 @@ export default function Projects() {
                 <Link key={project.id} href={`/projects/${project.id}`}>
                   <Card className="h-full group hover:shadow-md transition-all cursor-pointer overflow-hidden" data-testid={`card-project-${project.id}`}>
                     <CardContent className="p-0 flex flex-col h-full">
-                      <div className="relative aspect-[3/2] overflow-hidden">
+                      <div className="relative aspect-[3/2] overflow-hidden bg-[hsl(215_70%_14%)]">
                         {(() => {
                           const photo = projectPhoto(project.title, project.serviceType);
                           return photo ? (
                             <img
                               src={photo.src}
                               alt=""
-                              loading="lazy"
+                              decoding="async"
                               className="absolute inset-0 h-full w-full object-cover"
                               style={{ objectPosition: photo.pos }}
                             />
