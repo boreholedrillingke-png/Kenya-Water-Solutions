@@ -6,6 +6,7 @@ import cartRouter from "./cart";
 import inquiriesRouter from "./inquiries";
 import catalogRouter from "./catalog";
 import projectsRouter from "./projects";
+import videoCommentsRouter from "./videoComments";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(cartRouter);
 router.use(inquiriesRouter);
 router.use(catalogRouter);
 router.use(projectsRouter);
+router.use(videoCommentsRouter);
 
 export default router;

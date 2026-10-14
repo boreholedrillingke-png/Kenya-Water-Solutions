@@ -1,6 +1,10 @@
+import { useLocation } from "wouter";
 import { whatsappLink } from "@/lib/utils";
 
 export default function WhatsAppButton() {
+  const [location] = useLocation();
+  // The Successful Boreholes page has its own Quote button on every video
+  if (location === "/feed") return null;
   return (
     <a
       href={whatsappLink("Hello, I would like to inquire about your borehole drilling services.")}
