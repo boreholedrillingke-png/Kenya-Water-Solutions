@@ -41,9 +41,9 @@ export default function Feed() {
     <div>
       <PageBanner
         image={IMAGES.drilling}
-        eyebrow="Feed"
-        title="See our drilling in action"
-        description="Real rigs, real sites. Watch how we survey, drill, test and install."
+        eyebrow="Successful Boreholes"
+        title="Successful boreholes we have drilled"
+        description="Real rigs, real sites. Watch water come up from boreholes we have drilled across Kenya."
       />
       <div className="min-h-[65vh]" style={pageBackdrop(`${base}images/backdrops/rig-sunset.webp`, "center 55%")}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -68,7 +68,7 @@ export default function Feed() {
           {videos !== null && shown.length === 0 && (
             <div className="rounded-2xl bg-card/95 p-8 text-center shadow-xl">
               <Play className="mx-auto mb-2 h-8 w-8 text-primary" />
-              <h2 className="font-bold text-foreground">Videos are on the way</h2>
+              <h2 className="font-bold text-foreground">Successful boreholes are on the way</h2>
               <p className="mt-1 text-sm text-muted-foreground">We are uploading fresh drilling videos. Check back soon.</p>
             </div>
           )}
@@ -100,7 +100,7 @@ export default function Feed() {
                   )}
                   <Button asChild size="sm" className="mt-3 bg-green-600 text-white hover:bg-green-700">
                     <a
-                      href={whatsappLink(`Hello, I saw "${v.title}" on your Feed and would like a quote for something similar.`)}
+                      href={whatsappLink(`Hello, I saw "${v.title}" on your Successful Boreholes page and would like a quote for something similar.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

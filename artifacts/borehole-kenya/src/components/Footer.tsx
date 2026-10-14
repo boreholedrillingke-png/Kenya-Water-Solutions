@@ -7,7 +7,7 @@ const quickLinks = [
   { label: "Services", href: "/services" },
   { label: "Products", href: "/products" },
   { label: "Projects", href: "/projects" },
-  { label: "Feed", href: "/feed" },
+  { label: "Successful Boreholes", href: "/feed" },
   { label: "Contact", href: "/contact" },
 ];
 
