@@ -9,6 +9,7 @@ interface FeedVideo {
   title: string;
   location?: string;
   dbId?: number; // set for videos uploaded from the website (admin can delete these)
+  publishingUntil?: number; // GitHub uploads take ~2 minutes to appear on the site
 }
 interface Comment { id: number; name: string; body: string; createdAt: string }
 interface Stat { likes: number; views: number; shares: number; comments: number }
@@ -81,10 +82,16 @@ export default function Feed() {
           })));
       const uploaded: FeedVideo[] = await fetch(`${API}/api/feed-videos`)
         .then((r) => r.json())
-        .then((d: { id: number; url: string; poster?: string; title: string; location?: string }[]) =>
-          (Array.isArray(d) ? d : []).map((v) => ({ key: `db-${v.id}`, dbId: v.id, src: v.url, poster: v.poster ?? undefined, title: v.title, location: v.location ?? undefined })))
+        .then((d: { id: number; url: string; poster?: string; title: string; location?: string; source?: string; createdAt?: string }[]) =>
+          (Array.isArray(d) ? d : []).map((v) => ({
+            key: `db-${v.id}`, dbId: v.id, title: v.title, location: v.location ?? undefined,
+            src: v.source === "github" ? `${base}${v.url}` : v.url, poster: v.poster ?? undefined,
+            publishingUntil: v.source === "github" && v.createdAt ? new Date(v.createdAt + "Z").getTime() + 4 * 60_000 : undefined,
+          })))
         .catch(() => []);
-      const list = [...uploaded, ...staticList];
+      // a GitHub upload is hidden from visitors until the site has rebuilt (about 2 minutes); admin sees it straight away
+      const adminNow = !!store.get("kws_admin");
+      const list = [...uploaded.filter((v) => adminNow || !v.publishingUntil || Date.now() > v.publishingUntil), ...staticList];
       setVideos(list);
       // shared link: /feed?v=key opens that video
       const want = new URLSearchParams(window.location.search).get("v");
@@ -510,6 +517,24 @@ function UploadSheet({ adminKey, onClose, onBadAdmin, onDone }: {
       if (sr.status === 403) { onBadAdmin(); window.alert("Admin key no longer valid"); return; }
       const s = await sr.json();
       if (!sr.ok) throw new Error(s.error ?? "Could not start upload");
+      if (s.mode === "github") {
+        if (!/\.(mp4|webm)$/i.test(file.name)) throw new Error("Please choose an .mp4 or .webm video");
+        if (file.size > s.maxMB * 1048576) throw new Error(`Video is too big (max ${s.maxMB} MB). Compress it or split it.`);
+        const q = new URLSearchParams({ name: file.name, title, location: [county.trim(), town.trim()].filter(Boolean).join(", ") });
+        const d = await new Promise<{ id: number; url: string; title: string; location?: string; createdAt?: string; error?: string }>((resolve, reject) => {
+          const x = new XMLHttpRequest();
+          x.open("POST", `${API}/api/feed-videos/upload?${q}`);
+          x.setRequestHeader("x-admin-key", adminKey);
+          x.setRequestHeader("Content-Type", file.type || "video/mp4");
+          x.upload.onprogress = (ev) => setPct(Math.round((ev.loaded / ev.total) * 100));
+          x.onload = () => { try { const j = JSON.parse(x.responseText); x.status < 300 ? resolve(j) : reject(new Error(j.error ?? "Upload failed")); } catch { reject(new Error("Upload failed")); } };
+          x.onerror = () => reject(new Error("Network error during upload"));
+          x.send(file);
+        });
+        window.alert("Saved to GitHub. It shows for visitors in about 2 minutes, after the site rebuilds.");
+        onDone({ key: `db-${d.id}`, dbId: d.id, src: `${base}${d.url}`, title: d.title, location: d.location ?? undefined });
+        return;
+      }
       const url = `https://api.cloudinary.com/v1_1/${s.cloudName}/video/upload`;
       const uid = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
       let last: Awaited<ReturnType<typeof sendChunk>> = {};
@@ -552,7 +577,7 @@ function UploadSheet({ adminKey, onClose, onBadAdmin, onDone }: {
         </div>
         <label className="block rounded-lg border-2 border-dashed border-border p-4 text-center text-sm text-muted-foreground">
           <input type="file" accept="video/*" className="sr-only" disabled={busy} onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-          {file ? <span className="font-semibold text-foreground">{file.name} · {(file.size / 1048576).toFixed(1)} MB</span> : "Tap to choose a video (original quality is kept)"}
+          {file ? <span className="font-semibold text-foreground">{file.name} · {(file.size / 1048576).toFixed(1)} MB</span> : "Tap to choose a video (.mp4 recommended, original quality is kept)"}
         </label>
         <div className="grid grid-cols-2 gap-2">
           <input className={input} placeholder="County e.g. Kajiado" value={county} onChange={(e) => setCounty(e.target.value)} maxLength={40} disabled={busy} />
