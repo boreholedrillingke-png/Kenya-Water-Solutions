@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { ShieldCheck, LogOut, Plus, Trash2, Video, MessageCircle, ExternalLink } from "lucide-react";
+import { ShieldCheck, LogOut, Plus, Trash2, Video, MessageCircle, ExternalLink, Package, Wrench } from "lucide-react";
+import CatalogEditor from "@/components/admin/CatalogEditor";
 import { API, api, store, UploadSheet, type FeedVideo } from "@/pages/Feed";
 
 interface UpVideo { id: number; title: string; location?: string; source?: string; url: string; createdAt?: string }
@@ -16,6 +17,7 @@ export default function Admin() {
   const [uploading, setUploading] = useState(false);
   const [videos, setVideos] = useState<UpVideo[] | null>(null);
   const [comments, setComments] = useState<AdminComment[] | null>(null);
+  const [tab, setTab] = useState<"products" | "services" | "videos" | "comments">("products");
   const [titles, setTitles] = useState<Record<string, string>>({});
 
   const logout = () => { store.set("kws_admin", ""); setKey(""); };
@@ -87,6 +89,21 @@ export default function Admin() {
           </div>
         </div>
 
+        <div className="grid grid-cols-4 gap-1 rounded-2xl bg-card/95 p-1.5 shadow-xl">
+          {([["products", Package, "Products"], ["services", Wrench, "Services"], ["videos", Video, "Videos"], ["comments", MessageCircle, "Comments"]] as const).map(([k, Icon, name]) => (
+            <button key={k} onClick={() => setTab(k)} className={`flex flex-col items-center gap-0.5 rounded-xl py-2 text-xs font-semibold sm:flex-row sm:justify-center sm:gap-1.5 sm:text-sm ${tab === k ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"}`}>
+              <Icon className="h-4 w-4" /> {name}
+            </button>
+          ))}
+        </div>
+
+        {(tab === "products" || tab === "services") && (
+          <section className={card}>
+            <h2 className="mb-3 font-bold text-foreground">{tab === "products" ? "Products and prices" : "Services and prices"}</h2>
+            <CatalogEditor key={tab} kind={tab} adminKey={key} onBadAdmin={logout} />
+          </section>
+        )}
+        {tab === "videos" && (
         <section className={card}>
           <h2 className="mb-3 flex items-center gap-2 font-bold text-foreground"><Video className="h-4 w-4 text-primary" /> Videos you uploaded {videos ? `(${videos.length})` : ""}</h2>
           {videos === null && <p className="text-sm text-muted-foreground">Loading…</p>}
@@ -105,6 +122,8 @@ export default function Admin() {
           <p className="mt-3 text-xs text-muted-foreground">The first videos that came with the site are part of the code, so they are not listed here.</p>
         </section>
 
+        )}
+        {tab === "comments" && (
         <section className={card}>
           <h2 className="mb-3 flex items-center gap-2 font-bold text-foreground"><MessageCircle className="h-4 w-4 text-primary" /> Latest comments {comments ? `(${comments.length})` : ""}</h2>
           {comments === null && <p className="text-sm text-muted-foreground">Loading…</p>}
@@ -121,6 +140,7 @@ export default function Admin() {
             ))}
           </div>
         </section>
+        )}
       </div>
 
       {uploading && (
