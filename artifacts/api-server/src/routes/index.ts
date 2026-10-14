@@ -8,6 +8,7 @@ import catalogRouter from "./catalog";
 import projectsRouter from "./projects";
 import videoCommentsRouter from "./videoComments";
 import videoStatsRouter from "./videoStats";
+import feedVideosRouter from "./feedVideos";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(catalogRouter);
 router.use(projectsRouter);
 router.use(videoCommentsRouter);
 router.use(videoStatsRouter);
+router.use(feedVideosRouter);
 
 export default router;

@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye } from "lucide-react";
+import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye, Plus, UploadCloud } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
 
 interface FeedVideo {
-  file: string; // video file inside /public/videos
+  key: string; // id used for likes, comments and share links
+  src: string;
+  poster?: string;
   title: string;
   location?: string;
-  poster?: string;
+  dbId?: number; // set for videos uploaded from the website (admin can delete these)
 }
 interface Comment { id: number; name: string; body: string; createdAt: string }
 interface Stat { likes: number; views: number; shares: number; comments: number }
@@ -50,6 +52,7 @@ export default function Feed() {
   const [toast, setToast] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const [adminKey, setAdminKey] = useState(() => store.get("kws_admin"));
+  const [uploading, setUploading] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
   const els = useRef<(HTMLVideoElement | null)[]>([]);
   const mutedRef = useRef(true);
@@ -66,17 +69,29 @@ export default function Feed() {
   const say = (m: string) => { setToast(m); window.setTimeout(() => setToast(""), 1800); };
 
   useEffect(() => {
-    fetch(`${base}videos/feed.json`, { cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : []))
-      .then((d) => {
-        const list: FeedVideo[] = Array.isArray(d) ? d.filter((v: FeedVideo) => v.file) : [];
-        setVideos(list);
-        // shared link: /feed?v=file.mp4 opens that video
-        const want = new URLSearchParams(window.location.search).get("v");
-        const idx = want ? list.findIndex((v) => v.file === want) : -1;
-        if (idx > 0) window.setTimeout(() => scroller.current?.scrollTo({ top: idx * scroller.current.clientHeight }), 60);
-      })
-      .catch(() => setVideos([]));
+    const loadAll = async () => {
+      const staticList: FeedVideo[] = await fetch(`${base}videos/feed.json`, { cache: "no-cache" })
+        .then((r) => (r.ok ? r.json() : []))
+        .then((d) => (Array.isArray(d) ? d : []))
+        .catch(() => [])
+        .then((d: { file?: string; poster?: string; title: string; location?: string }[]) =>
+          d.filter((v) => v.file).map((v) => ({
+            key: v.file as string, src: `${base}videos/${v.file}`, poster: v.poster ? `${base}videos/${v.poster}` : undefined,
+            title: v.title, location: v.location,
+          })));
+      const uploaded: FeedVideo[] = await fetch(`${API}/api/feed-videos`)
+        .then((r) => r.json())
+        .then((d: { id: number; url: string; poster?: string; title: string; location?: string }[]) =>
+          (Array.isArray(d) ? d : []).map((v) => ({ key: `db-${v.id}`, dbId: v.id, src: v.url, poster: v.poster ?? undefined, title: v.title, location: v.location ?? undefined })))
+        .catch(() => []);
+      const list = [...uploaded, ...staticList];
+      setVideos(list);
+      // shared link: /feed?v=key opens that video
+      const want = new URLSearchParams(window.location.search).get("v");
+      const idx = want ? list.findIndex((v) => v.key === want) : -1;
+      if (idx > 0) window.setTimeout(() => scroller.current?.scrollTo({ top: idx * scroller.current.clientHeight }), 60);
+    };
+    loadAll();
     fetch(statsApi(`?clientId=${encodeURIComponent(clientId)}`))
       .then((r) => r.json())
       .then((d) => { setStats(d.stats ?? {}); setLiked(new Set(d.liked ?? [])); })
@@ -146,11 +161,11 @@ export default function Feed() {
   // A view counts after 3 seconds of watching (once per visit)
   useEffect(() => {
     const v = videos?.[active];
-    if (!v || viewed.current.has(v.file)) return;
+    if (!v || viewed.current.has(v.key)) return;
     const id = window.setTimeout(() => {
-      viewed.current.add(v.file);
-      bump(v.file, "views", 1);
-      fetch(statsApi(`/${encodeURIComponent(v.file)}/view`), { method: "POST" }).catch(() => {});
+      viewed.current.add(v.key);
+      bump(v.key, "views", 1);
+      fetch(statsApi(`/${encodeURIComponent(v.key)}/view`), { method: "POST" }).catch(() => {});
     }, 3000);
     return () => window.clearTimeout(id);
   }, [active, videos, bump]);
@@ -166,12 +181,12 @@ export default function Feed() {
   const likeVideo = (i: number, only = false) => {
     const v = videos?.[i];
     if (!v) return;
-    const isLiked = likedRef.current.has(v.file);
+    const isLiked = likedRef.current.has(v.key);
     if (only && isLiked) return;
     const next = !isLiked;
-    setLiked((s) => { const n = new Set(s); next ? n.add(v.file) : n.delete(v.file); return n; });
-    bump(v.file, "likes", next ? 1 : -1);
-    fetch(statsApi(`/${encodeURIComponent(v.file)}/like`), {
+    setLiked((s) => { const n = new Set(s); next ? n.add(v.key) : n.delete(v.key); return n; });
+    bump(v.key, "likes", next ? 1 : -1);
+    fetch(statsApi(`/${encodeURIComponent(v.key)}/like`), {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clientId, liked: next }),
     }).catch(() => {});
   };
@@ -198,7 +213,7 @@ export default function Feed() {
   };
 
   const share = async (v: FeedVideo) => {
-    const url = `${window.location.origin}${base}feed?v=${encodeURIComponent(v.file)}`.replace(/([^:])\/\//g, "$1/");
+    const url = `${window.location.origin}${base}feed?v=${encodeURIComponent(v.key)}`.replace(/([^:])\/\//g, "$1/");
     const data = { title: v.title, text: `${v.title} | Kenya Water Solutions`, url };
     let done = false;
     if (navigator.share) {
@@ -208,8 +223,15 @@ export default function Feed() {
       try { await navigator.clipboard.writeText(url); say("Link copied"); done = true; }
       catch { window.prompt("Copy this link", url); done = true; }
     }
-    bump(v.file, "shares", 1);
-    fetch(statsApi(`/${encodeURIComponent(v.file)}/share`), { method: "POST" }).catch(() => {});
+    bump(v.key, "shares", 1);
+    fetch(statsApi(`/${encodeURIComponent(v.key)}/share`), { method: "POST" }).catch(() => {});
+  };
+
+  const removeVideo = async (v: FeedVideo) => {
+    if (!v.dbId || !window.confirm(`Delete "${v.title}" from the page?`)) return;
+    const r = await fetch(`${API}/api/feed-videos/${v.dbId}`, { method: "DELETE", headers: { "x-admin-key": adminKey } });
+    if (r.status === 403) { store.set("kws_admin", ""); setAdminKey(""); window.alert("Admin key no longer valid"); return; }
+    if (r.ok) setVideos((l) => (l ?? []).filter((x) => x.key !== v.key));
   };
 
   const seek = (e: React.MouseEvent<HTMLDivElement>, i: number) => {
@@ -232,15 +254,15 @@ export default function Feed() {
           </div>
         )}
         {videos?.map((v, i) => {
-          const s = stat(v.file);
-          const isLiked = liked.has(v.file);
+          const s = stat(v.key);
+          const isLiked = liked.has(v.key);
           return (
-            <section key={v.file} data-i={i} className="relative flex h-full snap-start snap-always justify-center bg-black">
+            <section key={v.key} data-i={i} className="relative flex h-full snap-start snap-always justify-center bg-black">
               <div className="relative h-full w-full select-none md:max-w-[440px]">
                 <video
                   ref={(el) => { els.current[i] = el; }}
-                  src={`${base}videos/${v.file}`}
-                  poster={v.poster ? `${base}videos/${v.poster}` : undefined}
+                  src={v.src}
+                  poster={v.poster}
                   loop
                   muted
                   playsInline
@@ -284,7 +306,7 @@ export default function Feed() {
                     </span>
                     <span className="text-[11px] font-semibold">{fmt(s.likes)}</span>
                   </button>
-                  <button onClick={() => setOpenId(v.file)} className="flex flex-col items-center gap-0.5" aria-label="Comments">
+                  <button onClick={() => setOpenId(v.key)} className="flex flex-col items-center gap-0.5" aria-label="Comments">
                     <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur"><MessageCircle className="h-5 w-5" /></span>
                     <span className="text-[11px] font-semibold">{fmt(s.comments)}</span>
                   </button>
@@ -314,6 +336,12 @@ export default function Feed() {
                   </div>
                 </div>
 
+                {adminKey && v.dbId && (
+                  <button onClick={() => removeVideo(v)} aria-label="Delete video"
+                    className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-red-600 px-2.5 py-1 text-[11px] font-bold text-white">
+                    <Trash2 className="h-3 w-3" /> Delete video
+                  </button>
+                )}
                 {i === 0 && (
                   <div className="pointer-events-none absolute left-0 right-0 top-3 text-center text-[11px] font-semibold uppercase tracking-wider text-white/70">
                     Successful Boreholes · swipe up · double-tap to like
@@ -336,10 +364,26 @@ export default function Feed() {
         </button>
       )}
 
+      {adminKey && (
+        <button onClick={() => setUploading(true)} aria-label="Upload video"
+          className="absolute bottom-24 left-3 z-20 flex items-center gap-1.5 rounded-full bg-amber-400 px-3.5 py-2 text-xs font-bold text-slate-900 shadow-lg md:left-[calc(50%-210px)]">
+          <Plus className="h-4 w-4" /> Upload video
+        </button>
+      )}
+
+      {uploading && (
+        <UploadSheet
+          adminKey={adminKey}
+          onClose={() => setUploading(false)}
+          onBadAdmin={() => { store.set("kws_admin", ""); setAdminKey(""); setUploading(false); }}
+          onDone={(v) => { setVideos((l) => [v, ...(l ?? [])]); setUploading(false); scroller.current?.scrollTo({ top: 0 }); }}
+        />
+      )}
+
       {openId && (
         <CommentSheet
           videoId={openId}
-          title={videos?.find((v) => v.file === openId)?.title ?? ""}
+          title={videos?.find((v) => v.key === openId)?.title ?? ""}
           adminKey={adminKey}
           onClose={() => setOpenId(null)}
           onCount={(d) => bump(openId, "comments", d)}
@@ -426,6 +470,104 @@ function CommentSheet({ videoId, title, adminKey, onClose, onCount, onBadAdmin }
           <p className="text-[11px] text-muted-foreground">Be respectful. Offensive comments are removed.</p>
         </form>
       </div>
+    </div>
+  );
+}
+
+
+const CHUNK = 20 * 1024 * 1024; // 20 MB pieces, so even large originals upload reliably
+
+function UploadSheet({ adminKey, onClose, onBadAdmin, onDone }: {
+  adminKey: string; onClose: () => void; onBadAdmin: () => void; onDone: (v: FeedVideo) => void;
+}) {
+  const [file, setFile] = useState<File | null>(null);
+  const [county, setCounty] = useState("");
+  const [town, setTown] = useState("");
+  const [pct, setPct] = useState(0);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+
+  const title = `Successful Borehole in ${[county.trim(), town.trim()].filter(Boolean).join(", ") || "Kenya"}`;
+
+  const sendChunk = (url: string, form: FormData, uid: string, start: number, end: number, total: number, onProg: (loaded: number) => void) =>
+    new Promise<{ secure_url?: string; public_id?: string; error?: { message: string } }>((resolve, reject) => {
+      const x = new XMLHttpRequest();
+      x.open("POST", url);
+      x.setRequestHeader("X-Unique-Upload-Id", uid);
+      x.setRequestHeader("Content-Range", `bytes ${start}-${end - 1}/${total}`);
+      x.upload.onprogress = (e) => onProg(e.loaded);
+      x.onload = () => { try { const d = JSON.parse(x.responseText); x.status < 300 ? resolve(d) : reject(new Error(d.error?.message ?? "Upload failed")); } catch { reject(new Error("Upload failed")); } };
+      x.onerror = () => reject(new Error("Network error during upload"));
+      x.send(form);
+    });
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file || busy) return;
+    setBusy(true); setErr(""); setPct(0);
+    try {
+      const sr = await fetch(`${API}/api/feed-videos/sign`, { method: "POST", headers: { "x-admin-key": adminKey } });
+      if (sr.status === 403) { onBadAdmin(); window.alert("Admin key no longer valid"); return; }
+      const s = await sr.json();
+      if (!sr.ok) throw new Error(s.error ?? "Could not start upload");
+      const url = `https://api.cloudinary.com/v1_1/${s.cloudName}/video/upload`;
+      const uid = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      let last: Awaited<ReturnType<typeof sendChunk>> = {};
+      for (let start = 0; start < file.size || start === 0; start += CHUNK) {
+        const end = Math.min(start + CHUNK, file.size);
+        const form = new FormData();
+        form.append("file", file.slice(start, end), file.name);
+        form.append("api_key", s.apiKey);
+        form.append("timestamp", String(s.timestamp));
+        form.append("signature", s.signature);
+        form.append("folder", s.folder);
+        last = await sendChunk(url, form, uid, start, end, file.size, (l) => setPct(Math.round(((start + l) / file.size) * 100)));
+        if (end >= file.size) break;
+      }
+      if (!last.secure_url || !last.public_id) throw new Error("Upload did not finish");
+      // Original file is served untouched. Only non-MP4 phone formats (e.g. .MOV) are converted to H.264 so browsers can play them.
+      const isMp4 = /\.mp4$/i.test(file.name);
+      const root = last.secure_url.replace(/\/upload\/.*$/, "/upload/");
+      const play = isMp4 ? last.secure_url : `${root}f_mp4,vc_h264/${last.public_id}.mp4`;
+      const poster = `${root}so_1,w_720,f_jpg/${last.public_id}.jpg`;
+      const loc = [county.trim(), town.trim()].filter(Boolean).join(", ");
+      const r = await fetch(`${API}/api/feed-videos`, {
+        method: "POST", headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ publicId: last.public_id, url: play, poster, title, location: loc }),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error ?? "Could not save video");
+      onDone({ key: `db-${d.id}`, dbId: d.id, src: d.url, poster: d.poster ?? undefined, title: d.title, location: d.location ?? undefined });
+    } catch (x) { setErr(x instanceof Error ? x.message : "Upload failed"); }
+    setBusy(false);
+  };
+
+  const input = "w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40";
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 md:items-center" onClick={() => !busy && onClose()}>
+      <form onSubmit={submit} onClick={(e) => e.stopPropagation()} className="w-full space-y-3 rounded-t-2xl bg-card p-4 shadow-2xl md:max-w-md md:rounded-2xl">
+        <div className="flex items-center justify-between">
+          <h3 className="flex items-center gap-2 font-bold text-foreground"><UploadCloud className="h-5 w-5 text-primary" /> Post a new video</h3>
+          <button type="button" onClick={onClose} disabled={busy} aria-label="Close" className="rounded-full p-1.5 hover:bg-muted"><X className="h-5 w-5" /></button>
+        </div>
+        <label className="block rounded-lg border-2 border-dashed border-border p-4 text-center text-sm text-muted-foreground">
+          <input type="file" accept="video/*" className="sr-only" disabled={busy} onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+          {file ? <span className="font-semibold text-foreground">{file.name} · {(file.size / 1048576).toFixed(1)} MB</span> : "Tap to choose a video (original quality is kept)"}
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <input className={input} placeholder="County e.g. Kajiado" value={county} onChange={(e) => setCounty(e.target.value)} maxLength={40} disabled={busy} />
+          <input className={input} placeholder="Town e.g. Isinya" value={town} onChange={(e) => setTown(e.target.value)} maxLength={40} disabled={busy} />
+        </div>
+        <p className="text-xs text-muted-foreground">Title: <span className="font-semibold text-foreground">{title}</span></p>
+        {busy && (
+          <div>
+            <div className="h-2 overflow-hidden rounded-full bg-muted"><div className="h-full bg-primary transition-all" style={{ width: `${pct}%` }} /></div>
+            <p className="mt-1 text-xs text-muted-foreground">Uploading {pct}%. Keep this page open.</p>
+          </div>
+        )}
+        {err && <p className="text-xs text-red-600">{err}</p>}
+        <button disabled={!file || busy} className="w-full rounded-md bg-primary py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-50">{busy ? "Uploading…" : "Post video"}</button>
+      </form>
     </div>
   );
 }
