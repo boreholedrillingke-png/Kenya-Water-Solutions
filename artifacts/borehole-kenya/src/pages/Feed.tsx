@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye, Plus, UploadCloud } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
 
-interface FeedVideo {
+export interface FeedVideo {
   key: string; // id used for likes, comments and share links
   src: string;
   poster?: string;
@@ -16,11 +16,11 @@ interface Stat { likes: number; views: number; shares: number; comments: number 
 const ZERO: Stat = { likes: 0, views: 0, shares: 0, comments: 0 };
 
 const base = import.meta.env.BASE_URL;
-const API = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
-const api = (path: string) => `${API}/api/video-comments${path}`;
+export const API = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
+export const api = (path: string) => `${API}/api/video-comments${path}`;
 const statsApi = (path: string) => `${API}/api/video-stats${path}`;
 
-const store = {
+export const store = {
   get: (k: string) => { try { return localStorage.getItem(k) ?? ""; } catch { return ""; } },
   set: (k: string, v: string) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch { /* ignore */ } },
 };
@@ -484,7 +484,7 @@ function CommentSheet({ videoId, title, adminKey, onClose, onCount, onBadAdmin }
 
 const CHUNK = 20 * 1024 * 1024; // 20 MB pieces, so even large originals upload reliably
 
-function UploadSheet({ adminKey, onClose, onBadAdmin, onDone }: {
+export function UploadSheet({ adminKey, onClose, onBadAdmin, onDone }: {
   adminKey: string; onClose: () => void; onBadAdmin: () => void; onDone: (v: FeedVideo) => void;
 }) {
   const [file, setFile] = useState<File | null>(null);

@@ -47,6 +47,16 @@ router.post("/video-comments/admin-check", (req, res) => {
   res.json({ admin: isAdmin(req.header("x-admin-key")) });
 });
 
+// Admin: latest comments across all videos, for moderating in one place
+router.get("/video-comments-admin/recent", async (req, res) => {
+  if (!isAdmin(req.header("x-admin-key"))) { res.status(403).json({ error: "Admin only" }); return; }
+  try {
+    await ensureTable();
+    const r = await pool.query("SELECT id, video_id AS \"videoId\", name, body, created_at AS \"createdAt\" FROM video_comments ORDER BY created_at DESC LIMIT 100");
+    res.json(r.rows);
+  } catch { res.status(500).json({ error: "Could not load comments" }); }
+});
+
 router.get("/video-comments/:videoId", async (req, res) => {
   try {
     await ensureTable();
