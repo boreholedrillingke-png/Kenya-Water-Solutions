@@ -6,8 +6,8 @@ import { pool } from "@workspace/db";
 // this table only keeps the list: link, title, place.
 // Storage (pick one, GitHub wins if both are set). Env variables on the API service:
 //   ADMIN_KEY                                                    always needed
-//   GITHUB_TOKEN (+ optional GITHUB_REPO, GITHUB_BRANCH)          store videos in the GitHub repo, original file
-//   CLOUDINARY_CLOUD_NAME / _API_KEY / _API_SECRET               or store them on Cloudinary
+//   CLOUDINARY_CLOUD_NAME / _API_KEY / _API_SECRET               store videos on Cloudinary (preferred when set)
+//   GITHUB_TOKEN (+ optional GITHUB_REPO, GITHUB_BRANCH)          otherwise store them in the GitHub repo, original file
 const router = Router();
 const FOLDER = "kenya-water-solutions/feed";
 
@@ -62,9 +62,15 @@ router.get("/feed-videos", async (_req, res) => {
 // Signed upload ticket: the browser sends the video straight to Cloudinary, so Render never touches the file.
 router.post("/feed-videos/sign", (req, res) => {
   if (!isAdmin(req.header("x-admin-key"))) { res.status(403).json({ error: "Admin only" }); return; }
-  if (gh.token) { res.json({ mode: "github", maxMB: 90 }); return; }
   const c = cloud();
-  if (!c.name || !c.key || !c.secret) { res.status(503).json({ error: "No video storage is set up on the server yet (add GITHUB_TOKEN or the Cloudinary keys)" }); return; }
+  const cloudReady = !!(c.name && c.key && c.secret);
+  // Cloudinary is preferred when its keys are set (bigger files, faster, nothing to rebuild).
+  // GitHub is used only when Cloudinary is not set up.
+  if (!cloudReady) {
+    if (gh.token) { res.json({ mode: "github", maxMB: 90 }); return; }
+    res.status(503).json({ error: "No video storage is set up on the server yet (add the three Cloudinary keys on Render)" });
+    return;
+  }
   const timestamp = Math.floor(Date.now() / 1000);
   const signature = sha1(`folder=${FOLDER}&timestamp=${timestamp}${c.secret}`);
   res.json({ mode: "cloudinary", cloudName: c.name, apiKey: c.key, timestamp, signature, folder: FOLDER });
