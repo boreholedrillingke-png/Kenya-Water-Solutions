@@ -61,22 +61,22 @@ export default function Footer() {
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-1.5">
               <li>
                 <a href="tel:+254762211512" className={`flex items-center gap-1.5 ${link}`}>
-                  <Phone className="h-3 w-3 shrink-0" /> +254 762 211 512
+                  <Phone className="h-3.5 w-3.5 shrink-0" /> Call Us Now
                 </a>
               </li>
-              <li className="hidden md:block">
+              <li>
                 <a
                   href={whatsappLink("Hello, I'd like to inquire about your borehole services.")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex items-center gap-1.5 ${link}`}
                 >
-                  <MessageCircle className="h-3 w-3 shrink-0" /> WhatsApp us
+                  <MessageCircle className="h-3.5 w-3.5 shrink-0" /> Chat on WhatsApp
                 </a>
               </li>
-              <li className="md:col-span-2">
-                <a href="mailto:sabwaterdrillingcompany@gmail.com" className={`flex items-start gap-1.5 break-all ${link}`}>
-                  <Mail className="h-3 w-3 shrink-0 mt-0.5" /> sabwaterdrillingcompany@gmail.com
+              <li>
+                <a href="mailto:sabwaterdrillingcompany@gmail.com" className={`flex items-center gap-1.5 ${link}`}>
+                  <Mail className="h-3.5 w-3.5 shrink-0" /> Email Us
                 </a>
               </li>
               <li className="flex items-center gap-1.5"><MapPin className="h-3 w-3 shrink-0" /> Nairobi, Kenya</li>
