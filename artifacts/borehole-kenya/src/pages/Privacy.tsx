@@ -8,10 +8,10 @@ export default function Privacy() {
     <div className="min-h-[calc(100dvh-4rem)] px-4 pt-24 pb-12" style={pageBackdrop(IMAGES.backdropWater, "center 50%")}>
       <article className="mx-auto max-w-3xl rounded-2xl bg-card/95 p-5 shadow-xl sm:p-7">
         <h1 className="text-xl font-bold text-foreground">Privacy Policy</h1>
-        <p className="mt-1 text-xs text-muted-foreground">Kenya Water Solutions · Last updated 15 October 2026</p>
+        <p className="mt-1 text-xs text-muted-foreground">SAB Borehole Drilling · Last updated 15 October 2026</p>
 
         <p className={p}>
-          This policy explains what information Kenya Water Solutions (“we”, “us”) collects on sab-boreholedrilling.site, why we collect it, and the choices you have.
+          This policy explains what information SAB Borehole Drilling (“we”, “us”) collects on sab-boreholedrilling.site, why we collect it, and the choices you have.
         </p>
 
         <h2 className={h}>What we collect</h2>
@@ -51,7 +51,7 @@ export default function Privacy() {
 
         <h2 className={h}>Contact us</h2>
         <p className={p}>
-          Kenya Water Solutions, Nairobi, Kenya<br />
+          SAB Borehole Drilling, Nairobi, Kenya<br />
           Email: sabwaterdrillingcompany@gmail.com<br />
           Phone / WhatsApp: +254 762 211 512
         </p>

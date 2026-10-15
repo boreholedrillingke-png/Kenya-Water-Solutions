@@ -221,7 +221,7 @@ export default function Feed() {
 
   const share = async (v: FeedVideo) => {
     const url = `${window.location.origin}${base}feed?v=${encodeURIComponent(v.key)}`.replace(/([^:])\/\//g, "$1/");
-    const data = { title: v.title, text: `${v.title} | Kenya Water Solutions`, url };
+    const data = { title: v.title, text: `${v.title} | SAB Borehole Drilling`, url };
     let done = false;
     if (navigator.share) {
       try { await navigator.share(data); done = true; } catch (e) { if ((e as Error)?.name === "AbortError") return; }
@@ -301,7 +301,7 @@ export default function Feed() {
                     <p className="mt-1 flex items-center gap-1 text-xs text-white/80"><MapPin className="h-3 w-3" /> {v.location}</p>
                   )}
                   <p className="mt-1 flex items-center gap-2 text-[11px] text-white/60">
-                    Kenya Water Solutions
+                    SAB Borehole Drilling
                     <span className="flex items-center gap-0.5"><Eye className="h-3 w-3" /> {fmt(s.views)}</span>
                   </p>
                 </div>

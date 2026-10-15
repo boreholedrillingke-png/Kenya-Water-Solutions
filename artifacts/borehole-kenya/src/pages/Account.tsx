@@ -43,7 +43,7 @@ export default function Account() {
     setCopied(what); setTimeout(() => setCopied(""), 1800);
   };
   const share = async () => {
-    const text = `Need a borehole, a hydrogeological survey or solar water? Kenya Water Solutions will help. Use my link: ${link}`;
+    const text = `Need a borehole, a hydrogeological survey or solar water? SAB Borehole Drilling will help. Use my link: ${link}`;
     if (navigator.share) { try { await navigator.share({ text }); } catch { /* cancelled */ } }
     else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   };

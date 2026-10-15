@@ -48,7 +48,7 @@ export default function Navbar() {
               <Droplets className="h-5 w-5 text-white" />
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-bold text-foreground">Borehole Drilling</div>
+              <div className="text-sm font-bold text-foreground"><span className="text-primary">SAB</span> Borehole Drilling</div>
               <div className="text-[10px] text-muted-foreground font-medium tracking-wide uppercase">Services Kenya</div>
             </div>
           </Link>

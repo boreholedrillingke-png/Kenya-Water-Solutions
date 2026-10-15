@@ -28,7 +28,7 @@ export default function Footer() {
               <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
                 <Droplets className="h-4 w-4 text-white" />
               </div>
-              <span className="text-sm font-bold text-white">Kenya Water Solutions</span>
+              <span className="text-sm font-bold text-white">SAB Borehole Drilling</span>
             </div>
             <p className="leading-relaxed text-white/60 max-w-[15rem]">
               Borehole drilling, pumps, solar and water purification across Kenya.
@@ -87,7 +87,7 @@ export default function Footer() {
 
         <div className="mt-3 pt-2.5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 items-center gap-1 text-center text-white/45">
           <span className="hidden sm:block" />
-          <span>© {new Date().getFullYear()} Kenya Water Solutions. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} SAB Borehole Drilling. All rights reserved.</span>
           <a
             href="https://www.facebook.com/perfect.borehole.drillers"
             target="_blank"
