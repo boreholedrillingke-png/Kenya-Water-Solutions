@@ -18,6 +18,9 @@ import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
 import Feed from "@/pages/Feed";
 import Admin from "@/pages/Admin";
+import Join from "@/pages/Join";
+import Account from "@/pages/Account";
+import { captureRef } from "@/lib/member";
 import NotFound from "@/pages/not-found";
 import { hydrateCache, persistCache, prefetchSite } from "@/lib/prefetch";
 import OfferPopup from "@/components/OfferPopup";
@@ -30,7 +33,7 @@ const queryClient = new QueryClient({
 
 function Router() {
   const [loc] = useLocation();
-  const onAdmin = loc === "/admin"; // no offer popup or chat button on the admin page
+  const onAdmin = loc === "/admin" || loc === "/join" || loc === "/account"; // no offer popup or chat button on the admin page
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -46,6 +49,8 @@ function Router() {
           <Route path="/projects/:id" component={ProjectDetail} />
           <Route path="/feed" component={Feed} />
           <Route path="/admin" component={Admin} />
+          <Route path="/join" component={Join} />
+          <Route path="/account" component={Account} />
           <Route path="/purification" component={Purification} />
           <Route path="/contact" component={Contact} />
           <Route component={NotFound} />
@@ -58,6 +63,7 @@ function Router() {
   );
 }
 
+captureRef();
 hydrateCache(queryClient);
 persistCache(queryClient);
 

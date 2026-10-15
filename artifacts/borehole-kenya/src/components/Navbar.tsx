@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/products", label: "Products" },
   { href: "/projects", label: "Projects" },
   { href: "/feed", label: "Successful Boreholes" },
+  { href: "/join", label: "Earn" },
   { href: "/contact", label: "Contact" },
 ];
 

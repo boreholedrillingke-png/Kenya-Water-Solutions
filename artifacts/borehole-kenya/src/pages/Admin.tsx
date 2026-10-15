@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { ShieldCheck, LogOut, Plus, Trash2, Video, MessageCircle, ExternalLink, Package, Wrench } from "lucide-react";
+import { ShieldCheck, LogOut, Plus, Trash2, Video, MessageCircle, ExternalLink, Package, Wrench, Users } from "lucide-react";
 import CatalogEditor from "@/components/admin/CatalogEditor";
+import ReferralsAdmin from "@/components/admin/ReferralsAdmin";
 import { API, api, store, UploadSheet, type FeedVideo } from "@/pages/Feed";
 
 interface UpVideo { id: number; title: string; location?: string; source?: string; url: string; createdAt?: string }
@@ -17,7 +18,7 @@ export default function Admin() {
   const [uploading, setUploading] = useState(false);
   const [videos, setVideos] = useState<UpVideo[] | null>(null);
   const [comments, setComments] = useState<AdminComment[] | null>(null);
-  const [tab, setTab] = useState<"products" | "services" | "videos" | "comments">("products");
+  const [tab, setTab] = useState<"products" | "services" | "videos" | "comments" | "referrals">("products");
   const [titles, setTitles] = useState<Record<string, string>>({});
 
   const logout = () => { store.set("kws_admin", ""); setKey(""); };
@@ -79,7 +80,7 @@ export default function Admin() {
 
   return (
     <div className="min-h-[calc(100dvh-4rem)] px-4 pt-20 pb-10" style={bg}>
-      <div className="mx-auto max-w-3xl space-y-4">
+      <div className="mx-auto max-w-4xl space-y-4">
         <div className={`${card} flex flex-wrap items-center justify-between gap-3`}>
           <h1 className="flex items-center gap-2 text-lg font-bold text-foreground"><ShieldCheck className="h-5 w-5 text-primary" /> Admin</h1>
           <div className="flex flex-wrap gap-2">
@@ -89,8 +90,8 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-1 rounded-2xl bg-card/95 p-1.5 shadow-xl">
-          {([["products", Package, "Products"], ["services", Wrench, "Services"], ["videos", Video, "Videos"], ["comments", MessageCircle, "Comments"]] as const).map(([k, Icon, name]) => (
+        <div className="grid grid-cols-5 gap-1 rounded-2xl bg-card/95 p-1.5 shadow-xl">
+          {([["products", Package, "Products"], ["services", Wrench, "Services"], ["videos", Video, "Videos"], ["comments", MessageCircle, "Comments"], ["referrals", Users, "Referrals"]] as const).map(([k, Icon, name]) => (
             <button key={k} onClick={() => setTab(k)} className={`flex flex-col items-center gap-0.5 rounded-xl py-2 text-xs font-semibold sm:flex-row sm:justify-center sm:gap-1.5 sm:text-sm ${tab === k ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"}`}>
               <Icon className="h-4 w-4" /> {name}
             </button>
@@ -101,6 +102,12 @@ export default function Admin() {
           <section className={card}>
             <h2 className="mb-3 font-bold text-foreground">{tab === "products" ? "Products and prices" : "Services and prices"}</h2>
             <CatalogEditor key={tab} kind={tab} adminKey={key} onBadAdmin={logout} />
+          </section>
+        )}
+        {tab === "referrals" && (
+          <section className={card}>
+            <h2 className="mb-3 font-bold text-foreground">Member referrals and commission</h2>
+            <ReferralsAdmin adminKey={key} onBadAdmin={logout} />
           </section>
         )}
         {tab === "videos" && (

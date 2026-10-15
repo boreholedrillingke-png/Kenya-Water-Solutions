@@ -11,6 +11,7 @@ import { useCreateInquiry } from "@workspace/api-client-react";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { memberApi, savedRef } from "@/lib/member";
 
 interface ContactForm {
   name: string;
@@ -52,6 +53,8 @@ export default function Contact() {
       },
       {
         onSuccess: () => {
+          const code = savedRef();
+          if (code) memberApi("/lead", { body: { code, name: values.name, phone: values.phone, type: values.inquiryType, message: values.message } }).catch(() => {});
           setSubmitted(true);
           form.reset();
         },

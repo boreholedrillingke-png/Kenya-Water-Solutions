@@ -8,6 +8,7 @@ const quickLinks = [
   { label: "Products", href: "/products" },
   { label: "Projects", href: "/projects" },
   { label: "Successful Boreholes", href: "/feed" },
+  { label: "Earn with us", href: "/join" },
   { label: "Contact", href: "/contact" },
 ];
 
