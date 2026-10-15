@@ -19,6 +19,7 @@ import ProjectDetail from "@/pages/ProjectDetail";
 import Feed from "@/pages/Feed";
 import Admin from "@/pages/Admin";
 import Join from "@/pages/Join";
+import Privacy from "@/pages/Privacy";
 import Account from "@/pages/Account";
 import { captureRef } from "@/lib/member";
 import NotFound from "@/pages/not-found";
@@ -50,6 +51,7 @@ function Router() {
           <Route path="/feed" component={Feed} />
           <Route path="/admin" component={Admin} />
           <Route path="/join" component={Join} />
+          <Route path="/privacy" component={Privacy} />
           <Route path="/account" component={Account} />
           <Route path="/purification" component={Purification} />
           <Route path="/contact" component={Contact} />

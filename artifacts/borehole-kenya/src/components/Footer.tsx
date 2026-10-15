@@ -10,6 +10,7 @@ const quickLinks = [
   { label: "Successful Boreholes", href: "/feed" },
   { label: "Earn with us", href: "/join" },
   { label: "Contact", href: "/contact" },
+  { label: "Privacy", href: "/privacy" },
 ];
 
 const services = ["Borehole Drilling", "Hydrogeological Surveys", "Test Pumping", "Pump Installation", "Borehole Inspection", "Water Purification"];
