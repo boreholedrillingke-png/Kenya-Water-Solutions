@@ -15,13 +15,13 @@ const quickLinks = [
 
 const services = ["Borehole Drilling", "Hydrogeological Surveys", "Test Pumping", "Pump Installation", "Borehole Inspection", "Water Purification"];
 
-const link = "hover:text-white transition-colors";
+const link = "hover:text-white transition-colors whitespace-nowrap";
 
 export default function Footer() {
   return (
     <footer className="shrink-0 bg-slate-950 text-white/70 text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2.5">
-        <div className="grid grid-cols-2 md:grid-cols-[1.1fr_1fr_1.3fr_1.7fr] gap-x-6 gap-y-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-2">
+        <div className="grid grid-cols-2 md:grid-cols-[1.1fr_1fr_1.3fr_1.7fr] gap-x-6 gap-y-3">
           {/* Brand */}
           <div className="hidden md:block">
             <div className="flex items-center gap-2 mb-2">
@@ -37,7 +37,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Quick Links</div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-1.5 text-center">Quick Links</div>
             <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {quickLinks.map((l) => (
                 <li key={l.label}><Link href={l.href} className={link}>{l.label}</Link></li>
@@ -47,7 +47,7 @@ export default function Footer() {
 
           {/* Services */}
           <div className="hidden sm:block">
-            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Services</div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-1.5 text-center">Services</div>
             <ul className="grid grid-flow-col grid-rows-3 gap-x-5 gap-y-1">
               {services.map((s) => (
                 <li key={s}><Link href={s === "Water Purification" ? "/purification" : "/services"} className={link}>{s}</Link></li>
@@ -57,7 +57,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="col-span-1">
-            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-2 text-center">Contact</div>
+            <div className="text-white font-semibold uppercase tracking-wider text-[11px] mb-1.5 text-center">Contact</div>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-1.5">
               <li>
                 <a href="tel:+254762211512" className={`flex items-center gap-1.5 ${link}`}>
@@ -85,7 +85,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-3 pt-2.5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 items-center gap-1 text-center text-white/45">
+        <div className="mt-2 pt-2 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 items-center gap-1 text-center text-white/45">
           <span className="hidden sm:block" />
           <span>© {new Date().getFullYear()} SAB Borehole Drilling. All rights reserved.</span>
           <a

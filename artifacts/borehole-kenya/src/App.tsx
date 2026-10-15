@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import Home from "@/pages/Home";
 import Services from "@/pages/Services";
 import ServiceDetail from "@/pages/ServiceDetail";
@@ -34,8 +33,7 @@ const queryClient = new QueryClient({
 
 function Router() {
   const [loc] = useLocation();
-  const onAdmin = loc === "/admin" || loc === "/join" || loc === "/account"; // no offer popup or chat button on the admin page
-  return (
+    return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1">
@@ -59,8 +57,7 @@ function Router() {
         </Switch>
       </main>
       <Footer />
-      {!onAdmin && <WhatsAppButton />}
-      {!onAdmin && <OfferPopup />}
+      {loc === "/" && <OfferPopup />}
     </div>
   );
 }

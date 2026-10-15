@@ -4,6 +4,7 @@ import { Menu, X, ShoppingCart, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetCart } from "@workspace/api-client-react";
 import { getCartSessionId } from "@/lib/utils";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -71,7 +72,8 @@ export default function Navbar() {
           </nav>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <WhatsAppButton />
             <Link href="/cart" className="relative p-2 rounded-md hover:bg-muted transition-colors" data-testid="link-cart">
               <ShoppingCart className="h-5 w-5 text-foreground/70" />
               {cartCount > 0 && (
