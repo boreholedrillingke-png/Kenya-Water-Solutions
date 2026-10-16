@@ -10,7 +10,7 @@ const input = "w-full rounded-md border border-border bg-background px-3 py-2.5 
 
 export default function Join() {
   const [, go] = useLocation();
-  const [mode, setMode] = useState<"signup" | "login">("signup");
+  const [mode, setMode] = useState<"signup" | "login">(typeof window !== "undefined" && new URLSearchParams(window.location.search).get("mode") === "login" ? "login" : "signup");
   const [f, setF] = useState({ name: "", email: "", phone: "", password: "" });
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);

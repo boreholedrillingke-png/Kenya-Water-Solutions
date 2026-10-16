@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical, ScanSearch } from "lucide-react";
+import { ArrowRight, UserRound, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical, ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
 import { IMAGES, imagePosition, pageBackdrop } from "@/lib/images";
 import { useListServices } from "@workspace/api-client-react";
+import { memberToken } from "@/lib/member";
 
 // Each button opens its own page. "match" finds the service by name; "to" is used when it is a product category.
 const quickLinks = [
@@ -94,6 +95,9 @@ export default function Home() {
             </Button>
             <Button asChild variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white">
               <a href="tel:+254762211512"><Phone className="mr-2 h-4 w-4" /> Call</a>
+            </Button>
+            <Button asChild variant="outline" className="border-white/25 bg-white/10 text-white shadow-sm hover:bg-white/20 hover:text-white" data-testid="button-hero-login">
+              <Link href={memberToken() ? "/account" : "/join?mode=login"}><UserRound className="mr-2 h-4 w-4" /> {memberToken() ? "My account" : "Log in"}</Link>
             </Button>
           </div>
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, ShoppingCart, Droplets } from "lucide-react";
+import { Menu, X, ShoppingCart, Droplets, UserRound, LogIn } from "lucide-react";
+import { memberToken } from "@/lib/member";
 import { Button } from "@/components/ui/button";
 import { useGetCart } from "@workspace/api-client-react";
 import { getCartSessionId } from "@/lib/utils";
@@ -34,6 +35,9 @@ export default function Navbar() {
   }, []);
 
   const cartCount = cart?.itemCount ?? 0;
+  // Re-check on every page change so the button flips after signing in or out.
+  const signedIn = !!memberToken() && location !== "";
+  const accountHref = signedIn ? "/account" : "/join?mode=login";
 
   return (
     <header
@@ -83,6 +87,14 @@ export default function Navbar() {
               )}
             </Link>
 
+            <Link
+              href={accountHref}
+              data-testid="link-login"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-primary/25 bg-primary/5 px-3 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
+            >
+              <UserRound className="h-4 w-4" /> {signedIn ? "My account" : "Log in"}
+            </Link>
+
             <Button asChild size="sm" className="hidden sm:inline-flex">
               <Link href="/contact">Get Free Quote</Link>
             </Button>
@@ -117,7 +129,10 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <div className="mt-2 px-4">
+              <div className="mt-2 grid grid-cols-2 gap-2 px-4">
+                <Button asChild variant="outline" className="w-full border-primary/30 text-primary" size="sm">
+                  <Link href={accountHref} onClick={() => setOpen(false)} data-testid="link-login-mobile"><LogIn className="mr-1.5 h-4 w-4" />{signedIn ? "My account" : "Log in"}</Link>
+                </Button>
                 <Button asChild className="w-full" size="sm">
                   <Link href="/contact" onClick={() => setOpen(false)}>Get Free Quote</Link>
                 </Button>
