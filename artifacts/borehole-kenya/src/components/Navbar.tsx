@@ -13,7 +13,7 @@ const navLinks = [
   { href: "/products", label: "Products" },
   { href: "/projects", label: "Projects" },
   { href: "/feed", label: "Successful Boreholes" },
-  { href: "/join", label: "Earn" },
+  { href: "/join?earn=1", label: "Earn" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -65,7 +65,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location === link.href
+                  location === link.href.split("?")[0]
                     ? "text-primary bg-primary/8"
                     : "text-foreground/80 hover:text-primary hover:bg-primary/6"
                 }`}
@@ -113,7 +113,7 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className={`px-4 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                    location === link.href
+                    location === link.href.split("?")[0]
                       ? "text-primary bg-primary/8"
                       : "text-foreground/80 hover:text-primary hover:bg-primary/6"
                   }`}

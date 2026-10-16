@@ -4,7 +4,8 @@ const store = {
   set: (k: string, v: string) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch { /* ignore */ } },
 };
 
-export interface Member { id: number; name: string; email: string; phone: string; code: string }
+export interface Member { id: number; name: string; email: string; phone: string; code: string; affiliate: boolean }
+export interface Enquiry { id: number; type: string; message: string; county: string | null; createdAt: string }
 export interface Referral {
   id: number; clientName: string; clientPhone: string; kind: "service" | "product"; need: string; source: string;
   rate: number; amount: number | null; commission: number | null;

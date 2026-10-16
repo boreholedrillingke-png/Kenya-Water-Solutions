@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Copy, LogOut, Share2, Plus, Check } from "lucide-react";
+import { Copy, LogOut, Share2, Plus, Check, MessageCircle, ClipboardList, ShoppingBag, Coins, BadgeCheck } from "lucide-react";
+import { Link } from "wouter";
+import { whatsappLink } from "@/lib/utils";
 import { IMAGES, pageBackdrop } from "@/lib/images";
-import { memberApi, memberToken, signOutMember, kes, STATUS_LABEL, type Member, type Referral } from "@/lib/member";
+import { memberApi, memberToken, signOutMember, kes, STATUS_LABEL, type Member, type Referral, type Enquiry } from "@/lib/member";
 
 interface Me {
   member: Member;
   rates: { service: number; product: number };
+  enquiries?: Enquiry[];
   referrals: Referral[];
   totals: { payable: number; paid: number; expected: number };
 }
@@ -69,6 +72,12 @@ export default function Account() {
     );
   }
   const { member, rates, referrals, totals } = me;
+  const enquiries = me.enquiries ?? [];
+  const startEarning = async () => {
+    setBusy(true);
+    try { await memberApi("/affiliate", { method: "POST", body: {} }); await load(); } catch (e: any) { setErr(e.message); }
+    setBusy(false);
+  };
 
   return (
     <div className="min-h-[calc(100dvh-4rem)] px-4 pt-24 pb-12" style={bg}>
@@ -81,6 +90,42 @@ export default function Account() {
           <button onClick={() => { signOutMember(); go("/join"); }} className="flex items-center gap-1.5 rounded-md border border-border px-3.5 py-2 text-sm font-semibold"><LogOut className="h-4 w-4" /> Sign out</button>
         </div>
 
+        {/* Client view: everyone sees this */}
+        <section className={card}>
+          <h2 className="font-bold text-foreground">What do you need?</h2>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <Link href="/contact" className="flex items-center gap-2 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground"><ClipboardList className="h-4 w-4" /> Get a free quote</Link>
+            <Link href="/products" className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-3 text-sm font-semibold text-foreground"><ShoppingBag className="h-4 w-4 text-primary" /> Browse products</Link>
+            <a href={whatsappLink(`Hello, I am ${member.name}. I need help with a borehole project.`)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-3 text-sm font-semibold text-foreground"><MessageCircle className="h-4 w-4 text-emerald-600" /> WhatsApp us</a>
+          </div>
+        </section>
+
+        <section className={card}>
+          <h2 className="font-bold text-foreground">Your enquiries {enquiries.length ? `(${enquiries.length})` : ""}</h2>
+          {enquiries.length === 0 ? (
+            <p className="mt-2 text-sm text-muted-foreground">No enquiries yet. Send one through the quote form using the same email or phone number as this account and it will show here.</p>
+          ) : (
+            <div className="mt-2 divide-y divide-border">
+              {enquiries.map((q) => (
+                <div key={q.id} className="py-2.5">
+                  <p className="text-sm font-semibold capitalize text-foreground">{q.type.replace(/_/g, " ")}{q.county ? ` · ${q.county}` : ""}</p>
+                  <p className="line-clamp-2 text-xs text-muted-foreground">{q.message}</p>
+                  <p className="text-[11px] text-muted-foreground">{new Date(q.createdAt).toLocaleDateString()}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {!member.affiliate && (
+          <section className={`${card} border border-amber-300/60`}>
+            <h2 className="flex items-center gap-2 font-bold text-foreground"><Coins className="h-4 w-4 text-amber-500" /> Want to make money too?</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Optional. Refer clients and earn <b className="text-foreground">{rates.service}%</b> on services and <b className="text-foreground">{rates.product}%</b> on products, paid once the work is complete and the client has paid in full.</p>
+            <button onClick={startEarning} disabled={busy} data-testid="button-start-earning" className="mt-3 flex items-center gap-1.5 rounded-md bg-amber-400 px-4 py-2.5 text-sm font-bold text-slate-900 disabled:opacity-50"><BadgeCheck className="h-4 w-4" /> {busy ? "Please wait…" : "Start earning"}</button>
+          </section>
+        )}
+
+        {member.affiliate && (<>
         <section className={card}>
           <h2 className="font-bold text-foreground">Your referral code</h2>
           <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -142,6 +187,7 @@ export default function Account() {
             ))}
           </div>
         </section>
+        </>)}
       </div>
     </div>
   );

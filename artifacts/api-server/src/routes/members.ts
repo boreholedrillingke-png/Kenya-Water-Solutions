@@ -42,6 +42,13 @@ function ensureTables() {
       value NUMERIC NOT NULL
     );
     INSERT INTO member_settings (key, value) VALUES ('service_rate', 15), ('product_rate', 3) ON CONFLICT DO NOTHING;
+    -- Earning (affiliate) is optional. Accounts that existed before this column keep earning access; new ones start as plain clients.
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='members' AND column_name='affiliate') THEN
+        ALTER TABLE members ADD COLUMN affiliate BOOLEAN NOT NULL DEFAULT TRUE;
+        ALTER TABLE members ALTER COLUMN affiliate SET DEFAULT FALSE;
+      END IF;
+    END $$;
   `,
     )
     .catch((e) => {
@@ -129,7 +136,7 @@ async function newCode() {
 const clean = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const emailOk = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 
-const publicMember = (m: any) => ({ id: m.id, name: m.name, email: m.email, phone: m.phone ?? "", code: m.code });
+const publicMember = (m: any) => ({ id: m.id, name: m.name, email: m.email, phone: m.phone ?? "", code: m.code, affiliate: !!m.affiliate });
 
 async function memberFrom(req: Request) {
   const auth = req.header("authorization") ?? "";
@@ -171,6 +178,7 @@ router.post("/members/signup", async (req: Request, res: Response) => {
   const email = clean(req.body?.email, 120).toLowerCase();
   const phone = clean(req.body?.phone, 30);
   const password = typeof req.body?.password === "string" ? req.body.password : "";
+  const affiliate = req.body?.affiliate === true;
   if (name.length < 2) { res.status(400).json({ error: "Enter your name." }); return; }
   if (!emailOk(email)) { res.status(400).json({ error: "Enter a valid email address." }); return; }
   if (password.length < 6 || password.length > 100) { res.status(400).json({ error: "Password must be at least 6 characters." }); return; }
@@ -180,8 +188,8 @@ router.post("/members/signup", async (req: Request, res: Response) => {
     if (exists.rowCount) { res.status(409).json({ error: "That email already has an account. Sign in instead." }); return; }
     const code = await newCode();
     const r = await pool.query(
-      "INSERT INTO members (name, email, phone, pass_hash, code) VALUES ($1,$2,$3,$4,$5) RETURNING *",
-      [name, email, phone || null, hashPassword(password), code],
+      "INSERT INTO members (name, email, phone, pass_hash, code, affiliate) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *",
+      [name, email, phone || null, hashPassword(password), code, affiliate],
     );
     res.status(201).json({ token: makeToken(r.rows[0].id), member: publicMember(r.rows[0]) });
   } catch {
@@ -225,8 +233,8 @@ router.post("/members/google", async (req: Request, res: Response) => {
     if (!r.rowCount) {
       const code = await newCode();
       r = await pool.query(
-        "INSERT INTO members (name, email, google_id, code) VALUES ($1,$2,$3,$4) RETURNING *",
-        [String(info.name || email.split("@")[0]).slice(0, 80), email, String(info.sub), code],
+        "INSERT INTO members (name, email, google_id, code, affiliate) VALUES ($1,$2,$3,$4,$5) RETURNING *",
+        [String(info.name || email.split("@")[0]).slice(0, 80), email, String(info.sub), code, req.body?.affiliate === true],
       );
     } else if (!r.rows[0].google_id) {
       await pool.query("UPDATE members SET google_id=$1 WHERE id=$2", [String(info.sub), r.rows[0].id]);
@@ -245,8 +253,17 @@ router.get("/members/me", async (req: Request, res: Response) => {
     const referrals = r.rows.map(shapeReferral);
     const sum = (f: (x: ReturnType<typeof shapeReferral>) => boolean) =>
       referrals.filter(f).reduce((a, x) => a + (x.commission ?? 0), 0);
+    // Enquiries this person sent through the contact form, matched by email or phone number
+    const last9 = (m.phone ?? "").replace(/\D/g, "").slice(-9);
+    const enq = await pool.query(
+      `SELECT id, inquiry_type AS "type", message, county, created_at AS "createdAt" FROM inquiries
+       WHERE lower(email) = $1 OR ($2 <> '' AND right(regexp_replace(phone, '\\D', '', 'g'), 9) = $2)
+       ORDER BY created_at DESC LIMIT 30`,
+      [m.email, last9],
+    ).catch(() => ({ rows: [] }));
     res.json({
       member: publicMember(m),
+      enquiries: enq.rows,
       rates: await rates(),
       referrals,
       totals: {
@@ -257,6 +274,18 @@ router.get("/members/me", async (req: Request, res: Response) => {
     });
   } catch {
     res.status(500).json({ error: "Could not load your account." });
+  }
+});
+
+// A client chooses to start earning. Gives them the referral code, link and commission screens.
+router.post("/members/affiliate", async (req: Request, res: Response) => {
+  try {
+    const m = await memberFrom(req);
+    if (!m) { res.status(401).json({ error: "Please sign in." }); return; }
+    const r = await pool.query("UPDATE members SET affiliate=TRUE WHERE id=$1 RETURNING *", [m.id]);
+    res.json({ member: publicMember(r.rows[0]) });
+  } catch {
+    res.status(500).json({ error: "Could not switch that on. Try again." });
   }
 });
 

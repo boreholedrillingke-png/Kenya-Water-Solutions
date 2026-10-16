@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
-import { Users, Wallet, Link2, BadgeCheck } from "lucide-react";
+import { Users, Wallet, Link2, BadgeCheck, UserRound, Coins } from "lucide-react";
 import { IMAGES, pageBackdrop } from "@/lib/images";
 import { memberApi, memberToken, setMemberToken, savedRef, type Member } from "@/lib/member";
 
@@ -12,6 +12,10 @@ export default function Join() {
   const [, go] = useLocation();
   const [mode, setMode] = useState<"signup" | "login">(typeof window !== "undefined" && new URLSearchParams(window.location.search).get("mode") === "login" ? "login" : "signup");
   const [f, setF] = useState({ name: "", email: "", phone: "", password: "" });
+  // Earning is optional: everyone is a client, and can also choose to earn by referring.
+  const [affiliate, setAffiliate] = useState(typeof window !== "undefined" && new URLSearchParams(window.location.search).get("earn") === "1");
+  const affRef = useRef(affiliate);
+  affRef.current = affiliate;
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [cfg, setCfg] = useState<{ googleClientId: string; rates: { service: number; product: number } } | null>(null);
@@ -33,7 +37,7 @@ export default function Join() {
         client_id: cfg.googleClientId,
         callback: async (resp: { credential: string }) => {
           setBusy(true); setErr("");
-          try { done(await memberApi("/google", { body: { credential: resp.credential } })); }
+          try { done(await memberApi("/google", { body: { credential: resp.credential, affiliate: affRef.current } })); }
           catch (e: any) { setErr(e.message); }
           setBusy(false);
         },
@@ -53,7 +57,7 @@ export default function Join() {
     e.preventDefault();
     setBusy(true); setErr("");
     try {
-      done(await memberApi(mode === "signup" ? "/signup" : "/login", { body: f }));
+      done(await memberApi(mode === "signup" ? "/signup" : "/login", { body: mode === "signup" ? { ...f, affiliate } : f }));
     } catch (e: any) { setErr(e.message); }
     setBusy(false);
   };
@@ -66,9 +70,10 @@ export default function Join() {
     <div className="min-h-[calc(100dvh-4rem)] px-4 pt-24 pb-12" style={pageBackdrop(IMAGES.backdropTruck, "center 50%")}>
       <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
         <section className="rounded-2xl bg-card/95 p-5 shadow-xl">
-          <h1 className="text-xl font-bold text-foreground">Earn by referring clients</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Create a free account, share your code, and get paid when the clients you bring finish and pay in full.</p>
-          <ul className="mt-4 space-y-3 text-sm">
+          <h1 className="text-xl font-bold text-foreground">Your SAB account</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Log in to follow your enquiries and get quotes faster. Want to make money too? Switch on earning when you sign up, or any time later. It is optional.</p>
+          <h2 className="mt-4 flex items-center gap-2 text-sm font-bold text-foreground"><Coins className="h-4 w-4 text-amber-500" /> Earn by referring clients (optional)</h2>
+          <ul className="mt-3 space-y-3 text-sm">
             <li className="flex gap-3"><Users className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span><b>Sign up</b> with Google or email. You get your own referral code and link.</span></li>
             <li className="flex gap-3"><Link2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span><b>Bring clients</b> for surveys, drilling, solar or products. Add them in your account, or share your link.</span></li>
             <li className="flex gap-3"><BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span><b>{rates.service}%</b> commission on services and <b>{rates.product}%</b> on products, worked out on the price the client pays.</span></li>
@@ -87,6 +92,25 @@ export default function Join() {
             ))}
           </div>
 
+          {mode === "signup" && (
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground">I am joining as</p>
+              <div className="grid grid-cols-2 gap-2">
+                {([
+                  [false, "A client", "Get quotes and track my enquiries", UserRound],
+                  [true, "Client + earner", "Also earn commission by referring", Coins],
+                ] as const).map(([val, title, sub, Icon]) => (
+                  <button type="button" key={title} onClick={() => setAffiliate(val)} data-testid={val ? "role-affiliate" : "role-client"}
+                    className={`rounded-lg border p-2.5 text-left transition ${affiliate === val ? "border-primary bg-primary/10 ring-1 ring-primary" : "border-border bg-background hover:border-primary/40"}`}>
+                    <Icon className={`h-4 w-4 ${affiliate === val ? "text-primary" : "text-muted-foreground"}`} />
+                    <span className="mt-1 block text-xs font-bold text-foreground">{title}</span>
+                    <span className="block text-[11px] leading-snug text-muted-foreground">{sub}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {cfg?.googleClientId && (
             <>
               <div className="flex justify-center"><div ref={gbtn} /></div>
@@ -96,7 +120,7 @@ export default function Join() {
 
           {mode === "signup" && <input className={input} placeholder="Full name" value={f.name} onChange={set("name")} autoComplete="name" required />}
           <input className={input} type="email" placeholder="Email" value={f.email} onChange={set("email")} autoComplete="email" required />
-          {mode === "signup" && <input className={input} type="tel" placeholder="Phone (for your payouts)" value={f.phone} onChange={set("phone")} autoComplete="tel" />}
+          {mode === "signup" && <input className={input} type="tel" placeholder={affiliate ? "Phone (for your payouts)" : "Phone"} value={f.phone} onChange={set("phone")} autoComplete="tel" />}
           <input className={input} type="password" placeholder="Password (6+ characters)" value={f.password} onChange={set("password")} autoComplete={mode === "signup" ? "new-password" : "current-password"} required />
           {err && <p className="text-xs text-red-600">{err}</p>}
           <button disabled={busy} className="w-full rounded-md bg-primary py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-50">
