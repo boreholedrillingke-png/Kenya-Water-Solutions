@@ -27,48 +27,48 @@ export default function OfferPopup() {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[60] bg-slate-950/60 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 duration-500" />
         <Dialog.Content
-          className="fixed left-1/2 top-1/2 z-[61] w-[calc(100%-3rem)] max-w-[310px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-card shadow-2xl outline-none duration-500 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-6 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-bottom-4"
+          className="fixed left-1/2 top-1/2 z-[61] w-[calc(100%-4rem)] max-w-[250px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-card shadow-2xl outline-none duration-500 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-6 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-bottom-4"
           data-testid="popup-offer"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           {/* Photo */}
           <div className="relative">
-            <BlendedPhoto src={IMAGES.survey} alt="Geologist carrying out a hydrogeological survey next to a drilling rig" className="aspect-[16/9] max-h-[26vh]" />
-            <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-amber-400 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-900 shadow">
-              <BadgePercent className="h-3 w-3" /> Today's offer
+            <BlendedPhoto src={IMAGES.survey} alt="Geologist carrying out a hydrogeological survey next to a drilling rig" className="aspect-[2/1] max-h-[16vh]" />
+            <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-amber-400 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-slate-900 shadow">
+              <BadgePercent className="h-2.5 w-2.5" /> Today's offer
             </span>
             <Dialog.Close
-              className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               aria-label="Close"
               data-testid="button-close-offer"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5" />
             </Dialog.Close>
           </div>
 
           {/* Content */}
-          <div className="px-4 pb-3 pt-3">
-            <Dialog.Title className="text-base font-extrabold leading-tight text-foreground" style={{ fontFamily: "var(--font-display)" }}>
+          <div className="px-3 pb-2 pt-2">
+            <Dialog.Title className="text-sm font-extrabold leading-tight text-foreground" style={{ fontFamily: "var(--font-display)" }}>
               Find water before you drill
             </Dialog.Title>
-            <Dialog.Description className="mt-0.5 text-xs text-muted-foreground">
+            <Dialog.Description className="mt-0.5 text-[11px] text-muted-foreground">
               Get our hydrogeological survey at a special price.
             </Dialog.Description>
 
-            <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-1">
-              <span className="text-2xl font-extrabold leading-none text-primary" style={{ fontFamily: "var(--font-display)" }}>
+            <div className="mt-1.5 flex flex-wrap items-end gap-x-2 gap-y-0.5">
+              <span className="text-xl font-extrabold leading-none text-primary" style={{ fontFamily: "var(--font-display)" }}>
                 {formatKES(OFFER_PRICE)}
               </span>
-              <span className="pb-0.5 text-xs text-muted-foreground line-through">{formatKES(REGULAR_PRICE)}</span>
-              <span className="mb-0.5 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+              <span className="pb-0.5 text-[11px] text-muted-foreground line-through">{formatKES(REGULAR_PRICE)}</span>
+              <span className="mb-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700">
                 Save {formatKES(REGULAR_PRICE - OFFER_PRICE)}
               </span>
             </div>
 
-            <ul className="mt-2 space-y-1 text-xs text-foreground/80">
-              {["Advanced ADMT-300S-X geophysical survey", "Pinpoints the best drill site, depth and water quality"].map((t) => (
-                <li key={t} className="flex items-start gap-2">
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+            <ul className="mt-1.5 space-y-0.5 text-[11px] leading-snug text-foreground/80">
+              {["Advanced ADMT-300S-X geophysical survey", "Pinpoints best drill site, depth and water quality"].map((t) => (
+                <li key={t} className="flex items-start gap-1.5">
+                  <Check className="mt-0.5 h-3 w-3 shrink-0 text-emerald-600" />
                   {t}
                 </li>
               ))}
@@ -79,14 +79,14 @@ export default function OfferPopup() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-amber-400 py-2 text-xs font-bold text-slate-900 shadow-md transition hover:bg-amber-300 hover:shadow-lg active:scale-[.98]"
+              className="mt-2 flex w-full items-center justify-center gap-1 rounded-lg bg-amber-400 py-1.5 text-[11px] font-bold text-slate-900 shadow-md transition hover:bg-amber-300 hover:shadow-lg active:scale-[.98]"
               data-testid="button-claim-offer"
             >
-              <MessageCircle className="h-4 w-4" /> Claim this offer on WhatsApp
+              <MessageCircle className="h-3.5 w-3.5" /> Claim this offer on WhatsApp
             </a>
             <button
               onClick={() => setOpen(false)}
-              className="mt-1 w-full py-1 text-[11px] text-muted-foreground transition hover:text-foreground"
+              className="w-full pt-1 text-[10px] text-muted-foreground transition hover:text-foreground"
             >
               Maybe later
             </button>
