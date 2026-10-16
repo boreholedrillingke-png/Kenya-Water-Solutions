@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, ShoppingCart, Droplets, UserRound, LogIn } from "lucide-react";
+import { Menu, X, ShoppingCart, Droplets, LogIn } from "lucide-react";
 import { memberToken } from "@/lib/member";
 import { Button } from "@/components/ui/button";
 import { useGetCart } from "@workspace/api-client-react";
@@ -85,14 +85,6 @@ export default function Navbar() {
                   {cartCount > 9 ? "9+" : cartCount}
                 </span>
               )}
-            </Link>
-
-            <Link
-              href={accountHref}
-              data-testid="link-login"
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-primary/25 bg-primary/5 px-3 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
-            >
-              <UserRound className="h-4 w-4" /> {signedIn ? "My account" : "Log in"}
             </Link>
 
             <Button asChild size="sm" className="hidden sm:inline-flex">
