@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye, Plus, UploadCloud } from "lucide-react";
+import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye, Plus, UploadCloud, ChevronsDown } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
 
 export interface FeedVideo {
@@ -44,24 +44,29 @@ const ago = (iso: string) => {
 export default function Feed() {
   const [videos, setVideos] = useState<FeedVideo[] | null>(null);
   const [active, setActive] = useState(0);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(() => store.get("kws_feed_muted") === "1"); // sound is ON unless the visitor muted it
+  const [blocked, setBlocked] = useState(false); // the browser refused sound until the first tap
+  const [auto, setAuto] = useState(() => store.get("kws_feed_auto") !== "0"); // auto-scroll to the next video when one ends
   const [stats, setStats] = useState<Record<string, Stat>>({});
   const [liked, setLiked] = useState<Set<string>>(new Set());
   const [hearts, setHearts] = useState<{ id: number; x: number; y: number; slide: number }[]>([]);
   const [flash, setFlash] = useState<{ slide: number; paused: boolean; n: number } | null>(null);
-  const [progress, setProgress] = useState(0);
-  const [toast, setToast] = useState("");
+    const [toast, setToast] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const [adminKey, setAdminKey] = useState(() => store.get("kws_admin"));
   const [uploading, setUploading] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
   const els = useRef<(HTMLVideoElement | null)[]>([]);
-  const mutedRef = useRef(true);
+  const mutedRef = useRef(muted);
+  const autoRef = useRef(auto);
+  const unlockedAt = useRef(0);
+  const bars = useRef<(HTMLDivElement | null)[]>([]);
   const lastTap = useRef({ t: 0, i: -1 });
   const tapTimer = useRef<number | undefined>(undefined);
   const viewed = useRef<Set<string>>(new Set());
   const likedRef = useRef(liked);
   mutedRef.current = muted;
+  autoRef.current = auto;
   likedRef.current = liked;
 
   const stat = (id: string) => stats[id] ?? ZERO;
@@ -132,7 +137,11 @@ export default function Feed() {
           if (e.isIntersecting && e.intersectionRatio >= 0.6) {
             setActive(i);
             v.muted = mutedRef.current;
-            v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+            v.play().catch(() => {
+              // Browser blocked playing with sound: play silently and offer a "Tap for sound" button
+              if (!mutedRef.current) { v.muted = true; setBlocked(true); }
+              v.play().catch(() => {});
+            });
           } else {
             v.pause();
             if (e.intersectionRatio === 0) v.currentTime = 0;
@@ -145,7 +154,42 @@ export default function Feed() {
     return () => io.disconnect();
   }, [videos]);
 
-  useEffect(() => { els.current.forEach((v) => { if (v) v.muted = muted; }); }, [muted]);
+  useEffect(() => {
+    els.current.forEach((v) => { if (v) v.muted = muted; });
+    store.set("kws_feed_muted", muted ? "1" : "");
+    if (muted) setBlocked(false);
+  }, [muted]);
+
+  // The first tap or key press lets the browser play sound: turn it on for the video on screen
+  useEffect(() => {
+    if (!blocked) return;
+    const unlock = () => {
+      unlockedAt.current = Date.now();
+      setBlocked(false);
+      const v = els.current[activeRef.current];
+      if (!v) return;
+      v.muted = false;
+      v.play().catch(() => { v.muted = true; setBlocked(true); v.play().catch(() => {}); });
+    };
+    window.addEventListener("click", unlock, true);
+    window.addEventListener("keydown", unlock, true);
+    return () => { window.removeEventListener("click", unlock, true); window.removeEventListener("keydown", unlock, true); };
+  }, [blocked]);
+
+  const toggleAuto = () => {
+    const next = !auto;
+    setAuto(next);
+    store.set("kws_feed_auto", next ? "" : "0");
+    say(next ? "Auto-scroll on" : "Auto-scroll off");
+  };
+  // When a video finishes, glide to the next one (back to the first after the last)
+  const goNext = (i: number) => {
+    const s = scroller.current;
+    const n = videos?.length ?? 0;
+    if (!s || n < 2) return;
+    if (i + 1 < n) s.scrollTo({ top: (i + 1) * s.clientHeight, behavior: "smooth" });
+    else s.scrollTo({ top: 0, behavior: "auto" });
+  };
 
   // Keyboard: arrow keys / space like on desktop reels
   useEffect(() => {
@@ -207,6 +251,7 @@ export default function Feed() {
   // single tap = pause/play, double tap = like (with heart burst)
   const onTap = (e: React.MouseEvent, i: number) => {
     const now = Date.now();
+    if (now - unlockedAt.current < 500) return; // this tap only turned the sound on
     const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
     if (lastTap.current.i === i && now - lastTap.current.t < 300) {
       window.clearTimeout(tapTimer.current);
@@ -270,12 +315,17 @@ export default function Feed() {
                   ref={(el) => { els.current[i] = el; }}
                   src={v.src}
                   poster={v.poster}
-                  loop
-                  muted
+                  loop={!auto}
+                  muted={muted}
                   playsInline
-                  preload={Math.abs(i - active) <= 1 ? "auto" : "metadata"}
+                  disablePictureInPicture
+                  preload={i >= active - 1 && i <= active + 3 ? "auto" : "metadata"}
                   onClick={(e) => onTap(e, i)}
-                  onTimeUpdate={(e) => { if (i === activeRef.current) { const d = e.currentTarget.duration; setProgress(d ? e.currentTarget.currentTime / d : 0); } }}
+                  onEnded={() => { if (autoRef.current && i === activeRef.current) goNext(i); }}
+                  onTimeUpdate={(e) => {
+                    const b = bars.current[i]; const d = e.currentTarget.duration;
+                    if (b && d) b.style.width = `${(e.currentTarget.currentTime / d) * 100}%`;
+                  }}
                   className="h-full w-full cursor-pointer object-cover"
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 to-transparent" />
@@ -328,18 +378,24 @@ export default function Feed() {
                     <span className="grid h-11 w-11 place-items-center rounded-full bg-green-600"><Send className="h-5 w-5" /></span>
                     <span className="text-[11px] font-semibold">Quote</span>
                   </a>
-                  <button onClick={() => setMuted((m) => !m)} className="flex flex-col items-center gap-0.5" aria-label={muted ? "Unmute" : "Mute"}>
+                  <button onClick={() => { if (Date.now() - unlockedAt.current < 500) return; setMuted((m) => !m); }} className="flex flex-col items-center gap-0.5" aria-label={muted || blocked ? "Unmute" : "Mute"}>
                     <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur">
-                      {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                      {muted || blocked ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                     </span>
-                    <span className="text-[11px] font-semibold">{muted ? "Sound" : "Mute"}</span>
+                    <span className="text-[11px] font-semibold">{muted || blocked ? "Sound" : "Mute"}</span>
+                  </button>
+                  <button onClick={toggleAuto} aria-pressed={auto} aria-label={auto ? "Turn auto-scroll off" : "Turn auto-scroll on"} className="flex flex-col items-center gap-0.5">
+                    <span className={`grid h-11 w-11 place-items-center rounded-full backdrop-blur ${auto ? "bg-primary" : "bg-white/15"}`}>
+                      <ChevronsDown className="h-5 w-5" />
+                    </span>
+                    <span className="text-[11px] font-semibold">{auto ? "Auto on" : "Auto off"}</span>
                   </button>
                 </div>
 
                 {/* progress bar (tap to seek) */}
                 <div className="absolute inset-x-0 bottom-0 h-3 cursor-pointer" onClick={(e) => seek(e, i)}>
                   <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/25">
-                    <div className="h-full bg-white" style={{ width: `${(i === active ? progress : 0) * 100}%` }} />
+                    <div ref={(el) => { bars.current[i] = el; }} className="h-full bg-white" style={{ width: 0 }} />
                   </div>
                 </div>
 
@@ -359,6 +415,12 @@ export default function Feed() {
           );
         })}
       </div>
+
+      {blocked && !muted && (
+        <button className="absolute left-1/2 top-14 z-30 flex -translate-x-1/2 animate-pulse items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-900 shadow-xl">
+          <Volume2 className="h-4 w-4" /> Tap for sound
+        </button>
+      )}
 
       {toast && <div className="pointer-events-none absolute left-1/2 top-16 z-30 -translate-x-1/2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-900 shadow-lg">{toast}</div>}
 
