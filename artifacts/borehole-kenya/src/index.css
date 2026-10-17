@@ -287,3 +287,13 @@
     inset: -1px;
   }
 }
+/* ---- Live TV look: news ticker + LIVE dot ---- */
+@keyframes live-ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes live-dot-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.75); } }
+.live-ticker-track { animation: live-ticker-scroll 80s linear infinite; will-change: transform; }
+.live-ticker:hover .live-ticker-track { animation-play-state: paused; }
+.live-dot { animation: live-dot-pulse 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .live-ticker-track { animation: none; }
+  .live-dot { animation: none; }
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import LiveHeroVideo from "@/components/LiveHeroVideo";
 import { Link } from "wouter";
 import { ArrowRight, UserRound, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical, ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -67,6 +68,7 @@ function QuickQuote() {
 
 export default function Home() {
   const { data: services } = useListServices({}, { query: { queryKey: ["services", "all"] } });
+  const [liveTitle, setLiveTitle] = useState("");
   const hrefFor = (item: { href?: string; match?: RegExp }) => {
     if (item.href) return item.href;
     const svc = (services ?? []).find((x) => item.match!.test(x.name) && !/test/i.test(x.name));
@@ -75,12 +77,20 @@ export default function Home() {
   return (
     <>
     <div
-      className="min-h-[calc(100dvh-64px)] pt-[64px] pb-8 text-white flex items-center"
-      style={{
-        background: `linear-gradient(90deg, hsl(215 70% 9% / .93) 0%, hsl(214 72% 14% / .80) 45%, hsl(212 75% 20% / .35) 100%), url(${IMAGES.rig}) center 60% / cover`,
-      }}
+      className="relative min-h-[calc(100dvh-64px)] pt-[64px] pb-12 text-white flex items-center"
+      style={{ background: `url(${IMAGES.rig}) center 60% / cover` }}
     >
-      <div className="w-full max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-5 gap-8 items-center">
+      {/* Live channel: silent drilling clips fade into each other behind the text */}
+      <LiveHeroVideo onTitle={setLiveTitle} />
+      <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(90deg, hsl(215 70% 9% / .93) 0%, hsl(214 72% 14% / .80) 45%, hsl(212 75% 20% / .35) 100%)" }} />
+      {liveTitle && (
+        <div className="absolute bottom-11 left-5 z-10 flex max-w-[calc(100%-2.5rem)] items-center gap-2 rounded-full bg-black/45 px-3 py-1 text-[11px] font-semibold text-white ring-1 ring-white/15 sm:left-8" data-testid="live-now">
+          <span className="live-dot h-2 w-2 shrink-0 rounded-full bg-red-500" />
+          <span className="font-extrabold uppercase tracking-wider text-red-400">Live</span>
+          <span className="truncate text-white/90">{liveTitle}</span>
+        </div>
+      )}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-5 gap-8 items-center">
         <div className="md:col-span-3">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-3">
             Borehole drilling <span className="block text-amber-300">across Kenya</span>

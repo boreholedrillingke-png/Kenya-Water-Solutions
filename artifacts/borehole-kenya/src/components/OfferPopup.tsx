@@ -6,8 +6,8 @@ import BlendedPhoto from "@/components/BlendedPhoto";
 import { formatKES, whatsappLink } from "@/lib/utils";
 
 // Edit these two numbers to change the offer.
-const REGULAR_PRICE = 32000;
-const OFFER_PRICE = 27000;
+export const REGULAR_PRICE = 32000;
+export const OFFER_PRICE = 27000;
 
 const SHOW_DELAY_MS = 1800;
 

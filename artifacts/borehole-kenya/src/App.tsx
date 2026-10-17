@@ -24,6 +24,7 @@ import { captureRef } from "@/lib/member";
 import NotFound from "@/pages/not-found";
 import { hydrateCache, persistCache, prefetchSite } from "@/lib/prefetch";
 import OfferPopup from "@/components/OfferPopup";
+import LiveTicker, { tickerHidden } from "@/components/LiveTicker";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,7 +35,7 @@ const queryClient = new QueryClient({
 function Router() {
   const [loc] = useLocation();
     return (
-    <div className="flex flex-col min-h-screen">
+    <div className={`flex flex-col min-h-screen ${tickerHidden(loc) ? "" : "pb-8"}`}>
       <Navbar />
       <main className="flex-1">
         <Switch>
@@ -57,6 +58,7 @@ function Router() {
         </Switch>
       </main>
       <Footer />
+      <LiveTicker />
       {loc === "/" && <OfferPopup />}
     </div>
   );
