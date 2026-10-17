@@ -138,7 +138,7 @@ const emailOk = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 
 const publicMember = (m: any) => ({ id: m.id, name: m.name, email: m.email, phone: m.phone ?? "", code: m.code, affiliate: !!m.affiliate });
 
-async function memberFrom(req: Request) {
+export async function memberFrom(req: Request) {
   const auth = req.header("authorization") ?? "";
   const id = readToken(auth.startsWith("Bearer ") ? auth.slice(7) : undefined);
   if (!id) return null;

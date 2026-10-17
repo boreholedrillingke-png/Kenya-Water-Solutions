@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { memberToken, memberApi, signOutMember } from "@/lib/member";
+import { Link } from "wouter";
 import { MessageCircle, MapPin, Volume2, VolumeX, X, Send, Trash2, Play, Pause, ShieldCheck, Heart, Share2, Eye, Plus, UploadCloud, ChevronsDown } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
 
@@ -467,7 +469,8 @@ function CommentSheet({ videoId, title, adminKey, onClose, onCount, onBadAdmin }
   videoId: string; title: string; adminKey: string; onClose: () => void; onCount: (d: number) => void; onBadAdmin: () => void;
 }) {
   const [list, setList] = useState<Comment[] | null>(null);
-  const [name, setName] = useState(() => store.get("kws_name"));
+  const [token, setToken] = useState(() => memberToken());
+  const [who, setWho] = useState("");
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -476,17 +479,22 @@ function CommentSheet({ videoId, title, adminKey, onClose, onCount, onBadAdmin }
     fetch(api(`/${encodeURIComponent(videoId)}`)).then((r) => r.json()).then((d) => setList(Array.isArray(d) ? d : [])).catch(() => setList([]));
   }, [videoId]);
 
+  useEffect(() => {
+    if (!token) return;
+    memberApi<{ member: { name: string } }>("/me").then((d) => setWho(d.member.name)).catch((e) => { if (e.status === 401) { signOutMember(); setToken(""); } });
+  }, [token]);
+
   const post = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!text.trim() || busy) return;
     setBusy(true); setErr("");
     try {
       const r = await fetch(api(`/${encodeURIComponent(videoId)}`), {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, body: text }),
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ body: text }),
       });
       const d = await r.json();
+      if (r.status === 401) { signOutMember(); setToken(""); }
       if (!r.ok) throw new Error(d.error || "Could not post");
-      store.set("kws_name", name.trim());
       setList((l) => [d, ...(l ?? [])]); onCount(1); setText("");
     } catch (x) { setErr(x instanceof Error ? x.message : "Could not post"); }
     setBusy(false);
@@ -527,17 +535,27 @@ function CommentSheet({ videoId, title, adminKey, onClose, onCount, onBadAdmin }
           ))}
         </div>
 
-        <form onSubmit={post} className="space-y-2 border-t border-border p-3">
-          <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Your name (optional)"
-            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40" />
-          <div className="flex gap-2">
-            <input value={text} onChange={(e) => setText(e.target.value)} maxLength={300} placeholder="Add a comment…"
-              className="min-w-0 flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40" />
-            <button disabled={busy || !text.trim()} className="rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground disabled:opacity-50">Post</button>
+        {token ? (
+          <form onSubmit={post} className="space-y-2 border-t border-border p-3">
+            {who && <p className="text-[11px] text-muted-foreground">Commenting as <b className="text-foreground">{who}</b></p>}
+            <div className="flex gap-2">
+              <input value={text} onChange={(e) => setText(e.target.value)} maxLength={300} placeholder="Add a comment…"
+                className="min-w-0 flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40" />
+              <button disabled={busy || !text.trim()} className="rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground disabled:opacity-50">Post</button>
+            </div>
+            {err && <p className="text-xs text-red-600">{err}</p>}
+            <p className="text-[11px] text-muted-foreground">Be respectful. Offensive comments are removed.</p>
+          </form>
+        ) : (
+          <div className="space-y-2 border-t border-border p-3 text-center">
+            <p className="text-sm text-foreground">Log in to join the conversation.</p>
+            <div className="flex gap-2">
+              <Link href="/join?mode=login&next=/feed" data-testid="link-comment-login" className="flex-1 rounded-md bg-primary py-2.5 text-sm font-semibold text-primary-foreground">Log in</Link>
+              <Link href="/join?next=/feed" className="flex-1 rounded-md border border-border py-2.5 text-sm font-semibold text-foreground">Sign up free</Link>
+            </div>
+            <p className="text-[11px] text-muted-foreground">Everyone can read comments and like videos. Commenting needs an account.</p>
           </div>
-          {err && <p className="text-xs text-red-600">{err}</p>}
-          <p className="text-[11px] text-muted-foreground">Be respectful. Offensive comments are removed.</p>
-        </form>
+        )}
       </div>
     </div>
   );

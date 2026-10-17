@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { pool } from "@workspace/db";
+import { memberFrom } from "./members";
 
 const router = Router();
 
@@ -68,8 +69,11 @@ router.get("/video-comments/:videoId", async (req, res) => {
   } catch { res.status(500).json({ error: "Could not load comments" }); }
 });
 
+// Reading comments and liking are open to everyone. Writing a comment needs a signed-in account.
 router.post("/video-comments/:videoId", async (req, res) => {
-  const name = String(req.body?.name ?? "").trim().replace(/\s+/g, " ").slice(0, 40) || "Guest";
+  const member = await memberFrom(req).catch(() => null);
+  if (!member) { res.status(401).json({ error: "Please log in to comment." }); return; }
+  const name = String(member.name ?? "").trim().replace(/\s+/g, " ").slice(0, 40) || "Member";
   const body = String(req.body?.body ?? "").trim().slice(0, 300);
   if (!body) { res.status(400).json({ error: "Write a comment first" }); return; }
   if (limited(req.ip ?? "unknown")) { res.status(429).json({ error: "Too many comments, please wait a minute" }); return; }

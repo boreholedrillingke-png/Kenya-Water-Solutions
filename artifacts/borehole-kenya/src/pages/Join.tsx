@@ -21,12 +21,17 @@ export default function Join() {
   const [cfg, setCfg] = useState<{ googleClientId: string; rates: { service: number; product: number } } | null>(null);
   const gbtn = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { if (memberToken()) go("/account"); }, [go]);
+  useEffect(() => { if (memberToken()) { const n = new URLSearchParams(window.location.search).get("next"); go(n && /^\/[A-Za-z0-9\-_/]*$/.test(n) ? n : "/account"); } }, [go]);
   useEffect(() => {
     memberApi("/config").then(setCfg).catch(() => setCfg({ googleClientId: "", rates: { service: 15, product: 3 } }));
   }, []);
 
-  const done = (d: { token: string; member: Member }) => { setMemberToken(d.token); go("/account"); };
+  // After signing in, go back to where the person came from (for example the video feed) when a safe ?next= is given.
+  const done = (d: { token: string; member: Member }) => {
+    setMemberToken(d.token);
+    const next = new URLSearchParams(window.location.search).get("next");
+    go(next && /^\/[A-Za-z0-9\-_/]*$/.test(next) ? next : "/account");
+  };
 
   // Google button
   useEffect(() => {
