@@ -1,4 +1,5 @@
 import { bannerBackground, PLAIN_BANNER } from "@/lib/images";
+import { LiveTitle } from "@/components/LiveTitle";
 import { projectPhoto, projectBackdrop } from "@/lib/projectPhotos";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, MapPin, Droplets, Calendar, Layers, Clock, Users, Target, Lightbulb, TrendingUp, MessageSquare, Phone } from "lucide-react";
@@ -80,7 +81,7 @@ export default function ProjectDetail() {
             )}
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight"><LiveTitle text={project.title} hi="#fde68a" /></h1>
 
           <div className="flex flex-wrap gap-5 text-sm text-white/70">
             <span className="flex items-center gap-1.5">

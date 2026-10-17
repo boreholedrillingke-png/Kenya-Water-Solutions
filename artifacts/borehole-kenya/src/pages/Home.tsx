@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LiveHeroVideo from "@/components/LiveHeroVideo";
+import { LiveTitle, RotatingWords } from "@/components/LiveTitle";
 import { Link } from "wouter";
 import { ArrowRight, UserRound, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical, ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -86,16 +87,16 @@ export default function Home() {
       {liveTitle && (
         <div className="absolute bottom-11 left-5 z-10 flex max-w-[calc(100%-2.5rem)] items-center gap-2 rounded-full bg-black/45 px-3 py-1 text-[11px] font-semibold text-white ring-1 ring-white/15 sm:left-8" data-testid="live-now">
           <span className="live-dot h-2 w-2 shrink-0 rounded-full bg-red-500" />
-          <span className="font-extrabold uppercase tracking-wider text-red-400">Live</span>
           <span className="truncate text-white/90">{liveTitle}</span>
         </div>
       )}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-5 gap-8 items-center">
         <div className="md:col-span-3">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-3">
-            Borehole drilling <span className="block text-amber-300">across Kenya</span>
+            <LiveTitle text="Borehole drilling" hi="#fde68a" className="block" />
+            <RotatingWords words={["across Kenya", "that finds water", "powered by solar", "with clean water"]} className="text-amber-300" />
           </h1>
-          <p className="text-sm sm:text-base text-white/80 max-w-md mb-5">
+          <p className="live-fade text-sm sm:text-base text-white/80 max-w-md mb-5" style={{ ["--d" as string]: "0.9s" }}>
             Survey, drilling, pumps and solar. Get a free quote today.
           </p>
 

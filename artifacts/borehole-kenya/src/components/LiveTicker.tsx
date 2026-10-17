@@ -26,16 +26,15 @@ export default function LiveTicker() {
       className="live-ticker fixed inset-x-0 bottom-0 z-40 flex h-8 items-stretch overflow-hidden border-t border-white/10 bg-slate-950 text-white shadow-[0_-4px_14px_rgba(0,0,0,.35)]"
       data-testid="live-ticker"
     >
-      <div className="relative z-10 flex shrink-0 items-center gap-1.5 bg-red-600 px-3 text-[11px] font-extrabold uppercase tracking-wider">
-        <span className="live-dot h-2 w-2 rounded-full bg-white" />
-        Live
+      <div className="relative z-10 flex shrink-0 items-center bg-slate-950 pl-3 pr-1" aria-hidden="true">
+        <span className="live-dot h-2 w-2 rounded-full bg-red-500" />
       </div>
-      <div className="relative min-w-0 flex-1 overflow-hidden">
-        <div className="live-ticker-track flex w-max items-center whitespace-nowrap">
+      <div className="relative flex min-w-0 flex-1 items-center overflow-hidden">
+        <div className="live-ticker-track flex w-max items-center whitespace-nowrap leading-none">
           {[0, 1].map((n) => (
             <div key={n} className="flex shrink-0 items-center" aria-hidden={n === 1}>
               {copy.map((t, i) => (
-                <span key={i} className="flex items-center text-xs font-medium text-white/90">
+                <span key={i} className="flex items-center text-xs font-medium leading-none text-white/90">
                   <span className="px-6">{t}</span>
                   <span className="text-amber-400">◆</span>
                 </span>

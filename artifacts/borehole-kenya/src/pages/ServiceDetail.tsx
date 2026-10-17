@@ -1,4 +1,5 @@
 import { Link, useParams } from "wouter";
+import { LiveTitle } from "@/components/LiveTitle";
 import { ArrowLeft, CheckCircle, Clock, MapPin, Phone, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -111,7 +112,7 @@ export default function ServiceDetail() {
               <span className="text-[11px] font-semibold uppercase tracking-wider text-amber-300 bg-white/10 px-2.5 py-0.5 rounded-full mb-2 inline-block">
                 {service.category}
               </span>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{service.name}</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2"><LiveTitle text={service.name} hi="#fde68a" /></h1>
               <p className="text-white/75 text-sm sm:text-base max-w-2xl">{service.shortDescription}</p>
             </div>
             {service.priceFrom && (

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { IMAGES, bannerBackground } from "@/lib/images";
+import { LiveTitle } from "@/components/LiveTitle";
 
 interface PageBannerProps {
   eyebrow: string;
@@ -28,9 +29,9 @@ export default function PageBanner({ eyebrow, title, description, children, imag
       />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[80px] pb-5 grid md:grid-cols-2 gap-4 md:gap-8 items-center">
         <div>
-          <div className="text-[11px] uppercase tracking-widest text-amber-300 font-semibold mb-1">{eyebrow}</div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold leading-tight mb-1">{title}</h1>
-          <p className="text-sm text-white/75 max-w-md">{description}</p>
+          <div className="live-fade text-[11px] uppercase tracking-widest text-amber-300 font-semibold mb-1">{eyebrow}</div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold leading-tight mb-1"><LiveTitle text={title} hi="#fde68a" /></h1>
+          <p className="live-fade text-sm text-white/75 max-w-md" style={{ ["--d" as string]: "0.5s" }}>{description}</p>
         </div>
         {children && <div>{children}</div>}
       </div>
