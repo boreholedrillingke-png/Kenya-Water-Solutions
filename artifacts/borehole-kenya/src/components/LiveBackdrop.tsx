@@ -11,13 +11,18 @@ const MAX_CLIPS = 8;
 const ROOT_CLASS = "live-on"; // while set on <html>, page photo backdrops turn clear so the video shows through
 const START_DELAY_MS = 900; // wait until the page has settled so the first paint stays instant
 
-/** Skip the live video when the visitor asked for less motion or is saving data. The photo stays instead. */
+/**
+ * Skip the live video only when the visitor asked for less motion, turned on data saver, or is on a 2G line.
+ * The clips are about 1 MB each, so ordinary 3G is fine. The photo stays when the video is skipped.
+ * Opening the site with ?live=1 forces the video on (handy for testing on a phone).
+ */
 function shouldPlay() {
   try {
+    if (new URLSearchParams(window.location.search).get("live") === "1") return true;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return false;
     const c = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
     if (c?.saveData) return false;
-    if (c?.effectiveType && /^(slow-2g|2g|3g)$/.test(c.effectiveType)) return false;
+    if (c?.effectiveType && /^(slow-2g|2g)$/.test(c.effectiveType)) return false;
     return true;
   } catch {
     return false;
@@ -135,7 +140,14 @@ export default function LiveBackdrop() {
         else first.loop = true; // a single clip just repeats
       }, { once: true });
       load(first, clipAt(0));
-      first.play().catch(() => { /* autoplay refused: the photo stays */ });
+      // If the browser refuses to autoplay (battery saver, strict phone settings), try again on the first touch, click or scroll.
+      first.play().catch(() => {
+        const retry = () => {
+          ["pointerdown", "keydown", "scroll", "touchstart"].forEach((t) => window.removeEventListener(t, retry));
+          if (!dead) first.play().catch(() => {});
+        };
+        ["pointerdown", "keydown", "scroll", "touchstart"].forEach((t) => window.addEventListener(t, retry, { passive: true }));
+      });
     };
 
     // Short clips: move on as soon as one finishes
