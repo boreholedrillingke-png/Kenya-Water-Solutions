@@ -1,4 +1,5 @@
 import { Link, useParams } from "wouter";
+import { LiveTitle } from "@/components/LiveTitle";
 import { ArrowLeft, ShoppingCart, MessageSquare, CheckCircle, Truck, Clock, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -188,7 +189,7 @@ export default function ProductDetail() {
         {/* Specifications */}
         {Object.keys(specs).length > 0 && (
           <div className="mb-6 rounded-2xl bg-card/95 shadow-xl p-4 sm:p-6">
-            <h2 className="text-xl font-semibold text-foreground mb-5">Technical Specifications</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-5"><LiveTitle text="Technical Specifications" hi="#f59e0b" /></h2>
             <Card className="border-border">
               <CardContent className="p-0">
                 <table className="w-full text-sm">

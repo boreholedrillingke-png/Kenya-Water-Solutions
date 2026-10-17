@@ -25,6 +25,7 @@ import NotFound from "@/pages/not-found";
 import { hydrateCache, persistCache, prefetchSite } from "@/lib/prefetch";
 import OfferPopup from "@/components/OfferPopup";
 import LiveTicker, { tickerHidden } from "@/components/LiveTicker";
+import LiveBackdrop from "@/components/LiveBackdrop";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,7 +36,9 @@ const queryClient = new QueryClient({
 function Router() {
   const [loc] = useLocation();
     return (
-    <div className={`flex flex-col min-h-screen ${tickerHidden(loc) ? "" : "pb-8"}`}>
+    <div className={`isolate flex flex-col min-h-screen ${tickerHidden(loc) ? "" : "pb-8"}`}>
+      {/* One live video behind every page (not the full-screen feed or admin) */}
+      {!tickerHidden(loc) && <LiveBackdrop />}
       <Navbar />
       <main className="flex-1">
         <Switch>

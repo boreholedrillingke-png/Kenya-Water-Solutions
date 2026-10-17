@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LiveTitle } from "@/components/LiveTitle";
 import { Link } from "wouter";
 import { ArrowRight, MessageCircle, Phone, FlaskConical, Filter, Droplets, Waves, ShieldCheck, Wrench, ClipboardCheck, Search, PackageCheck, LifeBuoy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,7 +57,7 @@ export default function Purification() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
           {/* What fixes what */}
           <section className="rounded-2xl bg-card/95 shadow-xl p-4 sm:p-5">
-            <h2 className="text-base font-bold text-foreground mb-3">What is wrong with your water?</h2>
+            <h2 className="text-base font-bold text-foreground mb-3"><LiveTitle text="What is wrong with your water?" hi="#f59e0b" /></h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {problems.map((p) => (
                 <div key={p.problem} className="rounded-xl border border-border bg-background p-3.5 flex flex-col">
@@ -76,7 +77,7 @@ export default function Purification() {
           {/* How it works + quote */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
             <section className="lg:col-span-3 rounded-2xl bg-card/95 shadow-xl p-4 sm:p-5">
-              <h2 className="text-base font-bold text-foreground mb-3">How it works</h2>
+              <h2 className="text-base font-bold text-foreground mb-3"><LiveTitle text="How it works" hi="#f59e0b" /></h2>
               <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {steps.map((s, i) => (
                   <li key={s.title} className="flex gap-3 rounded-xl bg-muted/60 p-3">
@@ -101,7 +102,7 @@ export default function Purification() {
             </section>
 
             <section id="quote" className="lg:col-span-2 rounded-2xl bg-card/95 shadow-xl p-4 sm:p-5 scroll-mt-24">
-              <h2 className="text-base font-bold text-foreground">Request a quote</h2>
+              <h2 className="text-base font-bold text-foreground"><LiveTitle text="Request a quote" hi="#f59e0b" /></h2>
               <p className="text-xs text-muted-foreground mb-3">Free advice. Quotes are matched to your water test.</p>
               <form onSubmit={submit} className="space-y-2.5" data-testid="form-purification-quote">
                 <input className={field} placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />

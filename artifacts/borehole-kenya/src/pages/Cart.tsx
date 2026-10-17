@@ -1,4 +1,5 @@
 import { IMAGES, pageBackdrop } from "@/lib/images";
+import { LiveTitle } from "@/components/LiveTitle";
 import { displayName } from "@/lib/productPhotos";
 import { Link } from "wouter";
 import { Trash2, Plus, Minus, ShoppingCart, MessageSquare, ArrowLeft } from "lucide-react";
@@ -71,7 +72,7 @@ export default function Cart() {
           <Link href="/products" className="text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </Link>
-          <h1 className="text-2xl font-bold text-foreground">Shopping Cart</h1>
+          <h1 className="text-2xl font-bold text-foreground"><LiveTitle text="Shopping Cart" hi="#f59e0b" /></h1>
           {!isEmpty && (
             <span className="text-sm text-muted-foreground">({cart.itemCount} {cart.itemCount === 1 ? "item" : "items"})</span>
           )}
@@ -80,7 +81,7 @@ export default function Cart() {
         {isEmpty ? (
           <div className="text-center py-12">
             <ShoppingCart className="h-16 w-16 text-muted-foreground/25 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-foreground mb-2">Your cart is empty</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-2"><LiveTitle text="Your cart is empty" hi="#f59e0b" /></h2>
             <p className="text-muted-foreground mb-8">Browse our products and add equipment to your cart.</p>
             <Button asChild><Link href="/products">Browse Products</Link></Button>
           </div>
@@ -153,7 +154,7 @@ export default function Cart() {
             <div>
               <Card className="sticky top-24 border-border">
                 <CardContent className="p-6">
-                  <h2 className="font-semibold text-foreground mb-5">Order Summary</h2>
+                  <h2 className="font-semibold text-foreground mb-5"><LiveTitle text="Order Summary" hi="#f59e0b" /></h2>
 
                   <div className="space-y-2 mb-4">
                     {cart.items.map((item) => (

@@ -323,3 +323,6 @@
   .live-word { animation: none; background: none; -webkit-text-fill-color: currentColor; }
   .live-rot-in, .live-rot-out, .live-fade { animation: none; }
 }
+
+/* ---- Live video backdrop: page photos turn clear while the video plays ---- */
+html.live-on { --live-photo: none; --live-bg: transparent; }

@@ -139,14 +139,14 @@ export default function ServiceDetail() {
           <div className="lg:col-span-2 space-y-6 rounded-2xl bg-card/95 shadow-xl p-4 sm:p-6 self-start">
             {/* Description */}
             <div>
-              <h2 className="text-xl font-semibold text-foreground mb-4">About This Service</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4"><LiveTitle text="About This Service" hi="#f59e0b" /></h2>
               <p className="text-muted-foreground leading-relaxed">{service.description}</p>
             </div>
 
             {/* Highlights */}
             {service.highlights.length > 0 && (
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">What's Included</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4"><LiveTitle text="What's Included" hi="#f59e0b" /></h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {service.highlights.map((h) => (
                     <div key={h} className="flex items-start gap-2.5 p-3 rounded-lg bg-muted/60">
@@ -161,7 +161,7 @@ export default function ServiceDetail() {
             {/* Coverage areas */}
             {service.coverageAreas.length > 0 && (
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Coverage Areas</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4"><LiveTitle text="Coverage Areas" hi="#f59e0b" /></h2>
                 <div className="flex flex-wrap gap-2">
                   {service.coverageAreas.map((area) => (
                     <span key={area} className="flex items-center gap-1 text-sm bg-muted px-3 py-1.5 rounded-full text-muted-foreground">
@@ -192,7 +192,7 @@ export default function ServiceDetail() {
           <div>
             <Card className="sticky top-24 border-border">
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold text-foreground mb-1">Request a Quote</h2>
+                <h2 className="text-lg font-semibold text-foreground mb-1"><LiveTitle text="Request a Quote" hi="#f59e0b" /></h2>
                 <p className="text-xs text-muted-foreground mb-5">We respond within 24 hours</p>
 
                 <Form {...form}>

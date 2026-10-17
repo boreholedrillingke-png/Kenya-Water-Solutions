@@ -1,7 +1,8 @@
 import { Phone, Mail, MapPin, Clock, MessageSquare, CheckCircle } from "lucide-react";
+import { LiveTitle } from "@/components/LiveTitle";
 import { Button } from "@/components/ui/button";
 import PageBanner from "@/components/PageBanner";
-import { IMAGES } from "@/lib/images";
+import { IMAGES, photoLayer } from "@/lib/images";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -96,8 +97,8 @@ export default function Contact() {
 
       <div
         style={{
-          backgroundColor: "hsl(215 70% 10%)",
-          backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .50) 0%, hsl(215 70% 8% / .22) 45%, hsl(215 70% 8% / .50) 100%), url(${IMAGES.backdropSolar})`,
+          backgroundColor: "var(--live-bg, hsl(215 70% 10%))",
+          backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .50) 0%, hsl(215 70% 8% / .22) 45%, hsl(215 70% 8% / .50) 100%), ${photoLayer(IMAGES.backdropSolar)}`,
           backgroundSize: "cover",
           backgroundPosition: "center 50%",
         }}
@@ -128,13 +129,13 @@ export default function Contact() {
               {submitted ? (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center h-full flex flex-col items-center justify-center">
                   <CheckCircle className="h-10 w-10 text-green-500 mb-3" />
-                  <h2 className="text-base font-semibold text-foreground mb-1">Inquiry Sent Successfully</h2>
+                  <h2 className="text-base font-semibold text-foreground mb-1"><LiveTitle text="Inquiry Sent Successfully" hi="#f59e0b" /></h2>
                   <p className="text-sm text-muted-foreground mb-4">Our team will contact you within 24 hours. For urgent matters, please call or WhatsApp us.</p>
                   <Button onClick={() => setSubmitted(false)} variant="outline" size="sm">Send Another Inquiry</Button>
                 </div>
               ) : (
                 <div className="rounded-xl border border-border bg-card/95 shadow-sm p-4">
-                  <h2 className="text-sm font-semibold text-foreground mb-3">Send us a message</h2>
+                  <h2 className="text-sm font-semibold text-foreground mb-3"><LiveTitle text="Send us a message" hi="#f59e0b" /></h2>
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

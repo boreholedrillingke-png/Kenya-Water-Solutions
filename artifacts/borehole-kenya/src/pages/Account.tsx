@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LiveTitle } from "@/components/LiveTitle";
 import { useLocation } from "wouter";
 import { Copy, LogOut, Share2, Plus, Check, MessageCircle, ClipboardList, ShoppingBag, Coins, BadgeCheck } from "lucide-react";
 import { Link } from "wouter";
@@ -92,7 +93,7 @@ export default function Account() {
 
         {/* Client view: everyone sees this */}
         <section className={card}>
-          <h2 className="font-bold text-foreground">What do you need?</h2>
+          <h2 className="font-bold text-foreground"><LiveTitle text="What do you need?" hi="#f59e0b" /></h2>
           <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
             <Link href="/contact" className="flex items-center gap-2 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground"><ClipboardList className="h-4 w-4" /> Get a free quote</Link>
             <Link href="/products" className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-3 text-sm font-semibold text-foreground"><ShoppingBag className="h-4 w-4 text-primary" /> Browse products</Link>
@@ -127,7 +128,7 @@ export default function Account() {
 
         {member.affiliate && (<>
         <section className={card}>
-          <h2 className="font-bold text-foreground">Your referral code</h2>
+          <h2 className="font-bold text-foreground"><LiveTitle text="Your referral code" hi="#f59e0b" /></h2>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <span className="rounded-lg bg-primary/10 px-4 py-2 font-mono text-xl font-bold tracking-wider text-primary">{member.code}</span>
             <button onClick={() => copy(member.code, "code")} className="flex items-center gap-1.5 rounded-md border border-border px-3 py-2 text-sm font-semibold">{copied === "code" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} Code</button>

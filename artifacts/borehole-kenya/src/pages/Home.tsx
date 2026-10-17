@@ -1,11 +1,11 @@
-import { useState } from "react";
-import LiveHeroVideo from "@/components/LiveHeroVideo";
+import { useEffect, useState } from "react";
+import { LIVE_TITLE_EVENT } from "@/components/LiveBackdrop";
 import { LiveTitle, RotatingWords } from "@/components/LiveTitle";
 import { Link } from "wouter";
 import { ArrowRight, UserRound, CheckCircle, Phone, MessageCircle, Radar, Drill, Gauge, Sun, FlaskConical, ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappLink, KENYA_COUNTIES } from "@/lib/utils";
-import { IMAGES, imagePosition, pageBackdrop } from "@/lib/images";
+import { IMAGES, imagePosition, pageBackdrop, photoLayer } from "@/lib/images";
 import { useListServices } from "@workspace/api-client-react";
 import { memberToken } from "@/lib/member";
 
@@ -70,6 +70,11 @@ function QuickQuote() {
 export default function Home() {
   const { data: services } = useListServices({}, { query: { queryKey: ["services", "all"] } });
   const [liveTitle, setLiveTitle] = useState("");
+  useEffect(() => {
+    const on = (e: Event) => setLiveTitle(String((e as CustomEvent).detail ?? ""));
+    window.addEventListener(LIVE_TITLE_EVENT, on);
+    return () => window.removeEventListener(LIVE_TITLE_EVENT, on);
+  }, []);
   const hrefFor = (item: { href?: string; match?: RegExp }) => {
     if (item.href) return item.href;
     const svc = (services ?? []).find((x) => item.match!.test(x.name) && !/test/i.test(x.name));
@@ -79,10 +84,8 @@ export default function Home() {
     <>
     <div
       className="relative min-h-[calc(100dvh-64px)] pt-[64px] pb-12 text-white flex items-center"
-      style={{ background: `url(${IMAGES.rig}) center 60% / cover` }}
+      style={{ background: `${photoLayer(IMAGES.rig)} center 60% / cover` }}
     >
-      {/* Live channel: silent drilling clips fade into each other behind the text */}
-      <LiveHeroVideo onTitle={setLiveTitle} />
       <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(90deg, hsl(215 70% 9% / .93) 0%, hsl(214 72% 14% / .80) 45%, hsl(212 75% 20% / .35) 100%)" }} />
       {liveTitle && (
         <div className="absolute bottom-11 left-5 z-10 flex max-w-[calc(100%-2.5rem)] items-center gap-2 rounded-full bg-black/45 px-3 py-1 text-[11px] font-semibold text-white ring-1 ring-white/15 sm:left-8" data-testid="live-now">
@@ -152,7 +155,7 @@ export default function Home() {
             <img src={t.image} alt={t.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: imagePosition(t.image) }} />
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 35%, hsl(215 70% 8% / .88) 100%)" }} />
             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-              <div className="text-base font-bold leading-tight">{t.title}</div>
+              <div className="text-base font-bold leading-tight"><LiveTitle text={t.title} hi="#fde68a" /></div>
               <div className="text-xs text-white/80 mt-0.5">{t.text}</div>
             </div>
           </Link>

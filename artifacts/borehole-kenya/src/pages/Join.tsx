@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { LiveTitle } from "@/components/LiveTitle";
 import { useLocation } from "wouter";
 import { Users, Wallet, Link2, BadgeCheck, UserRound, Coins } from "lucide-react";
 import { IMAGES, pageBackdrop } from "@/lib/images";
@@ -75,7 +76,7 @@ export default function Join() {
     <div className="min-h-[calc(100dvh-4rem)] px-4 pt-24 pb-12" style={pageBackdrop(IMAGES.backdropTruck, "center 50%")}>
       <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
         <section className="rounded-2xl bg-card/95 p-5 shadow-xl">
-          <h1 className="text-xl font-bold text-foreground">Your SAB account</h1>
+          <h1 className="text-xl font-bold text-foreground"><LiveTitle text="Your SAB account" hi="#f59e0b" /></h1>
           <p className="mt-1 text-sm text-muted-foreground">Log in to follow your enquiries and get quotes faster. Want to make money too? Switch on earning when you sign up, or any time later. It is optional.</p>
           <h2 className="mt-4 flex items-center gap-2 text-sm font-bold text-foreground"><Coins className="h-4 w-4 text-amber-500" /> Earn by referring clients (optional)</h2>
           <ul className="mt-3 space-y-3 text-sm">

@@ -1,4 +1,5 @@
 import { IMAGES, pageBackdrop } from "@/lib/images";
+import { LiveTitle } from "@/components/LiveTitle";
 
 const h = "mt-5 text-base font-bold text-foreground";
 const p = "mt-1.5 text-sm leading-relaxed text-muted-foreground";
@@ -7,7 +8,7 @@ export default function Privacy() {
   return (
     <div className="min-h-[calc(100dvh-4rem)] px-4 pt-24 pb-12" style={pageBackdrop(IMAGES.backdropWater, "center 50%")}>
       <article className="mx-auto max-w-3xl rounded-2xl bg-card/95 p-5 shadow-xl sm:p-7">
-        <h1 className="text-xl font-bold text-foreground">Privacy Policy</h1>
+        <h1 className="text-xl font-bold text-foreground"><LiveTitle text="Privacy Policy" hi="#f59e0b" /></h1>
         <p className="mt-1 text-xs text-muted-foreground">SAB Borehole Drilling · Last updated 15 October 2026</p>
 
         <p className={p}>

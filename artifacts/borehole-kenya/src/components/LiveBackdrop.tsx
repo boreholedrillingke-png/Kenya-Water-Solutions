@@ -1,9 +1,14 @@
 import { useEffect, useRef } from "react";
+import { IMAGES } from "@/lib/images";
 
 interface Clip { file: string; title: string }
 
+/** Pages listen for this to show the name of the clip that is playing. */
+export const LIVE_TITLE_EVENT = "live-title";
+
 const CLIP_SECONDS = 9; // how long each clip plays before the next fades in
 const MAX_CLIPS = 8;
+const ROOT_CLASS = "live-on"; // while set on <html>, page photo backdrops turn clear so the video shows through
 const START_DELAY_MS = 900; // wait until the page has settled so the first paint stays instant
 
 /** Skip the live video when the visitor asked for less motion or is saving data. The photo stays instead. */
@@ -20,10 +25,12 @@ function shouldPlay() {
 }
 
 /**
- * Silent, looping "live channel" background. Two stacked <video> elements take turns: the next clip loads in the
- * hidden one and only fades in once it is really playing, so the picture never goes blank or stutters.
+ * Silent, looping "live channel" background for the whole site. Two stacked <video> elements take turns: the next
+ * clip loads in the hidden one and only fades in once it is really playing, so the picture never goes blank or stutters.
+ * Small clips (about 1 MB each) are used so it stays light on mobile data.
  */
-export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) => void }) {
+export default function LiveBackdrop() {
+  const onTitle = (title: string) => window.dispatchEvent(new CustomEvent(LIVE_TITLE_EVENT, { detail: title }));
   const box = useRef<HTMLDivElement>(null);
   const v0 = useRef<HTMLVideoElement>(null);
   const v1 = useRef<HTMLVideoElement>(null);
@@ -59,7 +66,9 @@ export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) =
       timer = setTimeout(advance, CLIP_SECONDS * 1000);
     };
 
+    const root = document.documentElement;
     const stopAfterFailures = () => {
+      root.classList.remove(ROOT_CLASS);
       dead = true;
       clearTimeout(timer);
       vids.forEach((v) => { v.style.opacity = "0"; v.pause(); });
@@ -93,7 +102,7 @@ export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) =
         out.style.opacity = "0";
         idx = nextIdx;
         cur = 1 - cur;
-        onTitle?.(clipAt(idx).title);
+        onTitle(clipAt(idx).title);
         // After the fade, park the old element and get the following clip ready in it.
         setTimeout(() => {
           if (dead) return;
@@ -110,7 +119,7 @@ export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) =
 
     const start = async () => {
       try {
-        const res = await fetch(`${base}videos/feed.json`);
+        const res = await fetch(`${base}videos/live/live.json`);
         const list = (await res.json()) as Clip[];
         clips = list.filter((c) => c && c.file).slice(0, MAX_CLIPS);
       } catch { return; }
@@ -120,7 +129,8 @@ export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) =
       first.addEventListener("playing", () => {
         if (dead) return;
         first.style.opacity = "1";
-        onTitle?.(clipAt(0).title);
+        root.classList.add(ROOT_CLASS);
+        onTitle(clipAt(0).title);
         if (clips.length > 1) { load(vids[1], clipAt(1)); schedule(); }
         else first.loop = true; // a single clip just repeats
       }, { once: true });
@@ -150,6 +160,7 @@ export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) =
 
     return () => {
       dead = true;
+      root.classList.remove(ROOT_CLASS);
       clearTimeout(timer);
       clearTimeout(begin);
       window.removeEventListener("load", go);
@@ -157,13 +168,20 @@ export default function LiveHeroVideo({ onTitle }: { onTitle?: (title: string) =
       io.disconnect();
       vids.forEach((v) => { v.removeEventListener("ended", onEnded); v.pause(); v.removeAttribute("src"); v.load(); });
     };
-  }, [onTitle]);
+  }, []);
 
   const cls = "absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out";
   return (
-    <div ref={box} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div
+      ref={box}
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      style={{ background: `hsl(215 70% 8%) url(${IMAGES.rig}) center 60% / cover` }}
+      aria-hidden="true"
+    >
       <video ref={v0} className={cls} style={{ objectPosition: "center 45%" }} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture />
       <video ref={v1} className={cls} style={{ objectPosition: "center 45%" }} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture />
+      {/* Dark blue wash keeps every page easy to read over moving pictures */}
+      <div className="absolute inset-0" style={{ background: "hsl(215 70% 8% / .42)" }} />
     </div>
   );
 }

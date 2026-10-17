@@ -57,8 +57,16 @@ export function imagePosition(src: string): string {
 }
 
 /** Wide header background: the photo fills the width under a blue wash. */
-export function bannerBackground(src: string, position?: string): string {
-  return `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), url(${src}) ${position ?? imagePosition(src)} / cover`;
+export function bannerBackground(src: string, position?: string, live = true): string {
+  return `linear-gradient(90deg, hsl(215 70% 10% / .94) 0%, hsl(214 72% 16% / .86) 50%, hsl(212 75% 22% / .70) 100%), ${live ? photoLayer(src) : `url(${src})`} ${position ?? imagePosition(src)} / cover`;
+}
+
+/**
+ * A page photo that steps aside for the live video: while <html> has the "live-on" class, --live-photo is "none"
+ * (see index.css) and the photo layer disappears. Without the video (data saver, old phone) the photo shows as before.
+ */
+export function photoLayer(src: string): string {
+  return `var(--live-photo, url(${src}))`;
 }
 
 /** Header used when a project has no photo yet. */
@@ -68,8 +76,8 @@ export const PLAIN_BANNER = "linear-gradient(135deg, hsl(215 70% 10%) 0%, hsl(21
 /** Full-width photo behind a page's content, darkened slightly so white cards on top stay easy to read. */
 export function pageBackdrop(src: string, position = "center 50%") {
   return {
-    backgroundColor: "hsl(215 70% 10%)",
-    backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .50) 0%, hsl(215 70% 8% / .22) 45%, hsl(215 70% 8% / .50) 100%), url(${src})`,
+    backgroundColor: "var(--live-bg, hsl(215 70% 10%))",
+    backgroundImage: `linear-gradient(180deg, hsl(215 70% 8% / .50) 0%, hsl(215 70% 8% / .22) 45%, hsl(215 70% 8% / .50) 100%), ${photoLayer(src)}`,
     backgroundSize: "cover",
     backgroundPosition: position,
   } as const;
