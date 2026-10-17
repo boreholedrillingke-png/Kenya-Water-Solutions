@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { IMAGES } from "@/lib/images";
 
-interface Clip { file: string; title: string; url?: string; heavy?: boolean }
+interface Clip { file: string; title: string; url?: string }
 
 /** Pages listen for this to show the name of the clip that is playing. */
 export const LIVE_TITLE_EVENT = "live-title";
@@ -9,23 +9,22 @@ export const LIVE_TITLE_EVENT = "live-title";
 const MIN_CLIP_MS = 4000; // each clip plays for a random 4 to 5 seconds before the next fades in
 const MAX_CLIP_MS = 5000;
 const MAX_CONSECUTIVE_FAILS = 6;
+const ROOT_CLASS = "live-on"; // while set on <html>, page photo backdrops turn clear so the video shows through
+const START_DELAY_MS = 900; // wait until the page has settled so the first paint stays instant
 const API = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
 
 /**
- * Videos you post from /admin can live on Cloudinary or GitHub. For Cloudinary we ask for a small muted 9-second
- * version (540 px wide, low bitrate, no sound) so it stays light on mobile data. GitHub files cannot be shrunk on the fly,
- * so they play as they are, loading only as needed (marked "heavy").
+ * Videos posted from /admin on Cloudinary are asked for as a clean H.264 MP4 at their own quality (no sound, first 10 seconds),
+ * so any phone format (such as iPhone .mov) plays. GitHub and other files play as they are.
  */
-function lightCloudinary(url: string): string | null {
+function cloudinaryClip(url: string): string | null {
   if (!/^https:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\//.test(url)) return null;
-  return url.replace("/video/upload/", "/video/upload/w_540,c_limit,q_auto:low,so_1,du_9,ac_none,f_mp4/").replace(/\.\w+$/, ".mp4");
+  return url.replace("/video/upload/", "/video/upload/q_auto:good,vc_h264,f_mp4,ac_none,so_0,du_10/").replace(/\.\w+$/, ".mp4");
 }
-const ROOT_CLASS = "live-on"; // while set on <html>, page photo backdrops turn clear so the video shows through
-const START_DELAY_MS = 900; // wait until the page has settled so the first paint stays instant
 
 /**
- * Skip the live video only when the visitor asked for less motion, turned on data saver, or is on a 2G line.
- * The clips are about 1 MB each, so ordinary 3G is fine. The photo stays when the video is skipped.
+ * Skip the live video only when the visitor has asked their device for less motion or turned on data saver.
+ * Connection speed is not checked: most visitors are on Wi-Fi. The photo stays when the video is skipped.
  * Opening the site with ?live=1 forces the video on (handy for testing on a phone).
  */
 function shouldPlay() {
@@ -34,7 +33,6 @@ function shouldPlay() {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return false;
     const c = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
     if (c?.saveData) return false;
-    if (c?.effectiveType && /^(slow-2g|2g)$/.test(c.effectiveType)) return false;
     return true;
   } catch {
     return false;
@@ -44,7 +42,7 @@ function shouldPlay() {
 /**
  * Silent, looping "live channel" background for the whole site. Two stacked <video> elements take turns: the next
  * clip loads in the hidden one and only fades in once it is really playing, so the picture never goes blank or stutters.
- * Small clips (about 1 MB each) are used so it stays light on mobile data.
+ * Full-quality videos are used: the 22 on the site plus everything posted from /admin.
  */
 export default function LiveBackdrop() {
   const onTitle = (title: string) => window.dispatchEvent(new CustomEvent(LIVE_TITLE_EVENT, { detail: title }));
@@ -82,7 +80,7 @@ export default function LiveBackdrop() {
       return clips[order[i]];
     };
     const load = (el: HTMLVideoElement, clip: Clip) => {
-      el.preload = clip.heavy ? "metadata" : "auto"; // full-size files load only as they play
+      el.preload = "auto";
       el.src = clip.url ?? `${base}videos/${clip.file}`;
       el.load();
     };
@@ -147,7 +145,7 @@ export default function LiveBackdrop() {
 
     const start = async () => {
       try {
-        const res = await fetch(`${base}videos/live/live.json`);
+        const res = await fetch(`${base}videos/feed.json`);
         const list = (await res.json()) as Clip[];
         clips = list.filter((c) => c && c.file);
       } catch { return; }
@@ -172,14 +170,14 @@ export default function LiveBackdrop() {
           for (const v of d) {
             if (!v?.url) continue;
             const title = v.title ?? "Successful Borehole";
-            const light = lightCloudinary(v.url);
+            const light = cloudinaryClip(v.url);
             let clip: Clip | null = null;
             if (light) clip = { file: light, url: light, title };
             else if (v.source === "github") {
               // a GitHub upload goes live after the site rebuilds (about 4 minutes)
               const readyAt = v.createdAt ? new Date(v.createdAt + "Z").getTime() + 4 * 60_000 : 0;
-              if (Date.now() > readyAt) { const u = `${base}${v.url}`; clip = { file: u, url: u, title, heavy: true }; }
-            } else { clip = { file: v.url, url: v.url, title, heavy: true }; }
+              if (Date.now() > readyAt) { const u = `${base}${v.url}`; clip = { file: u, url: u, title }; }
+            } else { clip = { file: v.url, url: v.url, title }; }
             if (clip && !known.has(clip.url as string)) { known.add(clip.url as string); fresh.push(clip); }
           }
           if (!fresh.length) return;
