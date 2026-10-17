@@ -1,14 +1,24 @@
 import { useEffect, useRef } from "react";
 import { IMAGES } from "@/lib/images";
 
-interface Clip { file: string; title: string }
+interface Clip { file: string; title: string; url?: string }
 
 /** Pages listen for this to show the name of the clip that is playing. */
 export const LIVE_TITLE_EVENT = "live-title";
 
 const MIN_CLIP_MS = 4000; // each clip plays for a random 4 to 5 seconds before the next fades in
 const MAX_CLIP_MS = 5000;
-const MAX_CLIPS = 8;
+const MAX_CONSECUTIVE_FAILS = 6;
+const API = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
+
+/**
+ * Videos you post from /admin live on Cloudinary at full size. For the background we ask Cloudinary for a small
+ * muted 9-second version (540 px wide, low bitrate, no sound) so it stays light on mobile data. Other sources are skipped.
+ */
+function lightCloudinary(url: string): string | null {
+  if (!/^https:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\//.test(url)) return null;
+  return url.replace("/video/upload/", "/video/upload/w_540,c_limit,q_auto:low,so_1,du_9,ac_none,f_mp4/").replace(/\.\w+$/, ".mp4");
+}
 const ROOT_CLASS = "live-on"; // while set on <html>, page photo backdrops turn clear so the video shows through
 const START_DELAY_MS = 900; // wait until the page has settled so the first paint stays instant
 
@@ -72,7 +82,7 @@ export default function LiveBackdrop() {
     };
     const load = (el: HTMLVideoElement, clip: Clip) => {
       el.preload = "auto";
-      el.src = `${base}videos/${clip.file}`;
+      el.src = clip.url ?? `${base}videos/${clip.file}`;
       el.load();
     };
     const running = () => inView && tabVisible;
@@ -103,7 +113,7 @@ export default function LiveBackdrop() {
         if (settled || dead) return;
         settled = true;
         fails += 1;
-        if (fails >= 3) { stopAfterFailures(); return; }
+        if (fails >= MAX_CONSECUTIVE_FAILS) { stopAfterFailures(); return; }
         idx = nextIdx; // skip the clip that would not play
         load(inc, clipAt(idx + 1));
         timer = setTimeout(advance, 1500);
@@ -138,7 +148,7 @@ export default function LiveBackdrop() {
       try {
         const res = await fetch(`${base}videos/live/live.json`);
         const list = (await res.json()) as Clip[];
-        clips = list.filter((c) => c && c.file).slice(0, MAX_CLIPS);
+        clips = list.filter((c) => c && c.file);
       } catch { return; }
       if (dead || clips.length === 0) return;
 
@@ -151,6 +161,28 @@ export default function LiveBackdrop() {
         if (clips.length > 1) { load(vids[1], clipAt(1)); schedule(); }
         else first.loop = true; // a single clip just repeats
       }, { once: true });
+      // Videos posted from /admin join the mix as soon as the server answers (it can take a while to wake up).
+      fetch(`${API}/api/feed-videos`)
+        .then((r) => r.json())
+        .then((d: { url?: string; title?: string }[]) => {
+          if (dead || !Array.isArray(d)) return;
+          const known = new Set(clips.map((c) => c.url ?? c.file));
+          const fresh: Clip[] = [];
+          for (const v of d) {
+            const u = v?.url ? lightCloudinary(v.url) : null;
+            if (u && !known.has(u)) fresh.push({ file: u, url: u, title: v.title ?? "Successful Borehole" });
+          }
+          if (!fresh.length) return;
+          const startAt = clips.length;
+          clips.push(...fresh);
+          // play the new ones within the next few clips, in random places, then they join every shuffle
+          fresh.forEach((_, k) => {
+            const at = idx + 2 + Math.floor(Math.random() * Math.max(3, fresh.length * 2));
+            while (order.length < at) extendOrder();
+            order.splice(at, 0, startAt + k);
+          });
+        })
+        .catch(() => {});
       load(first, clipAt(0));
       // If the browser refuses to autoplay (battery saver, strict phone settings), try again on the first touch, click or scroll.
       first.play().catch(() => {
