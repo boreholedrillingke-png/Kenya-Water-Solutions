@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { IMAGES } from "@/lib/images";
 
-interface Clip { file: string; title: string; url?: string }
+interface Clip { file: string; title: string; url?: string; heavy?: boolean }
 
 /** Pages listen for this to show the name of the clip that is playing. */
 export const LIVE_TITLE_EVENT = "live-title";
@@ -12,8 +12,9 @@ const MAX_CONSECUTIVE_FAILS = 6;
 const API = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
 
 /**
- * Videos you post from /admin live on Cloudinary at full size. For the background we ask Cloudinary for a small
- * muted 9-second version (540 px wide, low bitrate, no sound) so it stays light on mobile data. Other sources are skipped.
+ * Videos you post from /admin can live on Cloudinary or GitHub. For Cloudinary we ask for a small muted 9-second
+ * version (540 px wide, low bitrate, no sound) so it stays light on mobile data. GitHub files cannot be shrunk on the fly,
+ * so they play as they are, loading only as needed (marked "heavy").
  */
 function lightCloudinary(url: string): string | null {
   if (!/^https:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\//.test(url)) return null;
@@ -81,7 +82,7 @@ export default function LiveBackdrop() {
       return clips[order[i]];
     };
     const load = (el: HTMLVideoElement, clip: Clip) => {
-      el.preload = "auto";
+      el.preload = clip.heavy ? "metadata" : "auto"; // full-size files load only as they play
       el.src = clip.url ?? `${base}videos/${clip.file}`;
       el.load();
     };
@@ -164,13 +165,22 @@ export default function LiveBackdrop() {
       // Videos posted from /admin join the mix as soon as the server answers (it can take a while to wake up).
       fetch(`${API}/api/feed-videos`)
         .then((r) => r.json())
-        .then((d: { url?: string; title?: string }[]) => {
+        .then((d: { url?: string; title?: string; source?: string; createdAt?: string }[]) => {
           if (dead || !Array.isArray(d)) return;
           const known = new Set(clips.map((c) => c.url ?? c.file));
           const fresh: Clip[] = [];
           for (const v of d) {
-            const u = v?.url ? lightCloudinary(v.url) : null;
-            if (u && !known.has(u)) fresh.push({ file: u, url: u, title: v.title ?? "Successful Borehole" });
+            if (!v?.url) continue;
+            const title = v.title ?? "Successful Borehole";
+            const light = lightCloudinary(v.url);
+            let clip: Clip | null = null;
+            if (light) clip = { file: light, url: light, title };
+            else if (v.source === "github") {
+              // a GitHub upload goes live after the site rebuilds (about 4 minutes)
+              const readyAt = v.createdAt ? new Date(v.createdAt + "Z").getTime() + 4 * 60_000 : 0;
+              if (Date.now() > readyAt) { const u = `${base}${v.url}`; clip = { file: u, url: u, title, heavy: true }; }
+            } else { clip = { file: v.url, url: v.url, title, heavy: true }; }
+            if (clip && !known.has(clip.url as string)) { known.add(clip.url as string); fresh.push(clip); }
           }
           if (!fresh.length) return;
           const startAt = clips.length;
