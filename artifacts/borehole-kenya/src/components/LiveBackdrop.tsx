@@ -6,7 +6,8 @@ interface Clip { file: string; title: string }
 /** Pages listen for this to show the name of the clip that is playing. */
 export const LIVE_TITLE_EVENT = "live-title";
 
-const CLIP_SECONDS = 9; // how long each clip plays before the next fades in
+const MIN_CLIP_MS = 4000; // each clip plays for a random 4 to 5 seconds before the next fades in
+const MAX_CLIP_MS = 5000;
 const MAX_CLIPS = 8;
 const ROOT_CLASS = "live-on"; // while set on <html>, page photo backdrops turn clear so the video shows through
 const START_DELAY_MS = 900; // wait until the page has settled so the first paint stays instant
@@ -57,7 +58,18 @@ export default function LiveBackdrop() {
     let tabVisible = !document.hidden;
     const base = import.meta.env.BASE_URL;
 
-    const clipAt = (i: number) => clips[i % clips.length];
+    // Random order: clips are shuffled, and a new shuffle is chained on when the list runs out, never repeating back to back.
+    let order: number[] = [];
+    const extendOrder = () => {
+      const bag = clips.map((_, i) => i);
+      for (let i = bag.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [bag[i], bag[j]] = [bag[j], bag[i]]; }
+      if (order.length && bag.length > 1 && bag[0] === order[order.length - 1]) bag.push(bag.shift() as number);
+      order = order.concat(bag);
+    };
+    const clipAt = (i: number) => {
+      while (order.length <= i) extendOrder();
+      return clips[order[i]];
+    };
     const load = (el: HTMLVideoElement, clip: Clip) => {
       el.preload = "auto";
       el.src = `${base}videos/${clip.file}`;
@@ -68,7 +80,7 @@ export default function LiveBackdrop() {
     const schedule = () => {
       clearTimeout(timer);
       if (dead || !running()) return;
-      timer = setTimeout(advance, CLIP_SECONDS * 1000);
+      timer = setTimeout(advance, MIN_CLIP_MS + Math.random() * (MAX_CLIP_MS - MIN_CLIP_MS));
     };
 
     const root = document.documentElement;

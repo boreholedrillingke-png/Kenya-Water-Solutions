@@ -69,7 +69,7 @@ export default function Contact() {
   const label = "text-xs";
 
   return (
-    <div className="bg-background">
+    <div>
       <PageBanner
         image={IMAGES.water}
         eyebrow="Get in Touch"

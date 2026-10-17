@@ -56,7 +56,7 @@ export default function ProjectDetail() {
   }
 
   return (
-    <div className="bg-background">
+    <div>
       {/* Hero */}
       <div
         className="relative overflow-hidden text-white pt-[76px] pb-6"
